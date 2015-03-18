@@ -2,10 +2,12 @@
 
 ## Setting up
 - Have python3.4 and pip3.4 !
+- Have bower installed ! : `sudo npm -g install bower`
 - Have virtualenv installed : `sudo apt-get install python-virtualenv`
 - Create virtualenv : `virtualenv flask`
 - *(Optional)* Source virtualenv  : `source flask/bin/activate`
 - Install dependencies : `pip install -r requirements.txt`
+- Install bower dependencies (in app subfolder) : `bower install`
 - Chmod run.py : `chmod a+x run.py`
 - Run `./run.py` and look at [http://localhost:5000/treebank](http://localhost:5000/treebank)
 
