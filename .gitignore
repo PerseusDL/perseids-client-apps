@@ -1,6 +1,30 @@
-.Python
+*.py[co]
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
 bin
-lib
-include
+develop-eggs
+.installed.cfg
+scratch
+env
 flask
+bower_components
 tmp
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+.DS_Store
+
+# Sphinx
+docs/tmp
+docs/_build
+cover

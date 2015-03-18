@@ -1,0 +1,25 @@
+{
+  "name": "alpheios-app",
+  "version": "0.0.0",
+  "authors": [
+    "Thibault Clérice <leponteineptique@gmail.com>"
+  ],
+  "main": "__init__.py",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "capitains-sparrow": "~1.0.5",
+    "typeahead.js": "~0.10.5",
+    "handlebars": "~3.0.0"
+  }
+}

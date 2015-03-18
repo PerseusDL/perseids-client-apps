@@ -1,0 +1,291 @@
+/*
+ * Style for treebank editor
+ *  
+ * Copyright 2009 Cantus Foundation
+ * http://alpheios.net
+ * 
+ * This file is part of Alpheios.
+ * 
+ * Alpheios is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Alpheios is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+body {
+    background-color: white;
+}
+
+table.event-history * {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#tree-error {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* alpheios hints */
+.alpheios-hint {
+    font-weight: normal;
+    color: #4E6476;
+    font-style: italic;
+    margin-bottom: 1em;
+    padding-left: 18px;
+    font-family:  Arial, sans-serif;
+    background: url(chrome://alpheios/skin/icons/information-16-g.png) 0 0 no-repeat;
+}
+
+/* hide the alpheios trigger hint by default */
+.alpheios-trigger-hint {
+    display: none;
+}
+
+svg {
+    overflow: scroll;
+}
+
+/* normal text attributes */
+button.icon {
+    font-size: 20px;
+}
+
+g text {
+    font-family: Georgia, Times, Arial, Helvetica, Serif;
+    font-size: 20px;
+    stroke: none;
+    fill: dimgray;
+}
+
+g text.error {
+    text-anchor: start;
+    fill: black;
+}
+
+g text.node-label {
+    text-anchor: middle;
+}
+
+g text.arc-label {
+    font-size: 11px;
+    fill: black;
+}
+
+g text.arc-label:hover ~ text.arc-label-help-up,
+g text.arc-label:hover ~ text.arc-label-help-dn {
+     visibility: visible;
+}
+
+rect.hovering {
+    fill: #FFEE77;
+}
+
+g text.arc-label-help-up {
+    font-size: 11px;
+    fill: black;
+}
+
+g text.arc-label-help-dn {
+    font-size: 11px;
+    fill: black;
+}
+
+g.text text {
+    text-anchor: start;
+    fill: black;
+}
+
+g.expand text {
+    text-anchor: middle;
+    font-size: 25px;
+    fill: black;
+}
+
+g.key text {
+    text-anchor: start;
+    font-size: 15px;
+    fill: black;
+}
+
+g.key text.heading {
+    font-weight: bold;
+}
+
+/* normal line attributes */
+g line {
+    stroke: black;
+}
+
+/* normal rect attributes */
+g rect {
+    stroke-width: 0;
+    fill: none;
+}
+
+g.key > rect {
+    stroke-width: 1;
+    stroke: black;
+}
+
+g.expand rect {
+    stroke-width: 1;
+    stroke: black;
+}
+
+g[expanded="yes"] > g.expand[showme="focus"] rect {
+    fill: #FFEE77;
+}
+
+g[expanded="no"] > g.expand[showme="focus"] rect {
+    fill: #C0FFC0;
+}
+
+div.cmenu {
+    position: absolute;
+    background: buttonface;
+    padding: 2px;
+    border: 1px solid black;
+}
+
+/* cursors */
+body[alpheios-mode="tree"] svg {
+    cursor: move;
+}
+
+body[alpheios-mode="label"] svg {
+    cursor: text;
+}
+
+body[alpheios-mode="ellipsis"] svg {
+    cursor: row-resize;
+}
+
+body[alpheios-mode="ellipsis"] g[elided] > text.node-label {
+    cursor: crosshair;
+}
+
+g[expanded="yes"] > g.expand {
+    cursor: n-resize;
+}
+
+g[expanded="no"] > g.expand {
+    cursor: s-resize;
+}
+
+/* how to gray out tree */
+g.tree text[showme="grayed"] {
+    fill: darkgray;
+}
+g line[showme="grayed"] {
+    stroke: darkgray;
+}
+g rect[showme="grayed"] {
+    stroke: darkgray;
+    fill: none;
+}
+
+/* how to highlight focus word and its relatives */
+g rect.highlight[first] {
+    fill: #E0E0E0;
+}
+g rect.highlight[showme="focus"] {
+    fill: #FFEE77;
+    stroke-width: 2px;
+    stroke: black;
+}
+g rect.highlight[showme="focus-descendant"] {
+    fill: #E0FFE0;
+}
+g rect.highlight[showme="focus-child"] {
+    fill: #C0FFC0;
+}
+g rect.highlight[showme="focus-parent"] {
+    fill: #FFC0C0;
+}
+
+/* key */
+th {
+    text-align: left;
+}
+table {
+    border: 1px solid black;
+    padding: 5px;
+}
+table table {
+    border: none;
+}
+td[first] {
+    background-color: #E0E0E0;
+}
+td[showme="focus"] {
+    background-color: #FFEE77;
+}
+td[showme="focus-descendant"] {
+    background-color: #E0FFE0;
+}
+td[showme="focus-child"] {
+    background-color: #C0FFC0;
+}
+td[showme="focus-parent"] {
+    background-color: #FFC0C0;
+}
+
+g.dragging text, g.dragging line, text.dragging {
+    stroke: #000000;
+    fill: #000000;
+}
+
+g.dragging rect.highlight, g.dragging g.expand rect {
+    fill: none;
+}
+
+/* how to handle descendants in tree: */
+/* - to gray out, use this set of rules */
+/* - to highlight, comment out this set of rules */
+/*--- start descendant rules ---*/
+g.tree text[showme="focus-descendant"] {
+    fill: darkgray;
+}
+g.tree rect[showme="focus-descendant"] {
+    stroke: darkgray;
+    fill: none;
+}
+g.tree line[showme="focus-descendant"] {
+    stroke: darkgray;
+}
+/*--- end descendant rules ---*/
+
+/* tooltips */
+span.alph-tooltip {
+    font-size: small !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    background-color: #5BC8DC !important;
+    color: #0E2233;
+    border: 1px solid #B8B7B5 !important;
+    position: absolute;
+    z-index: 1000;
+}
+#tree-title {
+    text-align:center;
+    font-style:italic;
+}
+
+#alpheios-put-notice {
+    text-align:center;
+    font-weight: bold;
+    color:green;
+}
+
+#alpheios-put-notice.error {
+    color:red;
+}

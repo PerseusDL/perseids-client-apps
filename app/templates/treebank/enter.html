@@ -1,0 +1,172 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/alpheios/treebank.list.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/arethusa.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ bower_url_for('capitains-sparrow', 'src/css/jquery.cts.typeahead.css') }}" />
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+        <script src="{{ bower_url_for('handlebars', 'handlebars.min.js') }}"></script>
+        <script src="{{ bower_url_for('typeahead.js', 'dist/typeahead.bundle.min.js') }}"></script>
+
+        <script src="{{ bower_url_for('capitains-sparrow', 'build/cts.min.js') }}"></script>
+        <script src="{{ bower_url_for('capitains-sparrow', 'build/jquery.cts.typeahead.min.js') }}"></script>
+        <script src="{{ bower_url_for('capitains-sparrow', 'build/jquery.cts.xslt.min.js') }}"></script>
+        <script src="{{ bower_url_for('capitains-sparrow', 'build/jquery.cts.service.min.js') }}"></script>
+
+        <script type="text/javascript" src="/static/js/alpheios/treebank.enter.js"></script>
+        <script type="text/javascript" src="/static/js/alpheios/edit.utils.js"></script>
+
+    <!-- cookie and header name for CSRF session token  -->
+        <meta name="alpheios-sessionTokenName" content="{{ session('sessionTokenName') }}"/>
+        <meta name="alpheios-sessionHeaderName" content="{{ session('sessionHeaderName') }}"/>
+    
+    <!-- url to ping the server to set/refresh the CSRF cookie -->
+        <meta name="pingurl" content="{{ session('pingUrl') }}" />
+    
+    <!-- url to POST to to create store a new treebank template -->
+        <meta name="url" content="{{ treebank('endpoint.create') }}" />
+    <!-- url to redirect to create new treebank template from an existing -->
+        <meta name="linkurl" content="{{ treebank('endpoint.create.linked_urn') }}"/>
+    
+    <!-- default url to the tokenization service to use to process the input text. 
+         can be overridden per language.
+         - @content contains the base url for the tokenizatoin service POST 
+         - @data-params contains the names of input elements from the form which should
+           be forwarded to the tokenization service.  The format of this is a space separated list of 
+           attribute names. the attribute names optionally can be | separated map from the name of this 
+           parameter in the input form to the name of the parameter on the tokenization service.
+           this is a complete hack but was a quick and dirty way to reuse the existing form
+         - @data-transform contains the path to the XSLT transformation to apply to the tokenization
+           service output to create the treebank template for posting to to the back end storage service
+    -->
+        <meta name="tokenization_service" content="{{ treebank('tokenization.endpoint') }}" data-params="{{ treebank('tokenization.params') }}" data-transform="{{ treebank('tokenization.xslt') }}"/>
+    
+    <!-- path to a transformation which wraps a treebank file in OA -->
+        <meta name="oa_wrapper_transform" content="{{ treebank('oa.xslt') }}"/>
+
+        <meta name="cts_repos_url" content="{{ cts('endpoint') }}" />
+        <meta name="cts_capabilities_url" content="{{ cts('getCapabilities') }}"/>
+    </head>
+    <body>
+        <header class="alpheios-ignore">
+            <div id="alph-page-header">
+                <img src="http://www.perseids.org/tools/arethusa/app/images/arethusa.png" alt="Arethusa"/>
+            </div>
+        </header>
+        <div>
+            <form name="input-form" action="{{ treebank('editor.url') }}" onsubmit="return EnterSentence(event);" method="GET">
+                <div class="row">
+                    <fieldset class="large-6 columns">
+                        <legend for="inputtext">Input text:</legend>
+                        <div>
+                            <textarea id="inputtext" name="inputtext" rows="10" cols="80" placeholder="Enter the text you want to treebank..."></textarea>
+                            <small class="error" id="texterror" style="display:none;">Invalid entry</small>
+                        </div>
+                        <label for="text_uri">Search for a text</label>
+                        <input type="text" id="text_uri" name="text_uri" size="100"/>
+                        <br />
+                        <div class="row">
+                            <div class="large-12 columns">
+                              <label for="own_uri">Enter your own text URI :</label>
+                              <div class="row collapse">
+                                <div class="small-10 columns">
+                                  <input type="text" placeholder="" id="own_uri" />
+                                </div>
+                                <div class="small-2 columns">
+                                  <a href="#" id="own_uri_trigger" class="button postfix">Select</a>
+                                </div>
+                              </div>
+                              <small class="error" id="own_uri_error" style="display:none;">Invalid entry</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="large-6 columns">
+                        <fieldset id="lang-buttons">
+                            <legend>Language:</legend>
+                            <input type="radio" id="lang-grc" name="lang" value="grc"/>
+                            <label for="lang-grc">Greek</label>
+                            <input type="radio" id="lang-lat" name="lang" value="lat" />
+                            <label for="lang-lat">Latin</label>
+                            <input type="radio" id="lang-ara" name="lang" value="ara"/>
+                            <label for="lang-ara">Arabic</label>
+                            <input type="radio" id="lang-misc" name="lang" value="misc"/>
+                            <label for="lang-misc">Other</label>
+                        </fieldset>
+                        <fieldset id="dir-buttons">
+                            <legend>Text Direction:</legend>
+                            <input type="radio" id="dir-ltr" name="direction" value="ltr" checked="checked"/>
+                            <label for="dir-ltr">Left to Right</label>
+                            <input type="radio" id="dir-rtl" name="direction" value="rtl"/>
+                            <label for="dir-rtl">Right to Left</label>
+                        </fieldset>
+                        <div>
+                            <input type="hidden" name="doc"/>
+                            <input type="hidden" name="s"/>
+                            <input type="hidden" name="direction" value="ltr"/>
+                            <input type="hidden" name="lang" value=""/>
+                            <input type="hidden" id="appuri" name="appuri" value="http://github.com/latin-language-toolkit/arethusa"/>
+                            <button type="submit" class="button small">Edit</button>
+                        </div>
+                        <small id="advanced-options-toggle" class="toggle_hint">Click  to toggle advanced options...</small>
+                        <div id="advanced-options" style="display: none;">
+                            <fieldset id="format-buttons">
+                                <legend>Format:</legend>
+                                <div class="row">
+                                    <label class="columns large-8 small-8" for="format-aldt">Ancient Language Dependency Treebank</label>
+                                    <div class="columns large-4 small-4">
+                                        <input type="radio" id="format-aldt" name="format" value="aldt" checked="checked"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="columns large-8 small-8" for="format-smyth">Smyth Grammar Tag Set</label>
+                                    <div class="columns large-4 small-4">
+                                        <input type="radio" id="format-smyth" name="format" value="smyth3"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="columns large-8 small-8" for="format-smyth">ALDT (Without Morphology)</label>
+                                    <div class="columns large-4 small-4">
+                                        <input type="radio" id="format-aldt-misc" name="format" value="aldt-misc"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="row">
+                                <label class="columns large-8" for="attachtoroot">Attach unannotated tokens to root:</label>
+                                <div class="columns large-4">
+                                    <input id="attachtoroot" type="checkbox" name="attachtoroot"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr/>
+        <div>
+            <div class="row"><em>Or Upload Base XML Treebank</em></div>
+            <div id="file_upload" class="row">
+                <fieldset class="large-6 columns">
+                    <label for="fileurl">From file:</label>
+                    <div id="alpheios-put-notice"></div>
+                    <input type="file" id="file" name="files[]" onchange="startRead()"/>
+                    <br/>
+                </fieldset>
+                <div class="large-6 columns">
+                    <label for="fileurl">From URL:</label>
+                    <div class="row collapse">
+                        <div class="small-8 columns">
+                            <input type="url" id="fileurl" name="fileurl" placeholder="supply the url of the treebank template" size="50"/>
+                        </div>
+                        <div class="small-4 columns">
+                            <button id="uploadurl" class="button postfix" onclick="readFromUrl();">Create Link</button>
+                            <div id="uploadcreate"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body>
+</html>
