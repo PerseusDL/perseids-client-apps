@@ -1,10 +1,13 @@
-#Dependencies
+#Installing
 
-#Setting up
-
+## Setting up
+- Have python3.4 and pip3.4 !
 - Have virtualenv installed : `sudo apt-get install python-virtualenv`
 - Create virtualenv : `virtualenv flask`
 - *(Optional)* Source virtualenv  : `source env/bin/activate`
+- Install dependencies : `pip install -r requirements.txt`
+- Chmod run.py : `chmod a+x run.py`
+- Run `./run.py` and look at [http://localhost:5000/treebank](http://localhost:5000/treebank)
 
 # i18n
 Here is a few commands you might need. The translations are located in `app/translations` and follow `.po` standards. Feel free to use apps such as [PoEdit](http://poedit.net/) to enhance, add corections.
