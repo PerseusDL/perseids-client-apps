@@ -59,47 +59,47 @@
             <form name="input-form" action="{{ treebank('editor.url') }}" onsubmit="return EnterSentence(event);" method="GET">
                 <div class="row">
                     <fieldset class="large-6 columns">
-                        <legend for="inputtext">Input text:</legend>
+                        <legend for="inputtext">{{ _('Input text:') }}</legend>
                         <div>
-                            <textarea id="inputtext" name="inputtext" rows="10" cols="80" placeholder="Enter the text you want to treebank..."></textarea>
-                            <small class="error" id="texterror" style="display:none;">Invalid entry</small>
+                            <textarea id="inputtext" name="inputtext" rows="10" cols="80" placeholder="{{ _('Enter the text you want to treebank...') }} "></textarea>
+                            <small class="error" id="texterror" style="display:none;">{{ _('Invalid entry') }}</small>
                         </div>
-                        <label for="text_uri">Search for a text</label>
+                        <label for="text_uri">{{ _('Search for a text') }}</label>
                         <input type="text" id="text_uri" name="text_uri" size="100"/>
                         <br />
                         <div class="row">
                             <div class="large-12 columns">
-                              <label for="own_uri">Enter your own text URI :</label>
+                              <label for="own_uri">{{ _('Enter your own text URI :') }} </label>
                               <div class="row collapse">
                                 <div class="small-10 columns">
                                   <input type="text" placeholder="" id="own_uri" />
                                 </div>
                                 <div class="small-2 columns">
-                                  <a href="#" id="own_uri_trigger" class="button postfix">Select</a>
+                                  <a href="#" id="own_uri_trigger" class="button postfix">{{ _('Select') }}</a>
                                 </div>
                               </div>
-                              <small class="error" id="own_uri_error" style="display:none;">Invalid entry</small>
+                              <small class="error" id="own_uri_error" style="display:none;">{{ _('Invalid entry') }}</small>
                             </div>
                         </div>
                     </fieldset>
                     <div class="large-6 columns">
                         <fieldset id="lang-buttons">
-                            <legend>Language:</legend>
+                            <legend>{{ _('Language:') }}</legend>
                             <input type="radio" id="lang-grc" name="lang" value="grc"/>
-                            <label for="lang-grc">Greek</label>
+                            <label for="lang-grc">{{ _('Greek') }}</label>
                             <input type="radio" id="lang-lat" name="lang" value="lat" />
-                            <label for="lang-lat">Latin</label>
+                            <label for="lang-lat">{{ _('Latin') }}</label>
                             <input type="radio" id="lang-ara" name="lang" value="ara"/>
-                            <label for="lang-ara">Arabic</label>
+                            <label for="lang-ara">{{ _('Arabic') }}</label>
                             <input type="radio" id="lang-misc" name="lang" value="misc"/>
-                            <label for="lang-misc">Other</label>
+                            <label for="lang-misc">{{ _('Other') }}</label>
                         </fieldset>
                         <fieldset id="dir-buttons">
-                            <legend>Text Direction:</legend>
+                            <legend>{{ _('Text Direction:') }}</legend>
                             <input type="radio" id="dir-ltr" name="direction" value="ltr" checked="checked"/>
-                            <label for="dir-ltr">Left to Right</label>
+                            <label for="dir-ltr">{{ _('Left to Right') }}</label>
                             <input type="radio" id="dir-rtl" name="direction" value="rtl"/>
-                            <label for="dir-rtl">Right to Left</label>
+                            <label for="dir-rtl">{{ _('Right to Left') }}</label>
                         </fieldset>
                         <div>
                             <input type="hidden" name="doc"/>
@@ -107,33 +107,33 @@
                             <input type="hidden" name="direction" value="ltr"/>
                             <input type="hidden" name="lang" value=""/>
                             <input type="hidden" id="appuri" name="appuri" value="http://github.com/latin-language-toolkit/arethusa"/>
-                            <button type="submit" class="button small">Edit</button>
+                            <button type="submit" class="button small">{{ _('Edit') }}</button>
                         </div>
-                        <small id="advanced-options-toggle" class="toggle_hint">Click  to toggle advanced options...</small>
+                        <small id="advanced-options-toggle" class="toggle_hint">{{ _('Click  to toggle advanced options...') }}</small>
                         <div id="advanced-options" style="display: none;">
                             <fieldset id="format-buttons">
                                 <legend>Format:</legend>
                                 <div class="row">
-                                    <label class="columns large-8 small-8" for="format-aldt">Ancient Language Dependency Treebank</label>
+                                    <label class="columns large-8 small-8" for="format-aldt">{{ _('Ancient Language Dependency Treebank') }}</label>
                                     <div class="columns large-4 small-4">
                                         <input type="radio" id="format-aldt" name="format" value="aldt" checked="checked"/>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="columns large-8 small-8" for="format-smyth">Smyth Grammar Tag Set</label>
+                                    <label class="columns large-8 small-8" for="format-smyth">{{ _('Smyth Grammar Tag Set') }}</label>
                                     <div class="columns large-4 small-4">
                                         <input type="radio" id="format-smyth" name="format" value="smyth3"/>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="columns large-8 small-8" for="format-smyth">ALDT (Without Morphology)</label>
+                                    <label class="columns large-8 small-8" for="format-smyth">{{ _('ALDT (Without Morphology)') }}</label>
                                     <div class="columns large-4 small-4">
                                         <input type="radio" id="format-aldt-misc" name="format" value="aldt-misc"/>
                                     </div>
                                 </div>
                             </fieldset>
                             <div class="row">
-                                <label class="columns large-8" for="attachtoroot">Attach unannotated tokens to root:</label>
+                                <label class="columns large-8" for="attachtoroot">{{ _('Attach unannotated tokens to root:') }}</label>
                                 <div class="columns large-4">
                                     <input id="attachtoroot" type="checkbox" name="attachtoroot"/>
                                 </div>
@@ -145,22 +145,22 @@
         </div>
         <hr/>
         <div>
-            <div class="row"><em>Or Upload Base XML Treebank</em></div>
+            <div class="row"><em>{{ _('Or Upload Base XML Treebank') }}</em></div>
             <div id="file_upload" class="row">
                 <fieldset class="large-6 columns">
-                    <label for="fileurl">From file:</label>
+                    <label for="fileurl">{{_('From file:')}}</label>
                     <div id="alpheios-put-notice"></div>
                     <input type="file" id="file" name="files[]" onchange="startRead()"/>
                     <br/>
                 </fieldset>
                 <div class="large-6 columns">
-                    <label for="fileurl">From URL:</label>
+                    <label for="fileurl">{{_('From URL:')}}</label>
                     <div class="row collapse">
                         <div class="small-8 columns">
-                            <input type="url" id="fileurl" name="fileurl" placeholder="supply the url of the treebank template" size="50"/>
+                            <input type="url" id="fileurl" name="fileurl" placeholder="{{ _('supply the url of the treebank template')}}" size="50"/>
                         </div>
                         <div class="small-4 columns">
-                            <button id="uploadurl" class="button postfix" onclick="readFromUrl();">Create Link</button>
+                            <button id="uploadurl" class="button postfix" onclick="readFromUrl();">{{_('Create Link')}}</button>
                             <div id="uploadcreate"/>
                         </div>
                     </div>

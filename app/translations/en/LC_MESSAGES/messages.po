@@ -1,0 +1,120 @@
+# English translations for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Alpheios Flask App\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-03-18 17:37+0100\n"
+"PO-Revision-Date: 2015-03-18 17:40+0100\n"
+"Last-Translator: Thibault Clérice <leponteineptique@gmail.com>\n"
+"Language-Team: en <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 1.3\n"
+"X-Generator: Poedit 1.5.4\n"
+"Language: en\n"
+
+#: app/templates/treebank/enter.html:62
+msgid "Input text:"
+msgstr "Input text:"
+
+#: app/templates/treebank/enter.html:64
+msgid "Enter the text you want to treebank..."
+msgstr "Enter the text you want to treebank..."
+
+#: app/templates/treebank/enter.html:65 app/templates/treebank/enter.html:81
+msgid "Invalid entry"
+msgstr "Invalid entry"
+
+#: app/templates/treebank/enter.html:67
+msgid "Search for a text"
+msgstr "Search for a text"
+
+#: app/templates/treebank/enter.html:72
+msgid "Enter your own text URI :"
+msgstr "Enter your own text URI :"
+
+#: app/templates/treebank/enter.html:78
+msgid "Select"
+msgstr "Select"
+
+#: app/templates/treebank/enter.html:87
+msgid "Language:"
+msgstr "Language:"
+
+#: app/templates/treebank/enter.html:89
+msgid "Greek"
+msgstr "Greek"
+
+#: app/templates/treebank/enter.html:91
+msgid "Latin"
+msgstr "Latin"
+
+#: app/templates/treebank/enter.html:93
+msgid "Arabic"
+msgstr "Arabic"
+
+#: app/templates/treebank/enter.html:95
+msgid "Other"
+msgstr "Other"
+
+#: app/templates/treebank/enter.html:98
+msgid "Text Direction:"
+msgstr "Text Direction:"
+
+#: app/templates/treebank/enter.html:100
+msgid "Left to Right"
+msgstr "Left to Right"
+
+#: app/templates/treebank/enter.html:102
+msgid "Right to Left"
+msgstr "Right to Left"
+
+#: app/templates/treebank/enter.html:110
+msgid "Edit"
+msgstr "Edit"
+
+#: app/templates/treebank/enter.html:112
+msgid "Click  to toggle advanced options..."
+msgstr "Click  to toggle advanced options..."
+
+#: app/templates/treebank/enter.html:117
+msgid "Ancient Language Dependency Treebank"
+msgstr "Ancient Language Dependency Treebank"
+
+#: app/templates/treebank/enter.html:123
+msgid "Smyth Grammar Tag Set"
+msgstr "Smyth Grammar Tag Set"
+
+#: app/templates/treebank/enter.html:129
+msgid "ALDT (Without Morphology)"
+msgstr "ALDT (Without Morphology)"
+
+#: app/templates/treebank/enter.html:136
+msgid "Attach unannotated tokens to root:"
+msgstr "Attach unannotated tokens to root:"
+
+#: app/templates/treebank/enter.html:148
+msgid "Or Upload Base XML Treebank"
+msgstr "Or Upload Base XML Treebank"
+
+#: app/templates/treebank/enter.html:151
+msgid "From file:"
+msgstr "From file:"
+
+#: app/templates/treebank/enter.html:157
+msgid "From URL:"
+msgstr "From URL:"
+
+#: app/templates/treebank/enter.html:160
+msgid "supply the url of the treebank template"
+msgstr "supply the url of the treebank template"
+
+#: app/templates/treebank/enter.html:163
+msgid "Create Link"
+msgstr "Create Link"

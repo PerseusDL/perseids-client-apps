@@ -4,6 +4,7 @@ config = {}
 config["treebank"] = json.load(open("./app/configurations/treebank.json", "r"))
 config["session"] = json.load(open("./app/configurations/session.json", "r"))
 config["cts"] = json.load(open("./app/configurations/cts.json", "r"))
+config["language"] = json.load(open("./app/configurations/language.json", "r"))
 
 
 def get(key):
