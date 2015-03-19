@@ -18,7 +18,7 @@ def xq():
         abort(404)
     abort(404)
 
-
+"""
 @ahab.route("/cts/rest/v1.0/search", methods=["GET"])
 def xq():
     try:
@@ -29,3 +29,4 @@ def xq():
     except:
         abort(404)
     abort(404)
+"""
