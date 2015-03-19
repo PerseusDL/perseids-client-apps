@@ -18,8 +18,9 @@
     "tests"
   ],
   "dependencies": {
-    "capitains-sparrow": "~1.0.5",
-    "typeahead.js": "~0.10.5",
-    "handlebars": "~3.0.0"
+    "capitains-sparrow": "~1.0.6",
+    "capitains-sparrow.typeahead": "~0.0.2",
+    "capitains-sparrow.xslt": "~0.0.2",
+    "capitains-sparrow.service": "~0.0.2"
   }
 }
