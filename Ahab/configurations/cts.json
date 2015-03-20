@@ -1,3 +1,10 @@
 {
-    "endpoint" : "http://localhost:8080/exist/rest/db/xq/CTS.xq"
+    "endpoint" : "http://localhost:8080/exist/rest/db/repository/CTS.xq",
+    "restfull"  : true,
+
+    "cache"  : true,
+    "cache.time" : 25200,
+
+    "ahab.endpoint" : "http://localhost:8080/exist/rest/db/xq/CTS.xq",
+    "ahab.search" : true
 }
