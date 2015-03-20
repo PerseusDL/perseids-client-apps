@@ -2,6 +2,7 @@ import json
 from flask import Blueprint,  abort, request
 import requests
 import requests_cache
+from lxml import etree
 
 ahab = Blueprint('capitains_ahab', __name__)
 configuration = json.load(open("Ahab/configurations/cts.json"))
@@ -12,7 +13,7 @@ if configuration["cache"]:
 def requesting(endpoint, params):
     try:
         r = requests.get(endpoint, params=params)
-        print(r)
+        print(params)
         if r.status_code != 200:
             abort(404)
         return r.text
@@ -124,13 +125,19 @@ if "ahab.search" in configuration:
 
         return requesting(
             configuration["ahab.endpoint"],
-            params=params 
+            params=params
         )
 
 if "ahab.permalink" in configuration:
     @ahab.route("/ahab/rest/v1.0/permalink/<ref>", methods=["GET"])
     def permalink(ref):
+        r = requests.get(configuration["ahab.endpoint"], params={"request": "permalink", "urn": ref})
+        print({"request": "permalink", "urn": ref})
+        xml = etree.parse(r.text)
+        if r.status_code != 200:
+            abort(404)
+
         return requesting(
-            configuration["ahab.endpoint"],
-            params=request.args.to_dict()
+            configuration["endpoint"],
+            params={"request": "GetPassagePlus", "urn": ref, "inv": xml.find("inv").text}
         )

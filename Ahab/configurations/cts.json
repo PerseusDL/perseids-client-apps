@@ -6,5 +6,6 @@
     "cache.time" : 25200,
 
     "ahab.endpoint" : "http://localhost:8080/exist/rest/db/ahab/ahab.xq",
-    "ahab.search" : true
+    "ahab.search" : true,
+    "ahab.permakink" : true
 }

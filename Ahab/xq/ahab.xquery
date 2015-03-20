@@ -1,3 +1,5 @@
+xquery version "3.0";
+
 (:
  : This file is a try for porting MarkLogic and BaseX implementation of maps
  : 
@@ -102,4 +104,53 @@ declare function ahabx:search($a_urn, $a_query)
             <collection>{$a_urn}</collection>
             <results>{$results}</results>
         </reply>
+};
+
+(: 
+ : $a_urn Urn or namespace
+ : $a_query Query
+ :)
+declare function ahabx:permalink($a_urn)
+{
+    let $parsed_urn := ahabx:simpleUrnParser($a_urn)
+    let $inv := collection("/db/repository/inventory")//ti:work[@urn = $parsed_urn/workUrn/text()]/ancestor::*[@tiid][1]/@tiid
+        
+    return <reply>
+            <urn>{$a_urn}</urn>
+            <inventory>{fn:string($inv)}</inventory>
+        </reply>
+};
+
+declare function ahabx:simpleUrnParser($a_urn)
+{
+    let $components := fn:tokenize($a_urn, ":")
+    let $namespace := $components[3]
+    let $workComponents := fn:tokenize($components[4], "\.")
+    (: TODO do we need to handle the possibility of a work without a text group? :)
+    let $textgroup := $workComponents[1]
+    let $work := $workComponents[2]
+
+    let $passage := $components[5]
+    let $passageComponents := fn:tokenize($components[5], "-")
+    let $part1 := $passageComponents[1]
+    let $part2 := $passageComponents[2]
+    let $part2 := if (fn:empty($part2)) then $part1 else $part2
+
+    let $namespaceUrn := fn:string-join($components[1,2,3], ":")
+    let $groupUrn := if (fn:exists($textgroup)) then $namespaceUrn || ":" || $textgroup else ()
+    let $workUrn := if(fn:exists($work)) then $groupUrn || "." || $work else ()
+    let $version := if(fn:exists($workComponents[3])) then $workUrn || "." || $workComponents[3] else ()
+    
+    
+    return
+      element reply
+      {
+        element urn { $a_urn },
+        (: urn without any passage specifics:)
+        element groupUrn { $groupUrn },
+        element workUrn { $workUrn },
+        element namespace{ $namespaceUrn },
+        element version{ $version },
+        element passage{ $passage }
+      }
 };

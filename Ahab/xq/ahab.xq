@@ -35,6 +35,8 @@ try
 {
   if ($query = 'search')
   then ahabx:search($e_urn, $e_query)
+  else if ($query = 'permalink')
+  then ahabx:permalink($e_urn)
   else
     fn:error(
       xs:QName("INVALID-REQUEST"),
