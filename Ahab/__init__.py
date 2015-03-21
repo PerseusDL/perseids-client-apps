@@ -132,12 +132,10 @@ if "ahab.permalink" in configuration:
     @ahab.route("/ahab/rest/v1.0/permalink/<ref>", methods=["GET"])
     def permalink(ref):
         r = requests.get(configuration["ahab.endpoint"], params={"request": "permalink", "urn": ref})
-        print({"request": "permalink", "urn": ref})
-        xml = etree.parse(r.text)
+        xml = etree.fromstring(r.text)
         if r.status_code != 200:
             abort(404)
-
         return requesting(
             configuration["endpoint"],
-            params={"request": "GetPassagePlus", "urn": ref, "inv": xml.find("inv").text}
+            params={"request": "GetPassagePlus", "urn": ref, "inv": xml.find(".//ahab:inventory", {"ahab": "http://github.com/capitains/ahab"}).text}
         )

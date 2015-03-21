@@ -7,5 +7,5 @@
 
     "ahab.endpoint" : "http://localhost:8080/exist/rest/db/ahab/ahab.xq",
     "ahab.search" : true,
-    "ahab.permakink" : true
+    "ahab.permalink" : true
 }

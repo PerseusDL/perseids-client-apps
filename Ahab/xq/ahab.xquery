@@ -94,16 +94,18 @@ declare function ahabx:search($a_urn, $a_query)
             let $passage_urn := fn:concat($urn, ":", fn:string-join($passage, "."))
             
             return for $context_match in $context//exist:match
-                return <result>
-                        <urn>{$urn}</urn>
-                        <passage>{$passage_urn}</passage>
-                        <text>{kwic:get-summary($context, $context_match, $config)}</text>
-                    </result>
-    return <reply>
-            <query>{$a_query}</query>
-            <collection>{$a_urn}</collection>
-            <results>{$results}</results>
-        </reply>
+                return 
+                    element ahab:result {
+                        element ahab:urn { $urn },
+                        element ahab:passageUrn { $passage_urn },
+                        element ahab:text { kwic:get-summary($context, $context_match, $config) }
+                    }
+    return 
+        element ahab:reply {
+            element ahab:query   { $a_query },
+            element ahab:urn     { $a_urn },
+            element ahab:results { $results }
+        }
 };
 
 (: 
@@ -115,10 +117,10 @@ declare function ahabx:permalink($a_urn)
     let $parsed_urn := ahabx:simpleUrnParser($a_urn)
     let $inv := collection("/db/repository/inventory")//ti:work[@urn = $parsed_urn/workUrn/text()]/ancestor::*[@tiid][1]/@tiid
         
-    return <reply>
-            <urn>{$a_urn}</urn>
-            <inventory>{fn:string($inv)}</inventory>
-        </reply>
+    return element ahab:reply {
+        element ahab:urn { $a_urn },
+        element ahab:inventory { fn:string($inv) }
+    }
 };
 
 declare function ahabx:simpleUrnParser($a_urn)
