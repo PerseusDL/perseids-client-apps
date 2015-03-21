@@ -137,5 +137,9 @@ if "ahab.permalink" in configuration:
             abort(404)
         return requesting(
             configuration["endpoint"],
-            params={"request": "GetPassagePlus", "urn": ref, "inv": xml.find(".//ahab:inventory", {"ahab": "http://github.com/capitains/ahab"}).text}
+            params={
+                "request": xml.find(".//ahab:reply/ahab:request", {"ahab": "http://github.com/capitains/ahab"}).text,
+                "urn": xml.find(".//ahab:reply/ahab:urn", {"ahab": "http://github.com/capitains/ahab"}).text,
+                "inv": xml.find(".//ahab:reply/ahab:inventory", {"ahab": "http://github.com/capitains/ahab"}).text
+            }
         )

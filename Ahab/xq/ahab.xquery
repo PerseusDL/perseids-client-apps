@@ -115,10 +115,27 @@ declare function ahabx:search($a_urn, $a_query)
 declare function ahabx:permalink($a_urn)
 {
     let $parsed_urn := ahabx:simpleUrnParser($a_urn)
-    let $inv := collection("/db/repository/inventory")//ti:work[@urn = $parsed_urn/workUrn/text()]/ancestor::*[@tiid][1]/@tiid
+    let $work := collection("/db/repository/inventory")//ti:work[@urn = $parsed_urn/workUrn/text()]
+    let $inv := $work/ancestor::*[@tiid][1]/@tiid
+    
+    let $urn := 
+        if (fn:empty($parsed_urn/version/text()))
+        then fn:string($work/ti:edition[1][@urn]/@urn)
+        else fn:string($parsed_urn/version/text())
+        
+    let $urn_passage :=
+        if (fn:empty($parsed_urn/passage/text()))
+        then $urn
+        else $urn || ":" || fn:string($parsed_urn/passage/text())
+        
+    let $request :=
+        if (fn:empty($parsed_urn/passage/text()))
+        then "GetValidReff"
+        else "GetPassagePlus"
         
     return element ahab:reply {
-        element ahab:urn { $a_urn },
+        element ahab:urn { $urn_passage },
+        element ahab:request { fn:string($request) },
         element ahab:inventory { fn:string($inv) }
     }
 };
@@ -152,7 +169,7 @@ declare function ahabx:simpleUrnParser($a_urn)
         element groupUrn { $groupUrn },
         element workUrn { $workUrn },
         element namespace{ $namespaceUrn },
-        element version{ $version },
-        element passage{ $passage }
+        element version { $version },
+        element passage { $passage }
       }
 };
