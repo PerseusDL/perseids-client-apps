@@ -47,12 +47,17 @@ declare function ahabx:collectionFromUrn($a_urn) {
  : $a_urn Urn or namespace
  : $a_query Query
  :)
-declare function ahabx:search($a_urn, $a_query)
+declare function ahabx:search($a_urn, $a_query, $a_start, $a_limit)
 {
     let $collection_from_urn := ahabx:collectionFromUrn($a_urn)
     let $collection := fn:concat("/db/repository/", $collection_from_urn)
     let $config := <config xmlns="" width="60"/>
-    let $results := for $hit in collection($collection)//tei:body[ft:query(., $a_query)]
+    let $hits := collection($collection)//tei:body[ft:query(., $a_query)]
+    
+    let $matches := for $hit in $hits return kwic:expand($hit)
+    let $hitCount :=  count($matches//exist:match)
+    
+    let $results := for $hit in $hits
         let $path := fn:concat(util:collection-name($hit), "/", util:document-name($hit))
         let $docname := collection("/db/repository/inventory")//ti:online[@docname=$path] 
         let $editionNode := $docname/..
@@ -104,7 +109,12 @@ declare function ahabx:search($a_urn, $a_query)
         element ahab:reply {
             element ahab:query   { $a_query },
             element ahab:urn     { $a_urn },
-            element ahab:results { $results }
+            element ahab:results { 
+                attribute ahab:start { $a_start },
+                attribute ahab:limit { $a_limit },
+                attribute ahab:count { $hitCount },
+                for $res in subsequence($results, $a_start, $a_limit) return $res 
+            }
         }
 };
 

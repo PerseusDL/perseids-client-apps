@@ -4,6 +4,7 @@
 
     "cache"  : true,
     "cache.time" : 25200,
+    "cache.reset_key" : "thibault",
 
     "ahab.endpoint" : "http://localhost:8080/exist/rest/db/ahab/ahab.xq",
     "ahab.search" : true,

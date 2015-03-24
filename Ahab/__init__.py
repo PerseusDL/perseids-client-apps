@@ -143,3 +143,12 @@ if "ahab.permalink" in configuration:
                 "inv": xml.find(".//ahab:reply/ahab:inventory", {"ahab": "http://github.com/capitains/ahab"}).text
             }
         )
+
+
+@ahab.route("/ahab/rest/v1.0/reset_cache", methods=["GET"])
+def reset_cache():
+    if request.args.get("key") == configuration["cache.reset_key"]:
+        requests_cache.core.clear()
+        return ""
+    else:
+        abort(404)

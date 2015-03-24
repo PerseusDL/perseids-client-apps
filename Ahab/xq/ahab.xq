@@ -24,6 +24,9 @@ let $startTime := util:system-time()
 let $map := map:new()
 let $_ := ctsi:add-response-header("Access-Control-Allow-Origin", "*")
 
+let $start := xs:integer(request:get-parameter("start", "1"))
+let $limit := xs:integer(request:get-parameter("limit", "5"))
+
 let $e_request := ctsi:get-request-parameter("request", ())
 let $e_query := ctsi:get-request-parameter("query", ())
 let $e_urn :=  ctsi:get-request-parameter("urn", ())
@@ -34,7 +37,7 @@ let $reply :=
 try
 {
   if ($query = 'search')
-  then ahabx:search($e_urn, $e_query)
+  then ahabx:search($e_urn, $e_query, $start, $limit)
   else if ($query = 'permalink')
   then ahabx:permalink($e_urn)
   else
@@ -64,7 +67,20 @@ let $response :=
         attribute elapsed-time { string(seconds-from-duration(util:system-time() - $startTime) * 1000) },
         element ahab:requestName { $e_request },
         element ahab:requestUrn { $e_urn },
-        element ahab:query { $e_query }
+        element ahab:query { $e_query },
+        element ahab:option {
+            if ($e_request = "search")
+            then 
+                (
+                    element ahab:limit {
+                        $limit
+                    },
+                    element ahab:start {
+                        $start
+                    }
+                )
+            else ()
+        }
       },
       $reply
     }
