@@ -17,22 +17,18 @@ declare namespace util="http://exist-db.org/xquery/util";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-
-
 (: 
  : Get the xpath of the smallest node for a given text record.
 :)
-declare function ahabx:smallestCitationNode($a_text_record) {
-    let $citation := ($a_text_record//ti:citation)[last()]
+declare function ahabx:citationXpath($citation) {
     
-    let $first := replace(fn:string($citation/@scope), "\]", " and @type]")
-    let $last := fn:string($citation/@xpath)
+    let $first := fn:string($citation/@scope)
+    let $last := replace(fn:string($citation/@xpath), "//", "/")
     
     let $scope := fn:concat($first, $last)
-    let $xpath := replace($scope,"='\?'",'')
+    let $xpath := replace(replace($scope,"='\?'",''), "^(.*)body/", "")
     return $xpath
 };
-
 (: 
  :)
 declare function ahabx:collectionFromUrn($a_urn) {
@@ -47,17 +43,36 @@ declare function ahabx:collectionFromUrn($a_urn) {
  : $a_urn Urn or namespace
  : $a_query Query
  :)
+
+declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
+        if ($node/name(.) = ("tei:note", "note")) then
+            ()
+        else
+            concat(" ",
+                $node[not(./ancestor::tei:note)]
+                , " ")
+};
+
+declare %private function local:parentUrns($node) {
+    let $ns := $node/ancestor::master-level
+    return
+        (for $n in $ns
+            return xs:string($n/@n))
+};
+
+
 declare function ahabx:search($a_urn, $a_query, $a_start, $a_limit)
 {
     let $collection_from_urn := ahabx:collectionFromUrn($a_urn)
     let $collection := fn:concat("/db/repository/", $collection_from_urn)
-    let $config := <config xmlns="" width="60"/>
+    let $config := <config xmlns="" width="200"/>
     let $hits := collection($collection)//tei:body[ft:query(., $a_query)]
     
     let $matches := for $hit in $hits return kwic:expand($hit)
     let $hitCount :=  count($matches//exist:match)
     
-    let $results := for $hit in $hits
+    let $results := 
+    for $hit in $hits
         let $path := fn:concat(util:collection-name($hit), "/", util:document-name($hit))
         let $docname := collection("/db/repository/inventory")//ti:online[@docname=$path] 
         let $editionNode := $docname/..
@@ -71,51 +86,63 @@ declare function ahabx:search($a_urn, $a_query, $a_start, $a_limit)
             
             return concat("urn:cts:",$textgroup,".",$work,".",$edition)
             
-        let $expanded := kwic:expand($hit)
+        let $body := kwic:expand($hit)
         
-        let $xpath := replace(ahabx:smallestCitationNode($docname/..), "//", "/   /")
-        let $tokenizedPath := tokenize($xpath, "/")
-        
-        let $indexOfBody := if(index-of($tokenizedPath, "tei:body"))
-            then index-of($tokenizedPath, "tei:body")
-            else index-of($tokenizedPath, "body")
-        
-        let $subsequence := subsequence($tokenizedPath, $indexOfBody + 1, count($tokenizedPath) - $indexOfBody)
-        let $joinedXpath := fn:string-join($subsequence, "/")
-        let $reduced_xpath := replace($joinedXpath, "   ", "")
-        let $lastChar := substring($reduced_xpath, string-length($reduced_xpath), 1)
-        let $eval := if($lastChar = "]")
-        then fn:concat("$expanded/", substring($reduced_xpath, 1, string-length($reduced_xpath) - 1), " and .//exist:match]")
-        else fn:concat("$expanded/", $reduced_xpath, "node()[.//exist:match]") 
-        let $contexts := util:eval($eval)
-        
-        return for $context in $contexts
-            let $passage := for $citation in $docname//ti:citation
-                let $label := fn:lower-case(fn:string($citation/@label))
-                return if (fn:string($citation/@xpath) = "//tei:l[@n='?']" or fn:string($citation/@xpath) = "/tei:l[@n='?']") (: Dirty hack :)
-                then fn:string($context/ancestor-or-self::node()[@n][1]/@n)
-                else fn:string($context/ancestor-or-self::node()[@n and fn:lower-case(@type)=$label][1]/@n)
-                
-            let $passage_urn := fn:concat($urn, ":", fn:string-join($passage, "."))
-            
-            return for $context_match in $context//exist:match
+        let $citations := ($editionNode//ti:citation)
+        let $urns := local:fake-match-document($citations, $body, (), $urn)
+        let $matches := $urns//exist:match
+        return
+            for $match in $matches
+                let $passage_urn := $urn || ":" || string-join(local:parentUrns($match), ".")
                 return 
                     element ahab:result {
                         element ahab:urn { $urn },
                         element ahab:passageUrn { $passage_urn },
-                        element ahab:text { kwic:get-summary($context, $context_match, $config) }
+                        element ahab:text {
+                            kwic:get-summary($match/ancestor::master-level[@level="1"], $match, $config, util:function(xs:QName("local:filter"), 2))
+                        }
                     }
+        
     return 
         element ahab:reply {
             element ahab:query   { $a_query },
             element ahab:urn     { $a_urn },
             element ahab:results { 
-                attribute ahab:start { $a_start },
+                attribute ahab:offset { $a_start },
                 attribute ahab:limit { $a_limit },
                 attribute ahab:count { $hitCount },
-                for $res in subsequence($results, $a_start, $a_limit) return $res 
+                $results
             }
         }
+};
+
+declare %private function local:fake-match-document($citations as element()*, $body as element()*, $remove as xs:string?, $urn as xs:string) {
+    let $citation := $citations[1]
+    let $xpath := ahabx:citationXpath($citation)
+    let $masterPath := 
+        if ($remove)
+        then replace($xpath, "^("||replace($remove, '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')||")", "")
+        else $xpath
+    let $efficientXpath := replace($masterPath, "(\[[a-zA-Z1-9=@]+\]*)$", "[.//exist:match]$1")
+    let $masters := util:eval("$body/" || $efficientXpath)
+    let $next := subsequence($citations, 2)
+    
+    return 
+            for $master in $masters 
+             let $childs := 
+                if( count($next) = 0)
+                then
+                    $master/child::node()
+                else
+                    local:fake-match-document($next, $master, $xpath, $urn)
+                    
+             return element master-level {
+                attribute level { count($citations) },
+                $master/@n,
+                $childs
+         }
+    (:
+    :)
 };
 
 (: 

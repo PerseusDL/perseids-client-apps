@@ -3,8 +3,10 @@ from flask.ext.babel import Babel
 from flask_bower import Bower
 from app import configurator
 from app.cache import cache
+from flask.ext.cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 babel = Babel(app)
 bower = Bower(app)
 load = configurator.get("modules")("load")

@@ -1,13 +1,26 @@
 import json
-from flask import Blueprint,  abort, request
+from flask import Blueprint,  abort, request, make_response, render_template, jsonify
 import requests
 import requests_cache
 from lxml import etree
 
-ahab = Blueprint('capitains_ahab', __name__)
+ahab = Blueprint('capitains_ahab', __name__, template_folder='templates')
 configuration = json.load(open("Ahab/configurations/cts.json"))
 if configuration["cache"]:
     requests_cache.install_cache("capitains-ahab", backend="sqlite", expire_after=configuration["cache.time"])
+
+
+def argsToInt(arg):
+    try:
+        return int(arg)
+    except:
+        return None
+
+
+def request_wants_json():
+    print(request.accept_mimetypes)
+    best = request.accept_mimetypes.best_match(['application/json'])
+    return best == 'application/json'
 
 
 def requesting(endpoint, params):
@@ -122,11 +135,70 @@ if "ahab.search" in configuration:
     def search():
         params = request.args.to_dict().copy()
         params.update({"request": "Search"})
-
-        return requesting(
+        response = requesting(
             configuration["ahab.endpoint"],
             params=params
         )
+        xml = etree.fromstring(response)
+        start = argsToInt(request.args.get("start")) or 1
+        limit = argsToInt(request.args.get("limit")) or 10
+
+        results = xml.find(".//ahab:results", {"ahab": "http://github.com/capitains/ahab"})
+        resultSet = results.findall("./ahab:result", {"ahab": "http://github.com/capitains/ahab"})
+        count = results.get("{http://github.com/capitains/ahab}count")
+
+        limitedResults = resultSet[start-1:start-1+limit]
+
+        if request_wants_json():
+            jsonResults = []
+            for result in limitedResults:
+                jsonResults.append({
+                    "urn": result.find("ahab:urn", {"ahab": "http://github.com/capitains/ahab"}).text,
+                    "version": result.find("ahab:passageUrn", {"ahab": "http://github.com/capitains/ahab"}).text,
+                    "text": {
+                        "previous": "".join([x for x in result.find("ahab:text//span[@class='previous']", {"ahab": "http://github.com/capitains/ahab"}).itertext()]),
+                        "hi": "".join([x for x in result.find("ahab:text//span[@class='hi']", {"ahab": "http://github.com/capitains/ahab"}).itertext()]),
+                        "after": "".join([x for x in result.find("ahab:text//span[@class='following']", {"ahab": "http://github.com/capitains/ahab"}).itertext()])
+                    }
+                })
+
+            data = {
+                "request": {
+                    "query": request.args.get("query"),
+                    "urn": request.args.get("urn") or None
+                },
+                "reply": {
+                    "offset": start,
+                    "limit": limit,
+                    "count": count,
+                    "results": jsonResults
+                }
+            }
+            return jsonify(data)
+
+        """
+            XML Response
+        """
+        limitedResults = [
+            {
+                "urn": result.find("ahab:urn", {"ahab": "http://github.com/capitains/ahab"}).text,
+                "version": result.find("ahab:passageUrn", {"ahab": "http://github.com/capitains/ahab"}).text,
+                "text": str(etree.tostring(result.find("ahab:text", {"ahab": "http://github.com/capitains/ahab"})[0]), "utf-8")
+            }
+            for result in limitedResults
+        ]
+        responseXml = render_template(
+            'search.xml',
+            query=request.args.get("query"),
+            urn=request.args.get("urn") or None,
+            start=start,
+            limit=limit,
+            count=count,
+            results=limitedResults
+        )
+        response = make_response(responseXml)
+        response.headers["Content-Type"] = "application/xml"
+        return response
 
 if "ahab.permalink" in configuration:
     @ahab.route("/ahab/rest/v1.0/permalink/<ref>", methods=["GET"])
