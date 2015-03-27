@@ -23,3 +23,12 @@ def treebank():
        session=configurator.get("session"),
        cts=configurator.get("cts")
      )
+
+@app.route('/alignment')
+def alignment():
+    return render_template(
+       'alignment/enter.html',
+       alignment=configurator.get("alignment"),
+       session=configurator.get("session"),
+       cts=configurator.get("cts")
+     )
