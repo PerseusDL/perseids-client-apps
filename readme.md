@@ -14,8 +14,9 @@
 # i18n
 Here is a few commands you might need. The translations are located in `app/translations` and follow `.po` standards. Feel free to use apps such as [PoEdit](http://poedit.net/) to enhance, add corections.
 
-- Update Catalog : `pybabel extract -F babel.cfg -o messages.pot app`
+- Update Catalog : `pybabel - extract -F babel.cfg -k lazy_gettext -o messages.pot app`
 - Create a lang  : `pybabel init -i messages.pot -d app/translations -l $LANGUAGE`
+- Update a lang  : `pybabel update -i messages.pot -d app/translations -l $LANGUAGE`
 
 #Alpheios Copyright
 ```
