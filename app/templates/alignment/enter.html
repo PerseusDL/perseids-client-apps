@@ -1,0 +1,424 @@
+<!--
+  Copyright 2012-2015 The Alpheios Project, Ltd.
+  http://alpheios.net
+  
+  This file is part of Alpheios.
+  
+  Alpheios is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  Alpheios is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><title>Alpheios Alignment Editor - Align Text</title>
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="/static/css/alpheios/align.enter.css"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ bower_url_for('capitains-sparrow.typeahead', 'src/css/jquery.cts.typeahead.css') }}" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{{ bower_url_for('handlebars', 'handlebars.min.js') }}"></script>
+    <script src="{{ bower_url_for('typeahead.js', 'dist/typeahead.bundle.min.js') }}"></script>
+
+    <script src="{{ bower_url_for('capitains-sparrow', 'dist/cts.min.js') }}"></script>
+    <script src="{{ bower_url_for('capitains-sparrow.typeahead', 'dist/jquery.cts.typeahead.min.js') }}"></script>
+    <script src="{{ bower_url_for('capitains-sparrow.xslt', 'dist/jquery.cts.xslt.min.js') }}"></script>
+    <script src="{{ bower_url_for('capitains-sparrow.service', 'dist/jquery.cts.service.min.js') }}"></script>
+
+
+    <script language="javascript" type="text/javascript" src="/static/js/alpheios/align.enter.js"></script>
+    <script language="javascript" type="text/javascript" src="/static/js/alpheios/edit.utils.js"></script>
+
+    <!-- cookie and header name for CSRF session token  -->
+    <meta name="alpheios-sessionTokenName" content="{{ session('sessionTokenName') }}"/>
+    <meta name="alpheios-sessionHeaderName" content="{{ session('sessionHeaderName') }}"/>
+    <meta name="cts_repos_url" content="{{ cts('endpoint') }}" />
+    <meta name="cts_capabilities_url" content="{{ cts('getCapabilities') }}"/>
+    <meta name="tokenization_service" content="{{ alignment('tokenization.endpoint') }}" data-transform="{{ alignment('tokenization.xslt') }}"/>
+
+    <!-- url to ping the server to set/refresh the CSRF cookie -->
+    <meta name="pingurl" content="{{ session('pingUrl') }}" />
+    
+    <!-- url to POST to to create store a new treebank template -->
+    <meta name="url" content="{{ alignment('endpoint.create') }}" />
+
+    <meta name="editorurl" content="{{ alignment('editorUrl') }} "/>
+    
+    <!--Arabic fonts-->
+        <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/lateef" type="text/css"/>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("input[name='l1-direction']").click(SetTextDir);
+        $("input[name='l2-direction']").click(SetTextDir);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="alpheios-ignore">
+      <div id="alph-page-header">
+        <img src="/static/img/alpheios/alpheios-transparent.png" alt="Alpheios"/>
+      </div>
+    </div>
+    <div>
+      <form name="input-form" action="">
+        <input type="hidden" name="l1"/>
+        <input type="hidden" name="l2"/>
+        <input type="hidden" name="collection" value="{{ alignment('collection') }}"/>
+        <div class="row">
+        <fieldset id="align-enter-title"  class="large-9 columns">
+          <legend>{{ _('Enter Metadata:') }}</legend>
+          <label for="docname">{{ _('Alignment title:') }}<span class="hint small-3">{{ _('alignmenttitlehint') }}</span>
+          <input placeholder="{{ _('Enter a short title for your annotation') }}" type="text" id="docname" name="docname" pattern="[\w \d-_\.]+" maxlength="100" size="100"></input>
+          </label>
+        </fieldset>
+        </div>
+        <div class="row">
+          <fieldset class="large-6 columns">
+            <legend>{{ _('Enter Text in Language 1:') }}</legend>
+            <div id="l1-dir-buttons">
+              <label>{{ _('Text Direction:') }}</label>
+              <input type="radio" id="l1-dir-ltr" name="l1-direction" value="ltr" checked="checked"/>
+              <label for="l1-dir-ltr">{{ _('Left to Right') }}</label>
+                <input type="radio" id="l1-dir-rtl" name="l1-direction" value="rtl"/>
+              <label for="l1-dir-rtl">{{ _('Right to Left') }}</label>
+            </div>
+           <div>
+             <textarea id="l1text" name="l1text" rows="10" cols="80" data-lnum="l1"
+             ></textarea>
+             <small class="error" id="l1texterror" style="display:none;">{{ _('Invalid entry') }}</small>
+           </div>
+           <div class="textdriver" id="l1textdriver" data-lnum="l1"></div>
+            <div>
+              <label for="l1uri">{{ _('Text URI') }}</label>
+              <input placeholder="{{ ('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l1uri" name="l1uri" size="100" class="texturi" data-lnum="l1"></input>
+            </div>
+          </fieldset>
+          <fieldset class="large-6 columns">
+          <legend>{{ _('Enter Text in Language 2:') }}</legend>
+          <div id="l2-dir-buttons">
+            <label>{{ _('Text Direction:') }}</label>
+            <input type="radio" id="l2-dir-ltr" name="l2-direction" value="ltr" checked="checked"/>
+            <label for="l2-dir-ltr">{{ _('Left to Right') }}</label>
+            <input type="radio" id="l2-dir-rtl" name="l2-direction" value="rtl"/>
+            <label for="l2-dir-rtl">{{ _('Right to Left') }}</label>
+          </div>
+          <textarea id="l2text" name="l2text" rows="10" cols="80" data-lnum="l2"
+            ></textarea>
+          <small class="error" id="l2texterror" style="display:none;">{{ _('Invalid entry') }}</small>
+          <div class="textdriver" id="l2textdriver" data-lnum="l2"></div>
+          <div>
+            <label for="l2uri">{{ _('Text URI') }}</label>
+            <input placeholder="{{ ('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l2uri" name="l2uri" size="100" class="texturi" data-lnum="l2"></input>
+          </div>
+        </fieldset>
+        </div>
+        <div class="row">
+          <fieldset class="large-6 columns">
+            <div class="row">
+            <label for="select_l1" class="large-9 columns">{{ _('Language 1:') }}
+            <select name="select_l1" id="select_l1">
+              <option value="eng">{{ _('English') }}</option>
+              <option value="lat">{{ _('Latin') }}</option>
+              <option value="grc">{{ _('Greek (Ancient -1453)') }}</option>
+              <option value="ara">{{ _('Arabic') }}</option>
+              <option value="zh">{{ _('Chinese') }}</option>
+              <option value="afr">{{ _('Afrikaans') }}</option>
+              <option value="akk">{{ _('Akkadian') }}</option>
+              <option value="sqi">{{ _('Albanian') }}</option>
+              <option value="amh">{{ _('Amharic') }}</option>
+              <option value="arg">{{ _('Aragonese') }}</option>
+              <option value="arc">{{ _('Aramaic (Imperial- 700 BC-300 BC)') }}</option>
+              <option value="sam">{{ _('Aramaic (Samaritan)') }}</option>
+              <option value="hye">{{ _('Armenian') }}</option>
+              <option value="ast">{{ _('Asturian (Bable, Leonese)') }}</option>
+              <option value="ave">{{ _('Avestan') }}</option>
+              <option value="aze">{{ _('Azerbaijani') }}</option>
+              <option value="eus">{{ _('Basque') }}</option>
+              <option value="ben">{{ _('Bengali') }}</option>
+              <option value="ber">{{ _('Berber') }}</option>
+              <option value="bos">{{ _('Bosnian') }}</option>
+              <option value="bre">{{ _('Breton') }}</option>
+              <option value="bul">{{ _('Bulgarian') }}</option>
+              <option value="chu">{{ _('Bulgarian (Old, Old Church Slavonic)') }}</option>
+              <option value="mya">{{ _('Burmese') }}</option>
+              <option value="cat">{{ _('Catalan') }}</option>
+              <option value="chg">{{ _('Chagatai') }}</option>
+              <option value="cop">{{ _('Coptic') }}</option>
+              <option value="cor">{{ _('Cornish') }}</option>
+              <option value="hrv">{{ _('Croatian') }}</option>
+              <option value="ces">{{ _('Czech') }}</option>
+              <option value="dan">{{ _('Danish') }}</option>
+              <option value="nld">{{ _('Dutch (Flemish)') }}</option>
+              <option value="dum">{{ _('Dutch (Middle, 1050-1350)') }}</option>
+              <option value="egy">{{ _('Egyptian (Ancient)') }}</option>
+              <option value="elx">{{ _('Elamite') }}</option>
+              <option value="enm">{{ _('English (Middle, 1100-1500)') }}</option>
+              <option value="ang">{{ _('English (Old, 450-1100)') }}</option>
+              <option value="est">{{ _('Estonian') }}</option>
+              <option value="fin">{{ _('Finnish') }}</option>
+              <option value="fra">{{ _('French') }}</option>
+              <option value="frm">{{ _('French (Middle, 1400-1600)') }}</option>
+              <option value="fro">{{ _('French (Old, 842c. 1400)') }}</option>
+              <option value="gez">{{ _('Ge\'ez') }}</option>
+              <option value="kat">{{ _('Georgian') }}</option>
+              <option value="nds">{{ _('German (Low, Low Saxon)') }}</option>
+              <option value="gmh">{{ _('German (Middle-High, 1050-1500)') }}</option>
+              <option value="goh">{{ _('German (Old-High, 750-1050)') }}</option>
+              <option value="deu">{{ _('German') }}</option>
+              <option value="got">{{ _('Gothic') }}</option>
+              <option value="ell">{{ _('Greek (Modern, 1453-)') }}</option>
+              <option value="guj">{{ _('Gujarati') }}</option>
+              <option value="heb">{{ _('Hebrew') }}</option>
+              <option value="hin">{{ _('Hindi') }}</option>
+              <option value="hit">{{ _('Hittite') }}</option>
+              <option value="hun">{{ _('Hungarian') }}</option>
+              <option value="isl">{{ _('Icelandic') }}</option>
+              <option value="ind">{{ _('Indonesian') }}</option>
+              <option value="gle">{{ _('Irish (Modern)') }}</option>
+              <option value="mga">{{ _('Irish (Middle 900-1200)') }}</option>
+              <option value="sga">{{ _('Irish (Old, to 900)') }}</option>
+              <option value="ita">{{ _('Italian') }}</option>
+              <option value="jpn">{{ _('Japanese') }}</option>
+              <option value="jav">{{ _('Javanese') }}</option>
+              <option value="kan">{{ _('Kannada') }}</option>
+              <option value="khm">{{ _('Khmer (Central)') }}</option>
+              <option value="kor">{{ _('Korean') }}</option>
+              <option value="kur">{{ _('Kurdish') }}</option>
+              <option value="lad">{{ _('Ladino') }}</option>
+              <option value="lit">{{ _('Lithuanian') }}</option>
+              <option value="msa">{{ _('Malay') }}</option>
+              <option value="mar">{{ _('Marathi') }}</option>
+              <option value="new">{{ _('Nepal Bhasa (Newari)') }}</option>
+              <option value="nep">{{ _('Nepali') }}</option>
+              <option value="nwc">{{ _('Newari (Classical)') }}</option>
+              <option value="non">{{ _('Norse (Old)') }}</option>
+              <option value="nor">{{ _('Norwegian') }}</option>
+              <option value="nob">{{ _('Norwegian (Bokmål)') }}</option>
+              <option value="nno">{{ _('Norwegian (Nynorsk)') }}</option>
+              <option value="oss">{{ _('Ossetian') }}</option>
+              <option value="pal">{{ _('Pahlavi (Middle Persian)') }}</option>
+              <option value="pli">{{ _('Pali') }}</option>
+              <option value="pus">{{ _('Pashto') }}</option>
+              <option value="fas">{{ _('Persian (Farsi)') }}</option>
+              <option value="peo">{{ _('Persian (Old, 600-400 BC)') }}</option>
+              <option value="phn">{{ _('Phoenician') }}</option>
+              <option value="pol">{{ _('Polish') }}</option>
+              <option value="por">{{ _('Portuguese') }}</option>
+              <option value="pra">{{ _('Prakrit') }}</option>
+              <option value="pro">{{ _('Provençal (Occitan, -1500)') }}</option>
+              <option value="pan">{{ _('Punjabi (Panjabi)') }}</option>
+              <option value="raj">{{ _('Rajasthani') }}</option>
+              <option value="ron">{{ _('Romanian') }}</option>
+              <option value="rom">{{ _('Romany') }}</option>
+              <option value="rus">{{ _('Russian') }}</option>
+              <option value="san">{{ _('Sanskrit') }}</option>
+              <option value="sco">{{ _('Scots') }}</option>
+              <option value="gla">{{ _('Scottish (Gaelic)') }}</option>
+              <option value="srp">{{ _('Serbian') }}</option>
+              <option value="scn">{{ _('Sicilian') }}</option>
+              <option value="snd">{{ _('Sindhi') }}</option>
+              <option value="sin">{{ _('Sinhalese (Sinhala)') }}</option>
+              <option value="slk">{{ _('Slovak') }}</option>
+              <option value="slv">{{ _('Slovenian') }}</option>
+              <option value="sog">{{ _('Sogdian') }}</option>
+              <option value="spa">{{ _('Spanish (Castilian)') }}</option>
+              <option value="sux">{{ _('Sumerian') }}</option>
+              <option value="swa">{{ _('Swahili') }}</option>
+              <option value="swe">{{ _('Swedish') }}</option>
+              <option value="gsw">{{ _('Swiss German (Alsatian)') }}</option>
+              <option value="syc">{{ _('Syriac (Classical)') }}</option>
+              <option value="syr">{{ _('Syriac (Northeastern, Neo-Aramaic)') }}</option>
+              <option value="tgl">{{ _('Tagalog') }}</option>
+              <option value="tgk">{{ _('Tajik') }}</option>
+              <option value="tam">{{ _('Tamil') }}</option>
+              <option value="tat">{{ _('Tatar') }}</option>
+              <option value="tel">{{ _('Telugu') }}</option>
+              <option value="tha">{{ _('Thai') }}</option>
+              <option value="bod">{{ _('Tibetan') }}</option>
+              <option value="tur">{{ _('Turkish (Modern)') }}</option>
+              <option value="ota">{{ _('Turkish (Ottoman, 1500-1928 )') }}</option>
+              <option value="tuk">{{ _('Turkmen') }}</option>
+              <option value="uga">{{ _('Ugaritic') }}</option>
+              <option value="ukr">{{ _('Ukainian') }}</option>
+              <option value="urd">{{ _('Urdu') }}</option>
+              <option value="uzb">{{ _('Uzbek') }}</option>
+              <option value="vie">{{ _('Vietnamese') }}</option>
+              <option value="wln">{{ _('Walloon') }}</option>
+              <option value="cym">{{ _('Welsh') }}</option>
+              <option value="yid">{{ _('Yiddish') }}</option>
+            </select>
+            </label>
+            <label for="other_l1" class="large-3 columns">
+              {{ _('Other*:') }}
+              <input type="text" id="other_l1" name="other_l1" size="3"/>
+            </label>
+            </div>
+            <div class="row">
+              <small id="l1-advanced-options-toggle" class="advanced-options-toggle" data-lnum="l1">{{ _('Click  to toggle advanced options...') }}</small>
+              <div id="advanced-options-l1" class="advanced-options" style="display: none;" data-lnum="l1"></div>
+            </div>
+          </fieldset>
+          <fieldset class="large-6 columns">
+            <div class="row">
+              <label for="select_l2" class="large-9 columns">{{ _('Language 2:') }}
+            <select name="select_l2" id="select_l1">
+              <option value="eng">{{ _('English') }}</option>
+              <option value="lat">{{ _('Latin') }}</option>
+              <option value="grc">{{ _('Greek (Ancient -1453)') }}</option>
+              <option value="ara">{{ _('Arabic') }}</option>
+              <option value="zh">{{ _('Chinese') }}</option>
+              <option value="afr">{{ _('Afrikaans') }}</option>
+              <option value="akk">{{ _('Akkadian') }}</option>
+              <option value="sqi">{{ _('Albanian') }}</option>
+              <option value="amh">{{ _('Amharic') }}</option>
+              <option value="arg">{{ _('Aragonese') }}</option>
+              <option value="arc">{{ _('Aramaic (Imperial- 700 BC-300 BC)') }}</option>
+              <option value="sam">{{ _('Aramaic (Samaritan)') }}</option>
+              <option value="hye">{{ _('Armenian') }}</option>
+              <option value="ast">{{ _('Asturian (Bable, Leonese)') }}</option>
+              <option value="ave">{{ _('Avestan') }}</option>
+              <option value="aze">{{ _('Azerbaijani') }}</option>
+              <option value="eus">{{ _('Basque') }}</option>
+              <option value="ben">{{ _('Bengali') }}</option>
+              <option value="ber">{{ _('Berber') }}</option>
+              <option value="bos">{{ _('Bosnian') }}</option>
+              <option value="bre">{{ _('Breton') }}</option>
+              <option value="bul">{{ _('Bulgarian') }}</option>
+              <option value="chu">{{ _('Bulgarian (Old, Old Church Slavonic)') }}</option>
+              <option value="mya">{{ _('Burmese') }}</option>
+              <option value="cat">{{ _('Catalan') }}</option>
+              <option value="chg">{{ _('Chagatai') }}</option>
+              <option value="cop">{{ _('Coptic') }}</option>
+              <option value="cor">{{ _('Cornish') }}</option>
+              <option value="hrv">{{ _('Croatian') }}</option>
+              <option value="ces">{{ _('Czech') }}</option>
+              <option value="dan">{{ _('Danish') }}</option>
+              <option value="nld">{{ _('Dutch (Flemish)') }}</option>
+              <option value="dum">{{ _('Dutch (Middle, 1050-1350)') }}</option>
+              <option value="egy">{{ _('Egyptian (Ancient)') }}</option>
+              <option value="elx">{{ _('Elamite') }}</option>
+              <option value="enm">{{ _('English (Middle, 1100-1500)') }}</option>
+              <option value="ang">{{ _('English (Old, 450-1100)') }}</option>
+              <option value="est">{{ _('Estonian') }}</option>
+              <option value="fin">{{ _('Finnish') }}</option>
+              <option value="fra">{{ _('French') }}</option>
+              <option value="frm">{{ _('French (Middle, 1400-1600)') }}</option>
+              <option value="fro">{{ _('French (Old, 842-c. 1400)') }}</option>
+              <option value="gez">{{ _('Ge\'ez') }}</option>
+              <option value="kat">{{ _('Georgian') }}</option>
+              <option value="nds">{{ _('German (Low, Low Saxon)') }}</option>
+              <option value="gmh">{{ _('German (Middle-High, 1050-1500)') }}</option>
+              <option value="goh">{{ _('German (Old-High, 750-1050)') }}</option>
+              <option value="deu">{{ _('German') }}</option>
+              <option value="got">{{ _('Gothic') }}</option>
+              <option value="ell">{{ _('Greek (Modern, 1453-)') }}</option>
+              <option value="guj">{{ _('Gujarati') }}</option>
+              <option value="heb">{{ _('Hebrew') }}</option>
+              <option value="hin">{{ _('Hindi') }}</option>
+              <option value="hit">{{ _('Hittite') }}</option>
+              <option value="hun">{{ _('Hungarian') }}</option>
+              <option value="isl">{{ _('Icelandic') }}</option>
+              <option value="ind">{{ _('Indonesian') }}</option>
+              <option value="gle">{{ _('Irish (Modern)') }}</option>
+              <option value="mga">{{ _('Irish (Middle 900-1200)') }}</option>
+              <option value="sga">{{ _('Irish (Old, to 900)') }}</option>
+              <option value="ita">{{ _('Italian') }}</option>
+              <option value="jpn">{{ _('Japanese') }}</option>
+              <option value="jav">{{ _('Javanese') }}</option>
+              <option value="kan">{{ _('Kannada') }}</option>
+              <option value="khm">{{ _('Khmer (Central)') }}</option>
+              <option value="kor">{{ _('Korean') }}</option>
+              <option value="kur">{{ _('Kurdish') }}</option>
+              <option value="lad">{{ _('Ladino') }}</option>
+              <option value="lit">{{ _('Lithuanian') }}</option>
+              <option value="msa">{{ _('Malay') }}</option>
+              <option value="mar">{{ _('Marathi') }}</option>
+              <option value="new">{{ _('Nepal Bhasa (Newari)') }}</option>
+              <option value="nep">{{ _('Nepali') }}</option>
+              <option value="nwc">{{ _('Newari (Classical)') }}</option>
+              <option value="non">{{ _('Norse (Old)') }}</option>
+              <option value="nor">{{ _('Norwegian') }}</option>
+              <option value="nob">{{ _('Norwegian (Bokmål)') }}</option>
+              <option value="nno">{{ _('Norwegian (Nynorsk)') }}</option>
+              <option value="oss">{{ _('Ossetian') }}</option>
+              <option value="pal">{{ _('Pahlavi (Middle Persian)') }}</option>
+              <option value="pli">{{ _('Pali') }}</option>
+              <option value="pus">{{ _('Pashto') }}</option>
+              <option value="fas">{{ _('Persian (Farsi)') }}</option>
+              <option value="peo">{{ _('Persian (Old, 600-400 BC)') }}</option>
+              <option value="phn">{{ _('Phoenician') }}</option>
+              <option value="pol">{{ _('Polish') }}</option>
+              <option value="por">{{ _('Portuguese') }}</option>
+              <option value="pra">{{ _('Prakrit') }}</option>
+              <option value="pro">{{ _('Provençal (Occitan, -1500)') }}</option>
+              <option value="pan">{{ _('Punjabi (Panjabi)') }}</option>
+              <option value="raj">{{ _('Rajasthani') }}</option>
+              <option value="ron">{{ _('Romanian') }}</option>
+              <option value="rom">{{ _('Romany') }}</option>
+              <option value="rus">{{ _('Russian') }}</option>
+              <option value="san">{{ _('Sanskrit') }}</option>
+              <option value="sco">{{ _('Scots') }}</option>
+              <option value="gla">{{ _('Scottish (Gaelic)') }}</option>
+              <option value="srp">{{ _('Serbian') }}</option>
+              <option value="scn">{{ _('Sicilian') }}</option>
+              <option value="snd">{{ _('Sindhi') }}</option>
+              <option value="sin">{{ _('Sinhalese (Sinhala)') }}</option>
+              <option value="slk">{{ _('Slovak') }}</option>
+              <option value="slv">{{ _('Slovenian') }}</option>
+              <option value="sog">{{ _('Sogdian') }}</option>
+              <option value="spa">{{ _('Spanish (Castilian)') }}</option>
+              <option value="sux">{{ _('Sumerian') }}</option>
+              <option value="swa">{{ _('Swahili') }}</option>
+              <option value="swe">{{ _('Swedish') }}</option>
+              <option value="gsw">{{ _('Swiss German (Alsatian)') }}</option>
+              <option value="syc">{{ _('Syriac (Classical)') }}</option>
+              <option value="syr">{{ _('Syriac (Northeastern, Neo-Aramaic)') }}</option>
+              <option value="tgl">{{ _('Tagalog') }}</option>
+              <option value="tgk">{{ _('Tajik') }}</option>
+              <option value="tam">{{ _('Tamil') }}</option>
+              <option value="tat">{{ _('Tatar') }}</option>
+              <option value="tel">{{ _('Telugu') }}</option>
+              <option value="tha">{{ _('Thai') }}</option>
+              <option value="bod">{{ _('Tibetan') }}</option>
+              <option value="tur">{{ _('Turkish (Modern)') }}</option>
+              <option value="ota">{{ _('Turkish (Ottoman, 1500-1928 )') }}</option>
+              <option value="tuk">{{ _('Turkmen') }}</option>
+              <option value="uga">{{ _('Ugaritic') }}</option>
+              <option value="ukr">{{ _('Ukainian') }}</option>
+              <option value="urd">{{ _('Urdu') }}</option>
+              <option value="uzb">{{ _('Uzbek') }}</option>
+              <option value="vie">{{ _('Vietnamese') }}</option>
+              <option value="wln">{{ _('Walloon') }}</option>
+              <option value="cym">{{ _('Welsh') }}</option>
+              <option value="yid">{{ _('Yiddish') }}</option>
+                </select>
+                </label>
+              <label for="other_l2" class="large-3 columns">
+                {{ _('Other*:') }}
+                <input type="text" id="other_l2" name="other_l2" size="3"/>
+              </label>
+            </div>
+            <div class="row">
+              <small id="l2-advanced-options-toggle" class="advanced-options-toggle" data-lnum="l2">{{ _('Click  to toggle advanced options...') }}</small>
+              <div id="advanced-options-l2" class="advanced-options" style="display: none;" data-lnum="l2"></div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="row" style="font-size: smaller;"><p class="hint">{{ _('*Please use ISO 639-2 or ISO 639-3 three-letter codes for any other languages') }}</p></div>
+        
+      </form> 
+      <form name="submit-form" action="" onsubmit="EnterSentence(event); return false;">
+        <div><button type="submit" style="float: right; width:100px;">{{ _('Align') }}</button></div>
+      </form>
+    </div>
+  </body>
+</html>
