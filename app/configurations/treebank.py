@@ -1,4 +1,6 @@
-{
+# -*- coding: utf-8 -*-
+
+treebank = {
     "endpoint.create" : "http://sosol.perseids.org/sosol/dmm_api/create/item/TreebankCite/DOC_REPLACE",
     "endpoint.create.linked_urn" : "http://sosol.perseids.org/sosol/cite_publications/create_from_linked_urn/Treebank/COLLECTION_REPLACE?init_value[]=URL_REPLACE",
 

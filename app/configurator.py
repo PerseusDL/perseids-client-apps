@@ -1,10 +1,15 @@
-import json
+from app.configurations.treebank import treebank
+from app.configurations.session import session
+from app.configurations.cts import cts
+from app.configurations.language import language
 
+
+# Instead of json, we are going the py road so we can comment configurations and lessen the load time as well...
 config = {}
-config["treebank"] = json.load(open("./app/configurations/treebank.json", "r"))
-config["session"] = json.load(open("./app/configurations/session.json", "r"))
-config["cts"] = json.load(open("./app/configurations/cts.json", "r"))
-config["language"] = json.load(open("./app/configurations/language.json", "r"))
+config["treebank"] = treebank
+config["session"] = session
+config["cts"] = cts
+config["language"] = language
 
 
 def get(key):
