@@ -11,6 +11,11 @@
 - Chmod run.py : `chmod a+x run.py`
 - Run `./run.py` and look at [http://localhost:5000/treebank](http://localhost:5000/treebank)
 
+
+# Deployment 
+
+- See [doc/deployment.md](doc/deployment.md)
+
 # i18n
 Here is a few commands you might need. The translations are located in `app/translations` and follow `.po` standards. Feel free to use apps such as [PoEdit](http://poedit.net/) to enhance, add corections.
 
