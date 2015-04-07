@@ -3,11 +3,14 @@ from flask import Blueprint,  abort, request, make_response, render_template, js
 import requests
 import requests_cache
 from lxml import etree
+import re
 
 ahab = Blueprint('capitains_ahab', __name__, template_folder='templates')
 configuration = json.load(open("Ahab/configurations/cts.json"))
 if configuration["cache"]:
     requests_cache.install_cache("capitains-ahab", backend="sqlite", expire_after=configuration["cache.time"])
+
+space_normalizer = re.compile(r'\s{2,}')
 
 
 def argsToInt(arg):
@@ -135,6 +138,9 @@ if "ahab.search" in configuration:
     def search():
         params = request.args.to_dict().copy()
         params.update({"request": "Search"})
+        params.pop("start", None)
+        params.pop("limit", None)
+
         response = requesting(
             configuration["ahab.endpoint"],
             params=params
@@ -154,11 +160,20 @@ if "ahab.search" in configuration:
             for result in limitedResults:
                 jsonResults.append({
                     "urn": result.find("ahab:urn", {"ahab": "http://github.com/capitains/ahab"}).text,
-                    "version": result.find("ahab:passageUrn", {"ahab": "http://github.com/capitains/ahab"}).text,
+                    "passage": result.find("ahab:passageUrn", {"ahab": "http://github.com/capitains/ahab"}).text,
                     "text": {
-                        "previous": "".join([x for x in result.find("ahab:text//span[@class='previous']", {"ahab": "http://github.com/capitains/ahab"}).itertext()]),
-                        "hi": "".join([x for x in result.find("ahab:text//span[@class='hi']", {"ahab": "http://github.com/capitains/ahab"}).itertext()]),
-                        "after": "".join([x for x in result.find("ahab:text//span[@class='following']", {"ahab": "http://github.com/capitains/ahab"}).itertext()])
+                        "previous": space_normalizer.sub(
+                            "",
+                            "".join([x for x in result.find("ahab:text//span[@class='previous']", {"ahab": "http://github.com/capitains/ahab"}).itertext()])
+                        ),
+                        "hi": space_normalizer.sub(
+                            "",
+                            "".join([x for x in result.find("ahab:text//span[@class='hi']", {"ahab": "http://github.com/capitains/ahab"}).itertext()])
+                        ),
+                        "after": space_normalizer.sub(
+                            "",
+                            "".join([x for x in result.find("ahab:text//span[@class='following']", {"ahab": "http://github.com/capitains/ahab"}).itertext()])
+                        )
                     }
                 })
 

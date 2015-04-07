@@ -7,7 +7,7 @@
     <reply>
         <results offset="{{start}}" limit="{{limit}}" count="{{count}}">
             {% for result in results %}
-                <result version="{{result.version}}" urn="{{result.urn}}">
+                <result passage="{{result.version}}" urn="{{result.urn}}">
                     <text>{{result.text|safe}}</text>
                 </result>
             {% endfor %}
