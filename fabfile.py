@@ -1,15 +1,16 @@
 from fabric.api import *
+from fabconf import user, hosts
 import re
 
 # the user to use for the remote commands
-env.user = 'appuser'
+env.user = user
 # the servers where the commands are executed
-env.hosts = ['server2.example.com']
+env.hosts = hosts
 
 
 def check():
     version = re.compile("^Version:(\s\d\.\d.*)$", re.M)
-    capture = str(run("dpkg -s libapache2-mod-wsgi", capture=True))
+    capture = str(run("dpkg -s libapache2-mod-wsgi"))
     regexp = version.search(capture)
     try:
         if regexp.group(1):

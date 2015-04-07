@@ -32,4 +32,11 @@ In your `/etc/apache2/sites-enabled` folder, create a new file `alpheios-app.con
 ### Local machine
 
 Make sure you have fabfile installed (On ubuntu : `sudo apt-get install fabric`) !
-Then, at the root of this repository
+Then, at the root of this repository, create a file fabconf.py which contains the following informations :
+
+```python
+# the user to use for the remote commands
+user = 'ponteineptique'
+# the servers where the commands are executed
+hosts = ['192.168.0.100']
+```
