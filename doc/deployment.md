@@ -36,7 +36,26 @@ Then, at the root of this repository, create a file fabconf.py which contains th
 
 ```python
 # the user to use for the remote commands
-user = 'ponteineptique'
+user = 'thibault'
 # the servers where the commands are executed
-hosts = ['192.168.0.100']
+hosts = ['127.0.0.1']
+# Path where we should install
+path = "/home/thibault/alpheios"
+
+# Available hosts for stage and prod
+available_hosts = {
+    "prod": {
+        "user": "thibault",
+        "host": ["192.168.0.1"],
+        "remote_path": "/home/thibault/alpheios",
+        "remote_cache_path": "/home/thibault/.alpheios-prod"
+    },
+    "stage": {
+        "user": "thibault",
+        "host": ["192.168.0.1"],
+        "remote_cache_path": "/home/thibault/alpheios",
+        "remote_cache_path": "/home/thibault/.alpheios-stage"
+    }
+}
+
 ```
