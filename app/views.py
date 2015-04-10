@@ -33,18 +33,3 @@ def alignment():
        session=configurator.get("session"),
        cts=configurator.get("cts")
      )
-
-
-@app.route("/joth/books")
-def books():
-    return jsonify({
-        "books": [
-          {
-              "id": "urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1",
-              "title": "Dictionary of Greek and Roman Geography",
-              "uri": "http://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1999.04.0104",
-              "author": "W-Smith"
-          }
-        ]
-      }
-      )

@@ -1,0 +1,15 @@
+<CTS:GetValidReff xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:CTS="http://chs.harvard.edu/xmlns/cts">
+    <CTS:request elapsed-time="3568">
+        <CTS:requestName>GetValidReff</CTS:requestName>
+        <CTS:requestUrn>{{urn}}</CTS:requestUrn>
+        <CTS:psg/>
+        <CTS:workurn/>
+    </CTS:request>
+    <CTS:reply>
+        <CTS:reff level="2">
+            {% for result in results %}
+                <CTS:urn>{{result}}</CTS:urn>
+            {% endfor %}
+        </CTS:reff>
+    </CTS:reply>
+</CTS:GetValidReff>
