@@ -1,0 +1,5 @@
+modules = {
+    "load" : [
+        "capitains-ahab"
+    ]
+}
