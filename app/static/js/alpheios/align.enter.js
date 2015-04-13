@@ -29,8 +29,14 @@ var transform_done = { 'l1' : false, 'l2':false };
 $(document).ready(function() {
 
     // try to load text from the supplied uri
-    $("input[name='l1uri']").change(function() { load_text('l1'); });
-    $("input[name='l2uri']").change(function() { load_text('l2'); });
+    $("input[name='l1uri']").change(function() { load_text('l1',$(this).val()) });
+    $("input[name='l2uri']").change(function() { load_text('l2',$(this).val()) });
+    $(".own_uri_trigger").on("click", function(event) {
+        event.preventDefault();
+        var lnum = $(this).attr("data-lnum");
+        var textURI = $("#own_uri_" + lnum).val();
+        load_text(lnum,textURI);
+    });
 
     // get parameters from call
     var callParams = location.search.substr(1).split("&");
@@ -166,8 +172,10 @@ $(document).ready(function() {
 /**
  * Handler for the text_uri input to try to load the text
  */
-function load_text(lnum) {
-    var uri = $("input[name='" + lnum + "uri']").val();
+function load_text(lnum,uri) {
+    if (! uri)  {
+      uri = $("input[name='" + lnum + "uri']").val();
+    }
     if (! uri.match(/^http/)) {
        /** allow non-url identifiers to just pass through **/
         return;

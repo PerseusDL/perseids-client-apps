@@ -135,3 +135,21 @@ button[disabled] {
     font-style: italic;
     font-size: smaller;
 }
+
+.ownuri {
+    clear: both;
+}
+
+.button:hover {
+    border-style: outset;
+    border-color: #6a9fb5;
+    background-color:#90a959;
+    color: black;
+}
+
+.alt-version {
+  float: right;
+  font-size: smaller;
+  padding-right: 1em;
+}
+
