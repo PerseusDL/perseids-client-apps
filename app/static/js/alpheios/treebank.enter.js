@@ -104,6 +104,9 @@ $(document).ready(function() {
             "field-label" : ["columns", "large-6", "small-6"],
             "field-input-container" : ["columns", "large-6", "small-6"]
         },
+        "defaults": {
+          "splitting": $("meta[name='isthematic']").length == 0
+        },
         "names" : {
             "xml" : "xml_for_llt"
         }

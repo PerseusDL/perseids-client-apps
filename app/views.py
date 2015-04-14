@@ -24,6 +24,15 @@ def treebank():
        cts=configurator.get("cts")
      )
 
+@app.route('/thematic')
+def thematic():
+    return render_template(
+       'treebank/theme.html',
+       treebank=configurator.get("treebank"),
+       session=configurator.get("session"),
+       cts=configurator.get("cts")
+     )
+
 @app.route('/alignment')
 def alignment():
     return render_template(
