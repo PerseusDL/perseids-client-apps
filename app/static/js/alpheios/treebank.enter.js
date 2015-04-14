@@ -209,8 +209,13 @@ function find_collection(a_lang) {
     'ara' : 'urn:cite:perseus:aratb',
     'misc' : 'urn:cite:perseus:misctb'
   };
-  // any other languages fall into misc collection for now
-  return collections[a_lang];
+  // use form override if any
+  var form_override = $("input[name='collection']");
+  if (form_override.length > 0 && form_override.val()) {
+    return form_override.val();
+  } else {
+    return collections[a_lang];
+  }
 }
 
 /**

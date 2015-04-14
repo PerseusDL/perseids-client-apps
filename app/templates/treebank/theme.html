@@ -58,6 +58,7 @@
         </header>
         <div>
             <form name="input-form" action="{{ treebank('editor.url') }}" onsubmit="return EnterSentence(event);" method="GET">
+                <input type="hidden" name="collection" value="urn:cite:perseus:vortextb"/>
                 <div class="row">
                     <fieldset class="large-6 columns">
                         <legend for="inputtext">{{ _('Input text:') }}</legend>
