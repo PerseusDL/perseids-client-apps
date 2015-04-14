@@ -385,22 +385,7 @@ putContents: function(a_xml, a_url, a_doc, a_sentid)
         "success": function(data,httpmsg,xhr) {
           if (data == null || $("error",data).length > 0) {
             var msg = "ERROR!! CHANGES NOT SAVED!<br/>"; 
-            // prefer explicit error messags over general http ones
-            if (data != null && $("error",data).length > 0) {  
-                var links = [];
-                $("link",data).each(function(){
-                    links.push($(this).attr("href") || $(this).attr("xlink:href"));
-                });
-                msg = msg + $(data).text();
-                for (var i=0; i<links.length; i++) {
-                    var regex = new RegExp(links[i].replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"));
-                    msg = msg.replace(regex,'<a href="' + links[i] + '">' + links[i] + '</a>')
-                }
-            } else if (httpmsg) {
-                msg = msg + httpmsg;
-            } else {
-                msg = msg + "Error saving sentence " + a_sentid + " in " + a_doc;
-            }
+            msg = msg + httpmsg;
             $("#alpheios-put-notice").addClass("error").html(msg);
             $("body").trigger("alpheios:put-failed",[msg]);
           } else {
@@ -410,8 +395,20 @@ putContents: function(a_xml, a_url, a_doc, a_sentid)
         },
         error: function(xhr,msg,error) {
             msg = "ERROR!! CHANGES NOT SAVED!<br/>" + msg;
+            // prefer explicit error messags over general http ones
+            if ($("error",xhr.responseXML.documentElement)) {  
+                var links = [];
+                $("link",xhr.responseXML.documentElement).each(function(){
+                    links.push($(this).attr("href") || $(this).attr("xlink:href"));
+                });
+                msg = msg + $(xhr.responseXML.documentElement).text();
+                for (var i=0; i<links.length; i++) {
+                    var regex = new RegExp(links[i].replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"));
+                    msg = msg.replace(regex,'<a href="' + links[i] + '">' + links[i] + '</a>')
+                }
+            }
             $("body").trigger("alpheios:put-failed",[msg]);
-        }
+       }
     });
 },
 

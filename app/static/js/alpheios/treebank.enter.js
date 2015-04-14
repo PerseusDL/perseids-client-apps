@@ -159,6 +159,10 @@ $(document).ready(function() {
         submit_form(data);
     });
 
+    $("body").on("alpheios:put-failed",function(event,data) {
+        $("#alpheios-put-notice").addClass("error").html(data);
+    });
+
     $("#advanced-options").on("cts-service:llt.tokenizer:done", function() {
         $("#advanced-options").trigger("llt-transform");
     });
