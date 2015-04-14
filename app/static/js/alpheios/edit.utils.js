@@ -333,43 +333,7 @@ unsavedChanges: function()
 },
 
 /**
- * Get contents of sentence from database
- * @param {String} a_url URL to get sentence from
- * @param {Object} a_params array of parameters
- * @returns sentence
- * @type {Document}
- */
-getContents: function(a_url, a_params)
-{
-    // get treebank sentence
-    var req = new XMLHttpRequest();
-    var builtUrl = a_url.replace('DOC_REPLACE',a_params['doc']);
-    builtUrl = builtUrl.replace('S_REPLACE',(a_params['id'] ? a_params['id'] : a_params['s']));
-    builtUrl = builtUrl.replace('APP_REPLACE',a_params['app']);
-    req.open("GET", builtUrl, false);
-    
-    req.send(null);
-    var root = null;
-    if (req.status == 200) {
-        root = $(req.responseXML.documentElement);
-    }
-    if ((req.status != 200) || root == null || root.is("error"))
-    {
-        var msg = root.is("error") ? root.text() :
-                                     "Error getting sentence (" +
-                                       urlParams +
-                                       "): " +
-                                       (req.responseText ? req.responseText :
-                                                           req.statusText);
-        alert(msg);
-        throw(msg);
-    }
-
-    return req.responseXML;
-},
-
-/**
- * Put contents of sentence back to database
+ * Put contents to the specified url
  * @param {Element} a_xml sentence to put
  * @param {String} a_url URL to send sentence to
  * @param {String} a_doc document name
@@ -387,55 +351,68 @@ putContents: function(a_xml, a_url, a_doc, a_sentid)
     if (a_url == ('local')) {
         return AlphEdit.ExportContents(a_xml,a_url);
     }
-    // send synchronous request to save
-    var req = new XMLHttpRequest();
+    // send asynchronous request to save
+    // and trigger alpheios:put-succeeded event upon 
+    // success or alpheios:put-failed on failure
     var builtUrl = a_url.replace('DOC_REPLACE',a_doc);
     builtUrl = builtUrl.replace('S_REPLACE',a_sentid);
-    req.open("POST", builtUrl, false);
     // check to see if we need to send a session token
     var sessionToken = $("meta[name='alpheios-sessionTokenName']").attr("content");
     var sessionHeader = $("meta[name='alpheios-sessionHeaderName']").attr("content");
-    // Only send the token to same-origin, relative URLs only.
-    if (sessionToken && sessionHeader && AlphEdit.sameOrigin(builtUrl)) {
+
+    var xhrFields = {};
+    var headers = {"Content-Type":"application/xml"};
+    var data;
+    if (sessionToken && sessionHeader) {
+        xhrFields.withCredentials = true;
         var csrftoken = AlphEdit.getCookie(sessionToken);
         // Only if we have the cookie
         if (csrftoken) {
-            req.setRequestHeader(sessionHeader, csrftoken);
+            headers[sessionHeader] = csrftoken;
         }
     }
-    req.setRequestHeader("Content-Type", "application/xml");
     if (typeof a_xml != 'string') {
-        req.send(AlphEdit.serializeToString(a_xml));    
+        data = AlphEdit.serializeToString(a_xml);
     } else {
-        req.send(a_xml);
+        data = a_xml;
     }
-    if ((req.status != 200) || req.responseXML == null || $(req.responseXML.documentElement).is("error"))
-    {
-        var httpmsg = req.responseText ? req.responseText : req.statusText;
-        var msg = "ERROR!! CHANGES NOT SAVED!<br/>"
-        // prefer explicit error messags over general http ones
-        if (req.responseXML != null &&  $(req.responseXML.documentElement).is("error"))
-        {  
-            var links = [];
-            $("link",req.responseXML.documentElement).each(function(){
-                links.push($(this).attr("href") || $(this).attr("xlink:href"));
-            });
-            msg = msg + $(req.responseXML.documentElement).text();
-            for (var i=0; i<links.length; i++) {
-                var regex = new RegExp(links[i].replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"));
-                msg = msg.replace(regex,'<a href="' + links[i] + '">' + links[i] + '</a>')
+    $.ajax({
+        "method": "POST",
+        "url": builtUrl,
+        "data": data,
+        "xhrFields": xhrFields,
+        "headers": headers,
+        "success": function(data,httpmsg,xhr) {
+          if (data == null || $("error",data).length > 0) {
+            var msg = "ERROR!! CHANGES NOT SAVED!<br/>"; 
+            // prefer explicit error messags over general http ones
+            if (data != null && $("error",data).length > 0) {  
+                var links = [];
+                $("link",data).each(function(){
+                    links.push($(this).attr("href") || $(this).attr("xlink:href"));
+                });
+                msg = msg + $(data).text();
+                for (var i=0; i<links.length; i++) {
+                    var regex = new RegExp(links[i].replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"));
+                    msg = msg.replace(regex,'<a href="' + links[i] + '">' + links[i] + '</a>')
+                }
+            } else if (httpmsg) {
+                msg = msg + httpmsg;
+            } else {
+                msg = msg + "Error saving sentence " + a_sentid + " in " + a_doc;
             }
-        } else if (httpmsg) {
-            msg = msg + httpmsg;
-        } else {
-            msg = msg + "Error saving sentence " + a_sentid + " in " + a_doc;
+            $("#alpheios-put-notice").addClass("error").html(msg);
+            $("body").trigger("alpheios:put-failed",[msg]);
+          } else {
+            $("#alpheios-put-notice").removeClass("error").html("Changes Saved!");
+            $("body").trigger("alpheios:put-succeeded",[data]);
+          }
+        },
+        error: function(xhr,msg,error) {
+            msg = "ERROR!! CHANGES NOT SAVED!<br/>" + msg;
+            $("body").trigger("alpheios:put-failed",[msg]);
         }
-        $("#alpheios-put-notice").addClass("error").html(msg);
-        throw(msg);
-    } else {
-        $("#alpheios-put-notice").removeClass("error").html("Changes Saved!");
-    }
-    return req.responseXML;
+    });
 },
 
 
@@ -567,6 +544,29 @@ serializeToString: function(a_xml) {
   var str = new XMLSerializer().serializeToString(a_xml);    
   str = str.replace(/ xmlns:xml=".*?"/g,'');
   return str;
-}
+},
+
+/**
+ * ping the server to refresh the session cookie
+ * @param a_url the url to ping
+ * @param a_data the data that will be sent eventually
+ * triggers alpheios:ping-succeeded upon success
+ * triggers alpheios:ping-failed upon failure
+ */
+pingServer: function(a_url,a_data) {
+    $.ajax({
+      "method": "GET",
+      "url": a_url,
+      "cache": false,
+      "xhrFields": {"withCredentials": true},
+      "success": function() {
+         $("body").trigger("alpheios:ping-succeeded",[a_data]);
+      },
+      "error": function() {
+         $("body").trigger("alpheios:ping-failed");
+      }
+    });
+} 
+
 
 }
