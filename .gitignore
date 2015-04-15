@@ -28,10 +28,8 @@ pip-log.txt
 docs/tmp
 docs/_build
 cover
-<<<<<<< HEAD
 fabconf.py
-=======
-
 # Cache
 *.sqlite
->>>>>>> ahab
+
+JOTH/pleiades

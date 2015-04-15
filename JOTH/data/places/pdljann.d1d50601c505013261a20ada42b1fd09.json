@@ -1,0 +1,36 @@
+{
+  "@context": "http://www.w3.org/ns/oa-context-20130208.json",
+  "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.d1d50601c505013261a20ada42b1fd09",
+  "annotatedBy": {
+    "@type": "foaf:Person",
+    "@id": "http://data.perseus.org/sosol/users/Anna%20Nelson"
+    },
+  "@type": "oa:Annotation",
+  "dcterms:source": "https://hypothes.is/api/annotations/eszq4XY_Qz6w2QEegcWtPg",
+  "dcterms:title": "http://pleiades.stoa.org/places/540689 is linked to Boeotia in urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1",
+  "annotatedAt": "2015-04-07T21:52:35.284434+00:00",
+  "motivatedBy": "oa:linking",
+  "serializedBy": {
+    "@id": "https://hypothes.is",
+    "@type": "prov:SoftwareAgent"
+    },
+  "hasTarget": {
+    "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.d1d50601c505013261a20ada42b1fd09#target-1",
+    "@type": "oa:SpecificResource",
+    "hasSource": {
+      "@id": "urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1"
+            },
+    "hasSelector": {
+      "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.d1d50601c505013261a20ada42b1fd09#target-1-sel-1",
+      "@type": "oa:TextQuoteSelector",
+      "exact": "Boeotia",
+      "prefix": "sembled in the port of Aulis in",
+      "suffix": ". Agamemnon had previously consu"
+            }
+    },
+  "hasBody": [
+    {
+      "@id": "http://pleiades.stoa.org/places/540689"
+            }
+  ]
+}

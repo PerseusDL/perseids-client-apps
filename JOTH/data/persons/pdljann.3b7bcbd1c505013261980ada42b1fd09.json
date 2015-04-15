@@ -1,0 +1,53 @@
+{
+  "@context": "http://www.w3.org/ns/oa-context-20130208.json",
+  "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.3b7bcbd1c505013261980ada42b1fd09",
+  "annotatedBy": {
+    "@type": "foaf:Person",
+    "@id": "http://data.perseus.org/sosol/users/Anna%20Nelson"
+    },
+  "@type": "oa:Annotation",
+  "dcterms:source": "https://hypothes.is/api/annotations/Kyf6V1qhQLyJL6QzQJmyDA",
+  "dcterms:title": "http://data.perseus.org/people/smith:Achilles-1#this identifies Achilles as perseusrdf:CompanionOf in urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1",
+  "annotatedAt": "2015-02-23T05:55:00.530185+00:00",
+  "motivatedBy": "oa:identifying",
+  "serializedBy": {
+    "@id": "https://hypothes.is",
+    "@type": "prov:SoftwareAgent"
+    },
+  "hasTarget": {
+    "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.3b7bcbd1c505013261980ada42b1fd09#target-1",
+    "@type": "oa:SpecificResource",
+    "hasSource": {
+      "@id": "urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1"
+            },
+    "hasSelector": {
+      "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.3b7bcbd1c505013261980ada42b1fd09#target-1-sel-1",
+      "@type": "oa:TextQuoteSelector",
+      "exact": "Achilles",
+      "prefix": "mnon involved in a quarrel with",
+      "suffix": "respecting the possession of Br"
+            }
+    },
+  "hasBody": {
+    "@context": {
+      "snap": "http://onto.snapdrgn.net/snap#",
+      "lawd": "http://lawd.info/ontology/",
+      "perseusrdf": "http://data.perseus.org/rdfvocab/addons/"
+            },
+    "@graph": [
+      {
+        "@id": "http://data.perseus.org/people/smith:agamemnon-1#this",
+        "snap:has-bond": {
+          "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.3b7bcbd1c505013261980ada42b1fd09#bond-1"
+                                        }
+                        },
+      {
+        "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.3b7bcbd1c505013261980ada42b1fd09#bond-1",
+        "@type": "perseusrdf:CompanionOf",
+        "snap:bond-with": {
+          "@id": "http://data.perseus.org/people/smith:Achilles-1#this"
+                                        }
+                        }
+    ]
+    }
+}

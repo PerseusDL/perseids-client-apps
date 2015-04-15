@@ -1,0 +1,53 @@
+{
+  "@context": "http://www.w3.org/ns/oa-context-20130208.json",
+  "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.1777dde1c506013261aa0ada42b1fd09",
+  "annotatedBy": {
+    "@type": "foaf:Person",
+    "@id": "http://data.perseus.org/sosol/users/Anna%20Nelson"
+    },
+  "@type": "oa:Annotation",
+  "dcterms:source": "https://hypothes.is/api/annotations/B-11Pl3kTrKBV33lJ1AwoA",
+  "dcterms:title": "http://data.perseus.org/people/smith:Astyocheia-1#this identifies Astyocheia as snap:SisterOf in urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1",
+  "annotatedAt": "2015-02-23T04:03:01.508650+00:00",
+  "motivatedBy": "oa:identifying",
+  "serializedBy": {
+    "@id": "https://hypothes.is",
+    "@type": "prov:SoftwareAgent"
+    },
+  "hasTarget": {
+    "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.1777dde1c506013261aa0ada42b1fd09#target-1",
+    "@type": "oa:SpecificResource",
+    "hasSource": {
+      "@id": "urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1"
+            },
+    "hasSelector": {
+      "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.1777dde1c506013261aa0ada42b1fd09#target-1-sel-1",
+      "@type": "oa:TextQuoteSelector",
+      "exact": "Astyocheia",
+      "prefix": "called Anaxibia, Cyndragora, or",
+      "suffix": ". (Schol. Eurip. Or. 5; Hyg. Fab"
+            }
+    },
+  "hasBody": {
+    "@context": {
+      "snap": "http://onto.snapdrgn.net/snap#",
+      "lawd": "http://lawd.info/ontology/",
+      "perseusrdf": "http://data.perseus.org/rdfvocab/addons/"
+            },
+    "@graph": [
+      {
+        "@id": "http://data.perseus.org/people/smith:agamemnon-1#this",
+        "snap:has-bond": {
+          "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.1777dde1c506013261aa0ada42b1fd09#bond-1"
+                                        }
+                        },
+      {
+        "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.1777dde1c506013261aa0ada42b1fd09#bond-1",
+        "@type": "snap:SisterOf",
+        "snap:bond-with": {
+          "@id": "http://data.perseus.org/people/smith:Astyocheia-1#this"
+                                        }
+                        }
+    ]
+    }
+}

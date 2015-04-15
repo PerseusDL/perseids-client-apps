@@ -1,0 +1,53 @@
+{
+  "@context": "http://www.w3.org/ns/oa-context-20130208.json",
+  "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.310e9381c505013261970ada42b1fd09",
+  "annotatedBy": {
+    "@type": "foaf:Person",
+    "@id": "http://data.perseus.org/sosol/users/Anna%20Nelson"
+    },
+  "@type": "oa:Annotation",
+  "dcterms:source": "https://hypothes.is/api/annotations/ce08bZvHSWOy2rf2Raafhg",
+  "dcterms:title": "http://data.perseus.org/people/smith:Iphigeneia-1#this identifies Iphigeneia as snap:SisterOf in urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1",
+  "annotatedAt": "2015-02-23T05:55:20.694252+00:00",
+  "motivatedBy": "oa:identifying",
+  "serializedBy": {
+    "@id": "https://hypothes.is",
+    "@type": "prov:SoftwareAgent"
+    },
+  "hasTarget": {
+    "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.310e9381c505013261970ada42b1fd09#target-1",
+    "@type": "oa:SpecificResource",
+    "hasSource": {
+      "@id": "urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1:A.agamemnon_1"
+            },
+    "hasSelector": {
+      "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.310e9381c505013261970ada42b1fd09#target-1-sel-1",
+      "@type": "oa:TextQuoteSelector",
+      "exact": "Iphigeneia",
+      "prefix": "ess could not be soothed unless",
+      "suffix": ", the daughter of Agamemnon, wer"
+            }
+    },
+  "hasBody": {
+    "@context": {
+      "snap": "http://onto.snapdrgn.net/snap#",
+      "lawd": "http://lawd.info/ontology/",
+      "perseusrdf": "http://data.perseus.org/rdfvocab/addons/"
+            },
+    "@graph": [
+      {
+        "@id": "http://data.perseus.org/people/smith:agamemnon-1#this",
+        "snap:has-bond": {
+          "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.310e9381c505013261970ada42b1fd09#bond-1"
+                                        }
+                        },
+      {
+        "@id": "http://data.perseus.org/collections/urn:cite:perseus:pdljann.310e9381c505013261970ada42b1fd09#bond-1",
+        "@type": "snap:SisterOf",
+        "snap:bond-with": {
+          "@id": "http://data.perseus.org/people/smith:Iphigeneia-1#this"
+                                        }
+                        }
+    ]
+    }
+}
