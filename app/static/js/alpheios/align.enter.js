@@ -114,9 +114,7 @@ $(document).ready(function() {
             "e_appuri" : "input[name='appuri']",
             "e_title" : "input[name='docname']",
             "e_collection" :  "input[name='collection']",
-            "e_includepunc" : function() {
-              return $("input#" + lnum + "includepunc").is(":checked");
-            }
+            "e_includepunc": function() { return true; }
         },
         "trigger" : "llt-transform",
         "callback" : function(data) {
