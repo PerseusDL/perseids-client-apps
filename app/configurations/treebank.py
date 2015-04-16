@@ -10,5 +10,6 @@ treebank = {
 
     "oa.xslt" : "/apps/static/xslt/wrap_treebank.xsl",
 
-    "editor.url" : "http://www.perseids.org/tools/arethusa/app/#/perseids"
+    "editor.url" : "http://www.perseids.org/tools/arethusa/app/#/perseids",
+    "workListUrl" : "http://sosol.perseids.org/exist/rest/db/xq/ctsworklist.xq?inv=annotsrc"
 }

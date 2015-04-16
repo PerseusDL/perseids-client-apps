@@ -104,6 +104,7 @@
             <div>
               <label for="l1uri">{{ _('Search for a text:') }}</label>
               <input placeholder="{{ _('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l1uri" name="l1uri" size="100" class="texturi" data-lnum="l1"></input>
+              <div id="l1worklist" class="worklist"><a target="_blank" href="{{alignment('workListUrl')}}">Available Works</a></div>
             </div>
             <div class="ownuri">
               <label for="own_uri_l1">{{ _('Or enter your own text URI:') }}</label>
@@ -134,6 +135,7 @@
           <div>
             <label for="l2uri">{{ _('Search for a text:') }}</label>
             <input placeholder="{{ _('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l2uri" name="l2uri" size="100" class="texturi" data-lnum="l2"></input>
+            <div id="l2worklist" class="worklist"><a target="_blank" href="{{alignment('workListUrl')}}">Available Works</a></div>
           </div>
           <div class="ownuri">
             <label for="own_uri_l2">{{ _('Or enter your own text URI:') }}</label>
