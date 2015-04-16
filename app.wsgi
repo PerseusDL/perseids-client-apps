@@ -15,7 +15,9 @@ sys.path.append(path)
 
 # Activate your virtual env
 activate_env = os.path.expanduser(path + "/flask/bin/activate_this.py")
-execfile(activate_env, dict(__file__=activate_env))
+with open(activate_env) as f:
+    code = compile(f.read(), activate_env, 'exec')
+    exec(code, dict(__file__=activate_env))
 
 # We run the app
 from app import app as application

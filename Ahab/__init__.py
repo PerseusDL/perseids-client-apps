@@ -5,10 +5,15 @@ import requests_cache
 from lxml import etree
 import re
 
-ahab = Blueprint('capitains_ahab', __name__, template_folder='templates')
-configuration = json.load(open("Ahab/configurations/cts.json"))
+ahab = Blueprint('ahab', __name__, template_folder='templates')
+configuration = json.load(ahab.open_resource("configurations/cts.json", "r"))
+
 if configuration["cache"]:
-    requests_cache.install_cache("capitains-ahab", backend="sqlite", expire_after=configuration["cache.time"])
+    requests_cache.install_cache(
+        ahab.root_path+"/capitains-ahab",
+        backend="sqlite",
+        expire_after=configuration["cache.time"]
+    )
 
 space_normalizer = re.compile(r'\s{2,}')
 

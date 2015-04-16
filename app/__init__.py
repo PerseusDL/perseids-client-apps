@@ -10,7 +10,7 @@ cors = CORS(app)
 babel = Babel(app)
 bower = Bower(app)
 load = configurator.get("modules")("load")
-cache.init_app(app)
+cache.init_app(app,config={'CACHE_TYPE': 'simple'})
 
 if "capitains-ahab" in load:
     from Ahab import ahab

@@ -1,9 +1,10 @@
 import json
 from flask import Blueprint, request, jsonify, render_template, make_response
 import glob
+import os
 
 joth = Blueprint('joth', __name__, template_folder='templates')
-dataFolder = "./JOTH/data/"
+dataFolder = "/data/"
 
 
 def getAnnotations(key):
@@ -11,11 +12,12 @@ def getAnnotations(key):
       Get Annotations for a specific kind of data.
         Create cache
     """
-    jsons = glob.glob(dataFolder + key + "/*.json")
-    cachePath = dataFolder + key + ".json"
-    try:
-        current = json.load(open(cachePath))
-    except:
+    jsons = glob.glob(joth.root_path + dataFolder + key + "/*.json")
+    cachePath = joth.root_path + dataFolder + key + ".json"
+    if os.path.isfile(cachePath):
+        with open(cachePath) as file_:
+            current = json.load(file_)
+    else:
         current = {
             key: []
         }
@@ -43,7 +45,6 @@ def bookCtrl():
     annots = [annot for annot in getAnnotations("places")["places"]]
     annots = annots + [annot for annot in getAnnotations("persons")["persons"]]
     annots = annots + [annot for annot in getAnnotations("occurences")["occurences"]]
-    print(annots[0])
 
     urns = [annot["hasTarget"]["hasSource"]["@id"] for annot in annots if annot["hasTarget"]["hasSource"]["@id"].startswith(urn)]
     urns = list(set(urns))
@@ -83,10 +84,12 @@ def pleiadesCtrl(place=None):
     places = {}
     for placeId in req:
         places[placeId] = {}
-        try:
-            with open("./JOTH/pleiades/{0}.geojson".format(placeId)) as f:
+        filename = "{0}/pleiades/{1}.geojson".format(joth.root_path, placeId)
+        print(filename)
+        if os.path.isfile(filename):
+            with open(filename, "r") as f:
                 places[placeId] = json.load(f)
-        except:
+        else:
             print("This does not exist")
     return jsonify({"places": places})
 
@@ -96,3 +99,10 @@ def personsCtrl():
     urn = request.args.get("urn") or "noURN"
     resources = getAnnotations("persons")
     return jsonify({"persons" : [person for person in resources["persons"] if person["hasTarget"]["hasSource"]["@id"].startswith(urn)]})
+
+
+@joth.route("/joth/occurrences", methods=["GET"])
+def occCtrl():
+    urn = request.args.get("urn") or "noURN"
+    resources = getAnnotations("occurences")
+    return jsonify({"occurrences" : [person for person in resources["occurences"] if person["hasTarget"]["hasSource"]["@id"].startswith(urn)]})

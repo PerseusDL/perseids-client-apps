@@ -1,5 +1,6 @@
 modules = {
     "load" : [
-        "capitains-ahab"
+        "capitains-ahab",
+        "joth"
     ]
 }
