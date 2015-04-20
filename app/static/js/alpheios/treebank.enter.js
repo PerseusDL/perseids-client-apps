@@ -104,6 +104,9 @@ $(document).ready(function() {
             "field-label" : ["columns", "large-6", "small-6"],
             "field-input-container" : ["columns", "large-6", "small-6"]
         },
+        "defaults": {
+          "splitting": $("meta[name='isthematic']").length == 0
+        },
         "names" : {
             "xml" : "xml_for_llt"
         }
@@ -131,7 +134,7 @@ $(document).ready(function() {
         "trigger" : "llt-transform",
         "callback" : function(data) {
             $("#inputtext").val(data);
-            return put_treebank(data);
+            return AlphEdit.pingServer($("meta[name='pingurl']").attr("content"),data);
         },
         "css" : {
             "field-container" : ["row"],
@@ -144,6 +147,22 @@ $(document).ready(function() {
     $("#advanced-options-toggle").click(function(){$("#advanced-options").toggle();});
 
     //Trigger queue
+    $("body").on("alpheios:ping-succeeded",function(event,data) {
+        put_treebank(data);
+    });
+
+    $("body").on("alpheios:ping-failed",function(event,data) {
+        alert("No session. Please login!");
+    });
+
+    $("body").on("alpheios:put-succeeded",function(event,data) {
+        submit_form(data);
+    });
+
+    $("body").on("alpheios:put-failed",function(event,data) {
+        $("#alpheios-put-notice").addClass("error").html(data);
+    });
+
     $("#advanced-options").on("cts-service:llt.tokenizer:done", function() {
         $("#advanced-options").trigger("llt-transform");
     });
@@ -190,8 +209,13 @@ function find_collection(a_lang) {
     'ara' : 'urn:cite:perseus:aratb',
     'misc' : 'urn:cite:perseus:misctb'
   };
-  // any other languages fall into misc collection for now
-  return collections[a_lang];
+  // use form override if any
+  var form_override = $("input[name='collection']");
+  if (form_override.length > 0 && form_override.val()) {
+    return form_override.val();
+  } else {
+    return collections[a_lang];
+  }
 }
 
 /**
@@ -266,15 +290,6 @@ function EnterSentence(a_event)
  *  @param  treebank  {string}  The treebank to be saved
  */
 function put_treebank(treebank) {
-    // a bit of a hack -- may need to ping the api get the cookie
-    // not actually needed at runtime when we come from there
-    // but was useful for testing
-    var pingUrl = $("meta[name='pingurl']").attr("content");
-    if (pingUrl) {
-        var req = new XMLHttpRequest();
-        req.open("GET", pingUrl, false);
-        req.send(null);
-    }
 
     // get the url for the post
     var url = $("meta[name='url']", document).attr("content");
@@ -295,7 +310,9 @@ function put_treebank(treebank) {
         alert(a_e);
         return false;
     }
+}
 
+function submit_form(data) {
     // save values from return in submit form
     var form = $("form[name='input-form']", document);
     var lang = $("input[name='lang']:checked").val();
@@ -307,11 +324,11 @@ function put_treebank(treebank) {
     // this is holdover from the old version of the code
     // in which the alpheios xquery code returned an element with
     // these parameters.
-    if ($(resp).attr("doc")) {
-        doc = $(resp).attr("doc");
-        s = $(resp).attr("s");
+    if ($(data).attr("doc")) {
+        doc = $(data).attr("doc");
+        s = $(data).attr("s");
     } else {
-        doc = $(resp).text();
+        doc = $(data).text();
     }
     // hack to work around form submission to hashbang urls
     var form_action = $("form[name='input-form']", document).attr("action"); 
@@ -390,9 +407,7 @@ function fileLoaded(data) {
         return false;
     }
     $("#file_upload").removeClass("loading");
-    if (put_treebank(annotation)) {
-        $("form[name='submit-form']", document).submit();
-    }
+    AlphEdit.pingServer($("meta[name='pingurl']").attr("content"),data);
 }
 
 /**
