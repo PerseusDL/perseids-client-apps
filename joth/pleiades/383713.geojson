@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Monte S. Martino",
+  "id": "383713",
+  "description": "The remains of a multi-period pre-Roman and Roman sanctuary.",
+  "bbox": [
+    10.8189765,
+    45.9166019,
+    10.896638,
+    45.925903
+  ],
+  "reprPoint": [
+    10.85780725,
+    45.92125245
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.8189765,
+          45.9166019
+        ]
+      },
+      "id": "osm-location-of-archaeological-area",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "OSM location of archaeological area",
+        "link": "http://pleiades.stoa.org/places/383713/osm-location-of-archaeological-area"
+      }
+    }
+  ]
+}

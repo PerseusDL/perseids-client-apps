@@ -1,0 +1,61 @@
+{
+  "type": "FeatureCollection",
+  "title": "Paxoi Inss.",
+  "id": "531048",
+  "description": "Paxoi Inss., the smallest group of Ionian islands.",
+  "bbox": [
+    20.0,
+    39.0,
+    20.5,
+    39.5
+  ],
+  "connectsWith": [
+    "1046"
+  ],
+  "reprPoint": [
+    20.25,
+    39.25
+  ],
+  "names": [
+    "Paxoi"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              20.0,
+              39.0
+            ],
+            [
+              20.0,
+              39.5
+            ],
+            [
+              20.5,
+              39.5
+            ],
+            [
+              20.5,
+              39.0
+            ],
+            [
+              20.0,
+              39.0
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/531048/batlas-location"
+      }
+    }
+  ]
+}

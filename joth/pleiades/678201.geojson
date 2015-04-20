@@ -1,0 +1,58 @@
+{
+  "type": "FeatureCollection",
+  "title": "Iotapata",
+  "id": "678201",
+  "description": "A Hellenistic village that later became a key site during the Great Jewish Revolt.",
+  "bbox": [
+    35.2775,
+    32.832222,
+    35.2775,
+    32.832222
+  ],
+  "reprPoint": [
+    35.2775,
+    32.832222
+  ],
+  "names": [
+    "Jotapata",
+    "Yodfat",
+    "Yodfat",
+    "Iotapata"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.286222,
+          32.83549
+        ]
+      },
+      "id": "darmc-location-12882",
+      "type": "Feature",
+      "properties": {
+        "description": "500K scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 12882",
+        "link": "http://pleiades.stoa.org/places/678201/darmc-location-12882"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.2775,
+          32.832222
+        ]
+      },
+      "id": "dare-location",
+      "type": "Feature",
+      "properties": {
+        "description": "Representative point location, site precision",
+        "location_precision": "precise",
+        "title": "DARE Location",
+        "link": "http://pleiades.stoa.org/places/678201/dare-location"
+      }
+    }
+  ]
+}

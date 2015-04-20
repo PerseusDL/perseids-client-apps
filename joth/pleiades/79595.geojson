@@ -1,0 +1,58 @@
+{
+  "type": "FeatureCollection",
+  "title": "Margidunum",
+  "id": "79595",
+  "description": "Margidunum was a large settlement along the Fosse Way that began as a Roman fort during the mid-first century AD and was abandoned ca. AD 70.",
+  "bbox": [
+    -0.959688,
+    52.968435,
+    -0.959688,
+    52.968435
+  ],
+  "connectsWith": [
+    "656280677"
+  ],
+  "reprPoint": [
+    -0.959688,
+    52.968435
+  ],
+  "names": [
+    "Margidunum"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.968229,
+          52.979546
+        ]
+      },
+      "id": "darmc-location-20472",
+      "type": "Feature",
+      "properties": {
+        "description": "1M scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 20472",
+        "link": "http://pleiades.stoa.org/places/79595/darmc-location-20472"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.959688,
+          52.968435
+        ]
+      },
+      "id": "dare-location",
+      "type": "Feature",
+      "properties": {
+        "description": "Representative point location, site precision",
+        "location_precision": "precise",
+        "title": "DARE Location",
+        "link": "http://pleiades.stoa.org/places/79595/dare-location"
+      }
+    }
+  ]
+}

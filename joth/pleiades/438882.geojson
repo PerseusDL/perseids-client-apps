@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "title": "Vicus Palatius",
+  "id": "438882",
+  "description": "Vicus Palatius is a district connected with Cales in Campania.",
+  "reprPoint": [
+    12.7789894,
+    41.8822951
+  ],
+  "names": [
+    "Vicus Palatius"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/438882/batlas-location"
+      }
+    }
+  ]
+}

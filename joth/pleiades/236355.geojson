@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Aunios (island)",
+  "id": "236355",
+  "description": "An ancient place, cited: BAtlas 24 C2 Aunios Ins.",
+  "bbox": [
+    -8.9369023,
+    42.3805798,
+    -8.9369023,
+    42.3805798
+  ],
+  "reprPoint": [
+    -8.9369023,
+    42.3805798
+  ],
+  "names": [
+    "Aunios"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.9369023,
+          42.3805798
+        ]
+      },
+      "id": "location-of-Aunios-Ins",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Aunios Ins.",
+        "link": "http://pleiades.stoa.org/places/236355/location-of-Aunios-Ins"
+      }
+    }
+  ]
+}

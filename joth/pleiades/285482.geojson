@@ -1,0 +1,58 @@
+{
+  "type": "FeatureCollection",
+  "title": "Mauretania Caesariensis",
+  "id": "285482",
+  "description": "Mauretania Caesariensis was the easternmost of the North African Roman provinces, with its capital located at Caesarea (now Cherchell).",
+  "bbox": [
+    2.22619,
+    36.304782,
+    5.058096,
+    36.741492
+  ],
+  "reprPoint": [
+    3.642143,
+    36.523137
+  ],
+  "names": [
+    "Mauretania Caesariensis"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -3.0,
+              34.0
+            ],
+            [
+              -3.0,
+              35.0
+            ],
+            [
+              -2.0,
+              35.0
+            ],
+            [
+              -2.0,
+              34.0
+            ],
+            [
+              -3.0,
+              34.0
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/285482/batlas-location"
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "title": "Alebaece Reiorum Apollinarium/Apollinaris Reiorum/Reii",
+  "id": "157805",
+  "description": "Alebaece Reiorum Apollinarium/Apollinaris Reiorum/Reii was the capital of the tribe of the Reii.",
+  "bbox": [
+    6.090718,
+    43.818614,
+    6.090718,
+    43.818614
+  ],
+  "connectsWith": [
+    "157912"
+  ],
+  "reprPoint": [
+    6.090718,
+    43.818614
+  ],
+  "names": [
+    "Riez",
+    "Alebaece Reiorum Apollinarium",
+    "Apollinaris Reiorum",
+    "Reii"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.090718,
+          43.818614
+        ]
+      },
+      "id": "darmc-location-6092",
+      "type": "Feature",
+      "properties": {
+        "description": "500K scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 6092",
+        "link": "http://pleiades.stoa.org/places/157805/darmc-location-6092"
+      }
+    }
+  ]
+}

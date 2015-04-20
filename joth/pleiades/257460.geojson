@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Puente romano de Alconetar",
+  "id": "257460",
+  "description": "Relocated remains of a 300m-long Roman stone bridge originally located southwest of modern Tourmogon at Alconétar, over R. Tajo in Spain.",
+  "bbox": [
+    -6.437398,
+    39.754237,
+    -6.437398,
+    39.754237
+  ],
+  "reprPoint": [
+    -6.437398,
+    39.754237
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.437398,
+          39.754237
+        ]
+      },
+      "id": "location-of-alconetar-bridge",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "precise",
+        "title": "Location of Alconétar bridge (relocated)",
+        "link": "http://pleiades.stoa.org/places/257460/location-of-alconetar-bridge"
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "type": "FeatureCollection",
+  "title": "Korydela Ins.",
+  "id": "638938",
+  "description": "An ancient place, cited: BAtlas 65 D5 Korydela Ins.",
+  "bbox": [
+    30.40069,
+    36.196937,
+    30.40069,
+    36.196937
+  ],
+  "connectsWith": [
+    "638799"
+  ],
+  "reprPoint": [
+    30.40069,
+    36.196937
+  ],
+  "names": [
+    "Korydela"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              30.0,
+              36.0
+            ],
+            [
+              30.0,
+              36.5
+            ],
+            [
+              30.5,
+              36.5
+            ],
+            [
+              30.5,
+              36.0
+            ],
+            [
+              30.0,
+              36.0
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/638938/batlas-location"
+      }
+    }
+  ]
+}

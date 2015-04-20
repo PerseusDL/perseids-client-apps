@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "title": "Numicus",
+  "id": "422988",
+  "description": "The Numicus flumen was a river of Latium connected with the legendary history of Aeneas. Modern Fosso di Pratica in Italy.",
+  "bbox": [
+    12.4248504,
+    41.6504112,
+    12.4248504,
+    41.6504112
+  ],
+  "connectsWith": [
+    "1356"
+  ],
+  "reprPoint": [
+    12.4248504,
+    41.6504112
+  ],
+  "names": [
+    "Numicus"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.4248504,
+          41.6504112
+        ]
+      },
+      "id": "location-of-fosso-di-pratica",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Fosso di Pratica",
+        "link": "http://pleiades.stoa.org/places/422988/location-of-fosso-di-pratica"
+      }
+    }
+  ]
+}

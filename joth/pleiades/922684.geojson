@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Naqsh-i Rajab",
+  "id": "922684",
+  "description": "An archaeological site with rock-cut reliefs made under the Sasanian kings  Ardašir I (224-241) and Shapur I (241-272).",
+  "bbox": [
+    52.887043,
+    29.966486,
+    52.887043,
+    29.966486
+  ],
+  "reprPoint": [
+    52.887043,
+    29.966486
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          52.887043,
+          29.966486
+        ]
+      },
+      "id": "dare-location",
+      "type": "Feature",
+      "properties": {
+        "description": "Representative point location, site precision",
+        "location_precision": "precise",
+        "title": "DARE Location",
+        "link": "http://pleiades.stoa.org/places/922684/dare-location"
+      }
+    }
+  ]
+}

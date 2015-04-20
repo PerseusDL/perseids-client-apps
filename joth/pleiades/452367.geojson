@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "title": "Leucosia Ins.",
+  "id": "452367",
+  "description": "An ancient place, cited: BAtlas 46 D4 Leucosia Ins.",
+  "bbox": [
+    16.11667,
+    38.71667,
+    16.11667,
+    38.71667
+  ],
+  "reprPoint": [
+    16.11667,
+    38.71667
+  ],
+  "names": [
+    "Leucosia",
+    "Ithacesiae"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              16.0,
+              38.5
+            ],
+            [
+              16.0,
+              39.0
+            ],
+            [
+              16.5,
+              39.0
+            ],
+            [
+              16.5,
+              38.5
+            ],
+            [
+              16.0,
+              38.5
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/452367/batlas-location"
+      }
+    }
+  ]
+}

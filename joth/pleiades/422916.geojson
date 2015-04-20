@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Dea Dia, T.",
+  "id": "422916",
+  "description": "The Arval Brethren cultivated the cult of the Dea Dia.",
+  "bbox": [
+    12.427233,
+    41.8346522,
+    12.4321449,
+    41.83726
+  ],
+  "reprPoint": [
+    12.42968895,
+    41.8359561
+  ],
+  "names": [
+    "Dea Dia, T."
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.427233,
+          41.83726
+        ]
+      },
+      "id": "darmc-location-20551",
+      "type": "Feature",
+      "properties": {
+        "description": "150K scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 20551",
+        "link": "http://pleiades.stoa.org/places/422916/darmc-location-20551"
+      }
+    }
+  ]
+}

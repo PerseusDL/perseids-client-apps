@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "title": "Ikaros (island)",
+  "id": "599667",
+  "description": "An island in the Aegean Sea (modern Ikaria), now part of the modern country of Greece.",
+  "bbox": [
+    25.0,
+    37.621567,
+    26.059426,
+    39.0
+  ],
+  "connectsWith": [
+    "560221"
+  ],
+  "reprPoint": [
+    25.529713,
+    38.3107835
+  ],
+  "names": [
+    "Ikaros",
+    "Ikaria"
+  ]
+}

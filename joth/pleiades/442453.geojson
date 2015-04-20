@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Agnuli",
+  "id": "442453",
+  "description": "An ancient place, cited: BAtlas 45 D1 Agnuli",
+  "bbox": [
+    16.04337,
+    41.708548,
+    16.0777216,
+    41.711207
+  ],
+  "reprPoint": [
+    16.0605458,
+    41.7098775
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.0777216,
+          41.711207
+        ]
+      },
+      "id": "location-of-roman-villa",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Roman villa",
+        "link": "http://pleiades.stoa.org/places/442453/location-of-roman-villa"
+      }
+    }
+  ]
+}

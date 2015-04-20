@@ -1,0 +1,64 @@
+{
+  "type": "FeatureCollection",
+  "title": "Gortyn(a)",
+  "id": "589796",
+  "description": "The Roman capital of Creta et Cyrenaica province, then Creta, and later seat of the Archbishop of Crete, Gortyna was a thriving community from the Geometric period to the Middle Byzantine period. The first traces of urban settlement date from the Archaic period. The ancient Greek law code known as the \"Gortyn Code\" was discovered there in 1884.",
+  "bbox": [
+    24.946943,
+    35.062107,
+    24.9469444444,
+    35.0633333333
+  ],
+  "connectsWith": [
+    "981515",
+    "589748"
+  ],
+  "reprPoint": [
+    24.9469437222,
+    35.0627201667
+  ],
+  "names": [
+    "Gortyna",
+    "Gortyn",
+    "Ellotis",
+    "Kremnia",
+    "Larissa",
+    "Gortyna"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.946943,
+          35.062107
+        ]
+      },
+      "id": "darmc-location-24047",
+      "type": "Feature",
+      "properties": {
+        "description": "5M scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 24047",
+        "link": "http://pleiades.stoa.org/places/589796/darmc-location-24047"
+      }
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.946944444444444,
+          35.06333333333333
+        ]
+      },
+      "id": "gortyna-praetorium",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "precise",
+        "title": "Gortyna, Praetorium",
+        "link": "http://pleiades.stoa.org/places/589796/gortyna-praetorium"
+      }
+    }
+  ]
+}

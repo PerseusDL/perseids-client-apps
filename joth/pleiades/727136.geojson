@@ -1,0 +1,61 @@
+{
+  "type": "FeatureCollection",
+  "title": "Kanope Ins.",
+  "id": "727136",
+  "description": "An ancient place, cited: BAtlas 74 C2 Kanope Ins.",
+  "bbox": [
+    30.1082529,
+    31.358736,
+    30.1082529,
+    31.358736
+  ],
+  "connectsWith": [
+    "1043"
+  ],
+  "reprPoint": [
+    30.1082529,
+    31.358736
+  ],
+  "names": [
+    "Kanope"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              30.0,
+              31.0
+            ],
+            [
+              30.0,
+              31.5
+            ],
+            [
+              30.5,
+              31.5
+            ],
+            [
+              30.5,
+              31.0
+            ],
+            [
+              30.0,
+              31.0
+            ]
+          ]
+        ]
+      },
+      "id": "undetermined",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Undetermined location",
+        "link": "http://pleiades.stoa.org/places/727136/undetermined"
+      }
+    }
+  ]
+}

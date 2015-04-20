@@ -1,0 +1,34 @@
+{
+  "type": "FeatureCollection",
+  "title": "Cominium Ocritum",
+  "id": "438720",
+  "description": "Cominium Ocritum was a Samnite stronghold captured in 291 BC by Quintus Fabius Maximus Gurges.",
+  "bbox": [
+    14.0,
+    41.5,
+    14.5,
+    42.0
+  ],
+  "connectsWith": [
+    "433017"
+  ],
+  "reprPoint": [
+    14.25,
+    41.75
+  ],
+  "names": [
+    "Cominium Ocritum"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/438720/batlas-location"
+      }
+    }
+  ]
+}

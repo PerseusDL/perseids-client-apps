@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "title": "Aque Ange",
+  "id": "456032",
+  "description": "An ancient place, cited: BAtlas 46 unlocated ‘Aque Ange’",
+  "bbox": [
+    16.2598678,
+    38.9740422,
+    16.2598678,
+    38.9740422
+  ],
+  "reprPoint": [
+    16.2598678,
+    38.9740422
+  ],
+  "names": [
+    "Aque Ange"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/456032/batlas-location"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "title": "Vitellia",
+  "id": "438886",
+  "description": "Vitellia, now unlocated, was a Latin colony founded in the territory of the Aequi.",
+  "reprPoint": [
+    12.7789894,
+    41.8822951
+  ],
+  "names": [
+    "Vitellia"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/438886/batlas-location"
+      }
+    }
+  ]
+}

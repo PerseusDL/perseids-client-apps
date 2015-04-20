@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "title": "Issa (island)",
+  "id": "197329",
+  "description": "Issa Ins., a small island in the Adriatic Sea.",
+  "bbox": [
+    16.1840853,
+    43.061568,
+    16.1840853,
+    43.061568
+  ],
+  "connectsWith": [
+    "1004"
+  ],
+  "reprPoint": [
+    16.1840853,
+    43.061568
+  ],
+  "names": [
+    "Issa"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.1840853,
+          43.061568
+        ]
+      },
+      "id": "location-of-vis-island",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Vis (island)",
+        "link": "http://pleiades.stoa.org/places/197329/location-of-vis-island"
+      }
+    }
+  ]
+}

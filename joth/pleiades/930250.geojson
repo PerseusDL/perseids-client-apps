@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "title": "Tanagra",
+  "id": "930250",
+  "description": "An ancient place, cited: BAtlas 94 unlocated Tanagra",
+  "bbox": [
+    20.0,
+    35.0,
+    23.52523,
+    38.236583
+  ],
+  "reprPoint": [
+    21.1750766667,
+    36.078861
+  ],
+  "names": [
+    "Tanagra"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/930250/batlas-location"
+      }
+    }
+  ]
+}

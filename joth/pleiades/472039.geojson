@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Ussana",
+  "id": "472039",
+  "description": "A Roman bath structure of the fourth century AD whose remains were reused to construct the Medieval church of San Lorenzo.",
+  "bbox": [
+    9.074228,
+    39.395788,
+    9.0874599,
+    39.4144738
+  ],
+  "connectsWith": [
+    "472014"
+  ],
+  "reprPoint": [
+    9.08084395,
+    39.4051309
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.074228,
+          39.395788
+        ]
+      },
+      "id": "darmc-location-21133",
+      "type": "Feature",
+      "properties": {
+        "description": "1M scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 21133",
+        "link": "http://pleiades.stoa.org/places/472039/darmc-location-21133"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "title": "Barbetium Iugum",
+  "id": "261233",
+  "description": "An ancient place, cited: BAtlas 26 unlocated Barbetium Iugum",
+  "bbox": [
+    -4.6397956,
+    36.5073781,
+    -4.6397956,
+    36.5073781
+  ],
+  "reprPoint": [
+    -4.6397956,
+    36.5073781
+  ],
+  "names": [
+    "Barbetium Iugum"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/261233/batlas-location"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Ziquensis M.",
+  "id": "315272",
+  "description": "An ancient place, cited: BAtlas 32 F4 Ziquensis M.",
+  "bbox": [
+    10.1117246,
+    36.3518395,
+    10.1117246,
+    36.3518395
+  ],
+  "reprPoint": [
+    10.1117246,
+    36.3518395
+  ],
+  "names": [
+    "Ziquensis M."
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.1117246,
+          36.3518395
+        ]
+      },
+      "id": "location-of-djebel-zaghouan",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Djebel Zaghouan",
+        "link": "http://pleiades.stoa.org/places/315272/location-of-djebel-zaghouan"
+      }
+    }
+  ]
+}

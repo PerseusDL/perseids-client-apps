@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "title": "Setis (island)",
+  "id": "786107",
+  "description": "An ancient place, cited: BAtlas 80 inset Setis Ins.",
+  "bbox": [
+    32.871294,
+    24.0613087,
+    32.871294,
+    24.0613087
+  ],
+  "reprPoint": [
+    32.871294,
+    24.0613087
+  ],
+  "names": [
+    "Setis"
+  ],
+  "features": [
+    {
+      "id": "undetermined",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Undetermined location",
+        "link": "http://pleiades.stoa.org/places/786107/undetermined"
+      }
+    }
+  ]
+}

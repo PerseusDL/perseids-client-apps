@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Ouangana? (island)",
+  "id": "50182",
+  "description": "An ancient place, cited: BAtlas 5 inset Ouangana? Ins.",
+  "bbox": [
+    79.8104089,
+    9.6248872,
+    79.8104089,
+    9.6248872
+  ],
+  "reprPoint": [
+    79.8104089,
+    9.6248872
+  ],
+  "names": [
+    "Ouangana"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          79.8104089,
+          9.6248872
+        ]
+      },
+      "id": "location-of-pungudutivu",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Pungudutivu",
+        "link": "http://pleiades.stoa.org/places/50182/location-of-pungudutivu"
+      }
+    }
+  ]
+}

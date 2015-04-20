@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "title": "Varus (river)",
+  "id": "157942",
+  "description": "The Var river.",
+  "bbox": [
+    7.2126343,
+    43.7733763,
+    7.2126343,
+    43.7733763
+  ],
+  "connectsWith": [
+    "1043"
+  ],
+  "reprPoint": [
+    7.2126343,
+    43.7733763
+  ],
+  "names": [
+    "Varus"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.2126343,
+          43.7733763
+        ]
+      },
+      "id": "location-of-Varus-fl",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Varus fl.",
+        "link": "http://pleiades.stoa.org/places/157942/location-of-Varus-fl"
+      }
+    }
+  ]
+}

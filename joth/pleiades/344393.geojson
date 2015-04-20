@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Henchir el-Hadjar",
+  "id": "344393",
+  "description": "Henchir el-Hadjar is the site of a Late Roman fortlet of Africa Proconsularis.",
+  "bbox": [
+    9.809219,
+    33.704706,
+    9.810069,
+    33.715904
+  ],
+  "reprPoint": [
+    9.809644,
+    33.710305
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.809219,
+          33.704706
+        ]
+      },
+      "id": "the-exact-place-of-the-fortlet",
+      "type": "Feature",
+      "properties": {
+        "description": "Coordinates after Bing.com",
+        "location_precision": "precise",
+        "title": "location of Henchir el-Hadjar",
+        "link": "http://pleiades.stoa.org/places/344393/the-exact-place-of-the-fortlet"
+      }
+    }
+  ]
+}

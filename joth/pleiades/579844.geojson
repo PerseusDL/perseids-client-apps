@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "title": "Aegina (island)",
+  "id": "579844",
+  "description": "An ancient place, cited: BAtlas 59 A4 Aegina Ins.",
+  "bbox": [
+    23.430141,
+    37.7409397,
+    23.430141,
+    37.7409397
+  ],
+  "connectsWith": [
+    "570654"
+  ],
+  "reprPoint": [
+    23.430141,
+    37.7409397
+  ],
+  "names": [
+    "Aegina",
+    "Oinone"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.25,
+              37.5
+            ],
+            [
+              23.25,
+              37.75
+            ],
+            [
+              23.5,
+              37.75
+            ],
+            [
+              23.5,
+              37.5
+            ],
+            [
+              23.25,
+              37.5
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/579844/batlas-location"
+      }
+    }
+  ]
+}

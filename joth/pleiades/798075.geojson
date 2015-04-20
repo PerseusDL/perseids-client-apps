@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "title": "Magadale Parva",
+  "id": "798075",
+  "description": "An ancient place, cited: BAtlas 81 unlocated Magadale Parva",
+  "reprPoint": [
+    -8.1205273,
+    33.1675377
+  ],
+  "names": [
+    "Magadale Parva"
+  ],
+  "features": [
+    {
+      "id": "undetermined",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Undetermined location",
+        "link": "http://pleiades.stoa.org/places/798075/undetermined"
+      }
+    }
+  ]
+}

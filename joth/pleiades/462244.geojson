@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "title": "Himera",
+  "id": "462244",
+  "description": "A colony on the north shore of Sicily founded in 649/8 BC by the Myletidai.",
+  "bbox": [
+    13.822496,
+    37.970797,
+    13.822496,
+    37.970797
+  ],
+  "connectsWith": [
+    "462492"
+  ],
+  "reprPoint": [
+    13.822496,
+    37.970797
+  ],
+  "names": [
+    "Himera"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.822496,
+          37.970797
+        ]
+      },
+      "id": "dare-location",
+      "type": "Feature",
+      "properties": {
+        "description": "Representative point location, site precision",
+        "location_precision": "precise",
+        "title": "DARE Location",
+        "link": "http://pleiades.stoa.org/places/462244/dare-location"
+      }
+    }
+  ]
+}

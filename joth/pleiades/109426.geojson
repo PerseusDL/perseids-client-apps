@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "title": "Vicus Contiomagus",
+  "id": "109426",
+  "description": "An ancient place, cited: BAtlas 11 G3 Vicus Contiomagus",
+  "bbox": [
+    6.7076426,
+    49.3561421,
+    6.7076426,
+    49.3561421
+  ],
+  "connectsWith": [
+    "109390"
+  ],
+  "reprPoint": [
+    6.7076426,
+    49.3561421
+  ],
+  "names": [
+    "Pachten",
+    "Vicus Contiomagus"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.7076426,
+          49.3561421
+        ]
+      },
+      "id": "roman-fort",
+      "type": "Feature",
+      "properties": {
+        "description": "coordinates derived from Google Earth.",
+        "location_precision": "precise",
+        "title": "location of Roman fort",
+        "link": "http://pleiades.stoa.org/places/109426/roman-fort"
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "La Cuma",
+  "id": "413109",
+  "description": "An ancient place, cited: BAtlas 42 F2 La Cuma",
+  "bbox": [
+    13.5814431,
+    43.0205257,
+    13.582809,
+    43.028478
+  ],
+  "reprPoint": [
+    13.58212605,
+    43.02450185
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.582809,
+          43.028478
+        ]
+      },
+      "id": "darmc-location-20590",
+      "type": "Feature",
+      "properties": {
+        "description": "500K scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 20590",
+        "link": "http://pleiades.stoa.org/places/413109/darmc-location-20590"
+      }
+    }
+  ]
+}

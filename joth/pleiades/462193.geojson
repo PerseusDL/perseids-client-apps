@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "title": "Elymi",
+  "id": "462193",
+  "description": "The Elymians were an indigenous people inhabiting western Sicily during the Bronze Age and the first millennium BC.",
+  "bbox": [
+    12.51782,
+    37.728871,
+    13.197073,
+    38.036517
+  ],
+  "connectsWith": [
+    "462492"
+  ],
+  "reprPoint": [
+    12.8552268333,
+    37.9176568333
+  ],
+  "names": [
+    "Elymi"
+  ]
+}

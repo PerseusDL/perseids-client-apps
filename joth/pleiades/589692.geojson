@@ -1,0 +1,34 @@
+{
+  "type": "FeatureCollection",
+  "title": "Andros",
+  "id": "589692",
+  "description": "An ancient place, cited: BAtlas 60 A4 Andros",
+  "bbox": [
+    24.8323379,
+    37.8188329,
+    24.8323379,
+    37.8188329
+  ],
+  "connectsWith": [
+    "589693"
+  ],
+  "reprPoint": [
+    24.8323379,
+    37.8188329
+  ],
+  "names": [
+    "Andros"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/589692/batlas-location"
+      }
+    }
+  ]
+}

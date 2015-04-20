@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Untitled",
+  "id": "650058",
+  "description": "An ancient place, cited: BAtlas 66 D4 unnamed bridge (over Calycadnus fl. at Seleucia ad Calycadnum)",
+  "bbox": [
+    33.9250438,
+    36.3787246,
+    33.931742,
+    36.380574
+  ],
+  "reprPoint": [
+    33.9283929,
+    36.3796493
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.931742,
+          36.380574
+        ]
+      },
+      "id": "darmc-location-14725",
+      "type": "Feature",
+      "properties": {
+        "description": "500K scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 14725",
+        "link": "http://pleiades.stoa.org/places/650058/darmc-location-14725"
+      }
+    }
+  ]
+}

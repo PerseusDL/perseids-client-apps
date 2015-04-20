@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Phoinix?",
+  "id": "589994",
+  "description": "An ancient place, cited: BAtlas 60 B2 Phoinix?",
+  "bbox": [
+    24.3466822,
+    35.1866272,
+    24.3466822,
+    35.1866272
+  ],
+  "reprPoint": [
+    24.3466822,
+    35.1866272
+  ],
+  "names": [
+    "Phoinix"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.3466822,
+          35.1866272
+        ]
+      },
+      "id": "finikas",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Finikas",
+        "link": "http://pleiades.stoa.org/places/589994/finikas"
+      }
+    }
+  ]
+}

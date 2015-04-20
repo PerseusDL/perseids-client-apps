@@ -1,0 +1,58 @@
+{
+  "type": "FeatureCollection",
+  "title": "Ouandalika Ore",
+  "id": "118899",
+  "description": "A mountain range located in the northern Czech Republic and the southwestern Poland.",
+  "bbox": [
+    15.7399397,
+    50.736224,
+    15.7399397,
+    50.736224
+  ],
+  "reprPoint": [
+    15.7399397,
+    50.736224
+  ],
+  "names": [
+    "Ouandalika Ore"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              15.0,
+              50.0
+            ],
+            [
+              15.0,
+              51.0
+            ],
+            [
+              16.0,
+              51.0
+            ],
+            [
+              16.0,
+              50.0
+            ],
+            [
+              15.0,
+              50.0
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/118899/batlas-location"
+      }
+    }
+  ]
+}

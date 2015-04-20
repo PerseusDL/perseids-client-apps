@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Gyroulas",
+  "id": "599631",
+  "description": "An Archaic rural sanctuary of Demeter and Apollo at Gyroulas on Naxos.",
+  "bbox": [
+    25.431186,
+    37.029101,
+    25.431186,
+    37.029101
+  ],
+  "connectsWith": [
+    "599822"
+  ],
+  "reprPoint": [
+    25.431186,
+    37.029101
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.431186,
+          37.029101
+        ]
+      },
+      "id": "location-of-the-sanctuary",
+      "type": "Feature",
+      "properties": {
+        "description": "Verified in Google Earth 2013. Dates after BAtlas.",
+        "location_precision": "precise",
+        "title": "location of the sanctuary",
+        "link": "http://pleiades.stoa.org/places/599631/location-of-the-sanctuary"
+      }
+    }
+  ]
+}

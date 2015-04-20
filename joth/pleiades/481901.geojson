@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Lychnidus L.",
+  "id": "481901",
+  "description": "An ancient place, cited: BAtlas 49 C2 Lychnidus L.",
+  "bbox": [
+    20.7425164,
+    40.9148059,
+    20.7425164,
+    40.9148059
+  ],
+  "reprPoint": [
+    20.7425164,
+    40.9148059
+  ],
+  "names": [
+    "Lychnidus L."
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.7425164,
+          40.9148059
+        ]
+      },
+      "id": "location-of-Lychnidus-L",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Lake Ohrid",
+        "link": "http://pleiades.stoa.org/places/481901/location-of-Lychnidus-L"
+      }
+    }
+  ]
+}

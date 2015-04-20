@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "title": "Noviodunum",
+  "id": "216900",
+  "description": "The chief base of the Roman fleet on the lower Danube river.",
+  "bbox": [
+    28.491915,
+    45.270526,
+    28.491915,
+    45.270526
+  ],
+  "connectsWith": [
+    "226577"
+  ],
+  "reprPoint": [
+    28.491915,
+    45.270526
+  ],
+  "names": [
+    "Noviodunum"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.491915,
+          45.270526
+        ]
+      },
+      "id": "dare-location",
+      "type": "Feature",
+      "properties": {
+        "description": "Representative point location, site precision",
+        "location_precision": "precise",
+        "title": "DARE Location",
+        "link": "http://pleiades.stoa.org/places/216900/dare-location"
+      }
+    }
+  ]
+}

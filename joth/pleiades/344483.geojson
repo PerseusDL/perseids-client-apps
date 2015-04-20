@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "title": "Silin",
+  "id": "344483",
+  "description": "An ancient place, cited: BAtlas 35 G2 Silin",
+  "bbox": [
+    14.136202,
+    32.7094692,
+    14.1782842,
+    32.711621
+  ],
+  "reprPoint": [
+    14.1572431,
+    32.7105451
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.136202,
+          32.711621
+        ]
+      },
+      "id": "darmc-location-17601",
+      "type": "Feature",
+      "properties": {
+        "description": "1M scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 17601",
+        "link": "http://pleiades.stoa.org/places/344483/darmc-location-17601"
+      }
+    }
+  ]
+}

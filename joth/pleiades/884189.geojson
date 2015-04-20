@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Orotan fl.",
+  "id": "884189",
+  "description": "An ancient place, cited: BAtlas 90 B1 Orotan fl.",
+  "bbox": [
+    46.4226916,
+    39.4325431,
+    46.4226916,
+    39.4325431
+  ],
+  "reprPoint": [
+    46.4226916,
+    39.4325431
+  ],
+  "names": [
+    "Orotan"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          46.4226916,
+          39.4325431
+        ]
+      },
+      "id": "location-of-vorotan-river",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Vorotan (river)",
+        "link": "http://pleiades.stoa.org/places/884189/location-of-vorotan-river"
+      }
+    }
+  ]
+}

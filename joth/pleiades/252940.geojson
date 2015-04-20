@@ -1,0 +1,34 @@
+{
+  "type": "FeatureCollection",
+  "title": "Bentian",
+  "id": "252940",
+  "description": "An ancient place, cited: BAtlas 25 unlocated Bentian",
+  "bbox": [
+    -2.0,
+    42.0,
+    -1.0,
+    43.0
+  ],
+  "connectsWith": [
+    "246730"
+  ],
+  "reprPoint": [
+    -1.5,
+    42.5
+  ],
+  "names": [
+    "Bentian"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/252940/batlas-location"
+      }
+    }
+  ]
+}

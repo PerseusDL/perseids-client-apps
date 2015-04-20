@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Sontas fl.",
+  "id": "863899",
+  "description": "An ancient place, cited: BAtlas 88 D1 Sontas fl.",
+  "bbox": [
+    45.7092328,
+    43.3143059,
+    45.7092328,
+    43.3143059
+  ],
+  "reprPoint": [
+    45.7092328,
+    43.3143059
+  ],
+  "names": [
+    "Sontas"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.7092328,
+          43.3143059
+        ]
+      },
+      "id": "location-of-sunhza-river",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Sunhza (river)",
+        "link": "http://pleiades.stoa.org/places/863899/location-of-sunhza-river"
+      }
+    }
+  ]
+}

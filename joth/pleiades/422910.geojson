@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Corniculum",
+  "id": "422910",
+  "description": "An ancient town of Latium connected with the origins of Serivus Tullius.",
+  "bbox": [
+    12.742811,
+    42.023477,
+    12.742811,
+    42.023477
+  ],
+  "reprPoint": [
+    12.742811,
+    42.023477
+  ],
+  "names": [
+    "Corniculum"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.742811,
+          42.023477
+        ]
+      },
+      "id": "dare-location",
+      "type": "Feature",
+      "properties": {
+        "description": "Representative point location, village precision",
+        "location_precision": "precise",
+        "title": "DARE Location",
+        "link": "http://pleiades.stoa.org/places/422910/dare-location"
+      }
+    }
+  ]
+}

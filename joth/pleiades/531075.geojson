@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "title": "Propaxos (island)",
+  "id": "531075",
+  "description": "An ancient place, cited: BAtlas 54 B3 Propaxos Ins.",
+  "bbox": [
+    20.2276316,
+    39.1591833,
+    20.2276316,
+    39.1591833
+  ],
+  "connectsWith": [
+    "531048"
+  ],
+  "reprPoint": [
+    20.2276316,
+    39.1591833
+  ],
+  "names": [
+    "Propaxos"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.2276316,
+          39.1591833
+        ]
+      },
+      "id": "location-of-antipaxos",
+      "type": "Feature",
+      "properties": {
+        "description": "Location based on OpenStreetMap",
+        "location_precision": "precise",
+        "title": "location of Antipaxos",
+        "link": "http://pleiades.stoa.org/places/531075/location-of-antipaxos"
+      }
+    }
+  ]
+}

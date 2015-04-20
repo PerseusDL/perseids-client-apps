@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "title": "Dardanos",
+  "id": "501393",
+  "description": "Dardanos was a city of the Troad located in the coastal plain of the Kalabakli çayi.",
+  "bbox": [
+    26.37442,
+    40.079727,
+    26.37442,
+    40.079727
+  ],
+  "reprPoint": [
+    26.37442,
+    40.079727
+  ],
+  "names": [
+    "Dardanos"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.37442,
+          40.079727
+        ]
+      },
+      "id": "darmc-location-12154",
+      "type": "Feature",
+      "properties": {
+        "description": "500K scale point location",
+        "location_precision": "precise",
+        "title": "DARMC location 12154",
+        "link": "http://pleiades.stoa.org/places/501393/darmc-location-12154"
+      }
+    }
+  ]
+}

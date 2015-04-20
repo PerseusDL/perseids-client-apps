@@ -1,0 +1,36 @@
+{
+  "type": "FeatureCollection",
+  "title": "Columnae Herculis",
+  "id": "275614",
+  "description": "The Columnae Herculis (Pillars of Hercules) refers to the twin promontories that flank the Straits of Gibraltar, namely the rock of Gibraltar on the northern side and a debated southern promontory, likely either Monte Hacho (the ancient Abila Mons) or the Jebel Musa.",
+  "bbox": [
+    -5.485833,
+    35.9,
+    -5.283333,
+    36.125833
+  ],
+  "connectsWith": [
+    "256045",
+    "256198",
+    "275577"
+  ],
+  "reprPoint": [
+    -5.37074066667,
+    35.9991666667
+  ],
+  "names": [
+    "Columnae Herculis"
+  ],
+  "features": [
+    {
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "unlocated",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/275614/batlas-location"
+      }
+    }
+  ]
+}

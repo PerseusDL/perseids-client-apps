@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "title": "Caldaccoli aqueduct",
+  "id": "403927",
+  "description": "A first century A.D. Roman aqueduct that carried water from the locality known as \"Caldaccoli\" to baths in Pisa.",
+  "bbox": [
+    10.4367702,
+    43.7689323,
+    10.4367702,
+    43.7689323
+  ],
+  "reprPoint": [
+    10.4367702,
+    43.7689323
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.0,
+              43.5
+            ],
+            [
+              10.0,
+              44.0
+            ],
+            [
+              10.5,
+              44.0
+            ],
+            [
+              10.5,
+              43.5
+            ],
+            [
+              10.0,
+              43.5
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/403927/batlas-location"
+      }
+    }
+  ]
+}

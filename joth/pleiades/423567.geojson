@@ -1,0 +1,61 @@
+{
+  "type": "FeatureCollection",
+  "title": "Aqua Traiana",
+  "id": "423567",
+  "description": "The Aqua Traiana was an aqueduct built by Trajan and inaugurated in AD 109.",
+  "bbox": [
+    12.4641047,
+    41.8888922,
+    12.4641047,
+    41.8888922
+  ],
+  "connectsWith": [
+    "423025"
+  ],
+  "reprPoint": [
+    12.4641047,
+    41.8888922
+  ],
+  "names": [
+    "Aqua Traiana"
+  ],
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12.25,
+              41.75
+            ],
+            [
+              12.25,
+              42.0
+            ],
+            [
+              12.5,
+              42.0
+            ],
+            [
+              12.5,
+              41.75
+            ],
+            [
+              12.25,
+              41.75
+            ]
+          ]
+        ]
+      },
+      "id": "batlas-location",
+      "type": "Feature",
+      "properties": {
+        "description": null,
+        "location_precision": "rough",
+        "title": "Barrington Atlas location",
+        "link": "http://pleiades.stoa.org/places/423567/batlas-location"
+      }
+    }
+  ]
+}
