@@ -68,6 +68,10 @@
         <img src="static/img/alpheios/alpheios-transparent.png" alt="Alpheios"/>
       </div>
     </div>
+    <div class="alt-version">
+       <a href="{{ alignment('altVersionUrl') }}">{{ _('Switch to prior version of this form') }}</a>
+    </div>
+
     <div>
       <form name="input-form" action="">
         <input type="hidden" name="l1"/>
@@ -98,9 +102,22 @@
            </div>
            <div class="textdriver" id="l1textdriver" data-lnum="l1"></div>
             <div>
-              <label for="l1uri">{{ _('Text URI') }}</label>
-              <input placeholder="{{ ('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l1uri" name="l1uri" size="100" class="texturi" data-lnum="l1"></input>
+              <label for="l1uri">{{ _('Search for a text:') }}</label>
+              <input placeholder="{{ _('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l1uri" name="l1uri" size="100" class="texturi" data-lnum="l1"></input>
+              <div id="l1worklist" class="worklist"><a target="_blank" href="{{alignment('workListUrl')}}">Available Works</a></div>
             </div>
+            <div class="ownuri">
+              <label for="own_uri_l1">{{ _('Or enter your own text URI:') }}</label>
+              <div class="row collapse">
+                <div class="small-10 columns">
+                  <input type="text" placeholder="" id="own_uri_l1" />
+                </div>
+                <div class="small-2 columns">
+                  <a href="#" data-lnum="l1" class="own_uri_trigger button postfix">{{ _('Select') }}</a>
+                </div>
+              </div>
+              <small class="error" id="own_uri_l1_error" style="display:none;">{{ _('Invalid entry') }}</small>
+           </div>
           </fieldset>
           <fieldset class="large-6 columns">
           <legend>{{ _('Enter Text in Language 2:') }}</legend>
@@ -116,9 +133,22 @@
           <small class="error" id="l2texterror" style="display:none;">{{ _('Invalid entry') }}</small>
           <div class="textdriver" id="l2textdriver" data-lnum="l2"></div>
           <div>
-            <label for="l2uri">{{ _('Text URI') }}</label>
-            <input placeholder="{{ ('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l2uri" name="l2uri" size="100" class="texturi" data-lnum="l2"></input>
+            <label for="l2uri">{{ _('Search for a text:') }}</label>
+            <input placeholder="{{ _('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="l2uri" name="l2uri" size="100" class="texturi" data-lnum="l2"></input>
+            <div id="l2worklist" class="worklist"><a target="_blank" href="{{alignment('workListUrl')}}">Available Works</a></div>
           </div>
+          <div class="ownuri">
+            <label for="own_uri_l2">{{ _('Or enter your own text URI:') }}</label>
+            <div class="row collapse">
+              <div class="small-10 columns">
+                <input type="text" placeholder="" id="own_uri_l2" />
+              </div>
+              <div class="small-2 columns">
+                <a href="#" data-lnum="l2" class="own_uri_trigger button postfix">{{ _('Select') }}</a>
+              </div>
+            </div>
+            <small class="error" id="own_uri_l2_error" style="display:none;">{{ _('Invalid entry') }}</small>
+         </div>
         </fieldset>
         </div>
         <div class="row">
@@ -270,7 +300,7 @@
           <fieldset class="large-6 columns">
             <div class="row">
               <label for="select_l2" class="large-9 columns">{{ _('Language 2:') }}
-            <select name="select_l2" id="select_l1">
+            <select name="select_l2" id="select_l2">
               <option value="eng">{{ _('English') }}</option>
               <option value="lat">{{ _('Latin') }}</option>
               <option value="grc">{{ _('Greek (Ancient -1453)') }}</option>

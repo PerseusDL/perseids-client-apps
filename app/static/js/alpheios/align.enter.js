@@ -29,8 +29,14 @@ var transform_done = { 'l1' : false, 'l2':false };
 $(document).ready(function() {
 
     // try to load text from the supplied uri
-    $("input[name='l1uri']").change(function() { load_text('l1'); });
-    $("input[name='l2uri']").change(function() { load_text('l2'); });
+    $("input[name='l1uri']").change(function() { load_text('l1',$(this).val()) });
+    $("input[name='l2uri']").change(function() { load_text('l2',$(this).val()) });
+    $(".own_uri_trigger").on("click", function(event) {
+        event.preventDefault();
+        var lnum = $(this).attr("data-lnum");
+        var textURI = $("#own_uri_" + lnum).val();
+        load_text(lnum,textURI);
+    });
 
     // get parameters from call
     var callParams = location.search.substr(1).split("&");
@@ -108,9 +114,7 @@ $(document).ready(function() {
             "e_appuri" : "input[name='appuri']",
             "e_title" : "input[name='docname']",
             "e_collection" :  "input[name='collection']",
-            "e_includepunc" : function() {
-              return $("input#" + lnum + "includepunc").is(":checked");
-            }
+            "e_includepunc": function() { return true; }
         },
         "trigger" : "llt-transform",
         "callback" : function(data) {
@@ -137,6 +141,22 @@ $(document).ready(function() {
 
 
     //Trigger queue
+    $("body").on("alpheios:ping-succeeded",function(event,data) {
+        put_data(data);
+    });
+
+    $("body").on("alpheios:ping-failed",function(event,data) {
+        alert("No session. Please login!");
+    });
+
+    $("body").on("alpheios:put-succeeded",function(event,data) {
+        submit_form(data);
+    });
+
+    $("body").on("alpheios:put-failed",function(event,data) {
+        alert(data);
+    });
+
     $(".advanced-options").on("cts-service:llt.tokenizer:done", function() {
         var lnum = $(this).attr("data-lnum");
         transform_done[lnum] = false;
@@ -166,8 +186,10 @@ $(document).ready(function() {
 /**
  * Handler for the text_uri input to try to load the text
  */
-function load_text(lnum) {
-    var uri = $("input[name='" + lnum + "uri']").val();
+function load_text(lnum,uri) {
+    if (! uri)  {
+      uri = $("input[name='" + lnum + "uri']").val();
+    }
     if (! uri.match(/^http/)) {
        /** allow non-url identifiers to just pass through **/
         return;
@@ -258,19 +280,10 @@ function make_data() {
 
   $("language",l1).after(l2lang);
   $("wds",l1).after(l2wds);
-  put_data(l1);
+  AlphEdit.pingServer($("meta[name='pingurl']").attr("content"),l1);
 }
 
 function put_data(data) {
-    // a bit of a hack -- may need to ping the api get the cookie
-    // not actually needed at runtime when we come from there
-    // but was useful for testing
-    var pingUrl = $("meta[name='pingurl']").attr("content");
-    if (pingUrl) {
-        var req = new XMLHttpRequest();
-        req.open("GET", pingUrl, false);
-        req.send(null);
-    }
 
     // get the url for the post
     var url = $("meta[name='url']", document).attr("content");
@@ -280,22 +293,23 @@ function put_data(data) {
         // so that I can reuse the AlphEdit.putContents code
         AlphEdit.pushHistory(["create"],null);
         // send synchronous request to add
-        resp = AlphEdit.putContents(data, url, '' , '');
+        AlphEdit.putContents(data, url, '' , '');
     } catch (a_e) {
         alert(a_e);
-        return false;
     }
+    return false;
+}
 
+function submit_form(data) {
     // save values from return in submit form
     var form = $("form[name='submit-form']", document);
     var lang = $("#lang-buttons input[name='lang']:checked").val();
     var dir = $("#dir-buttons input[name='direction']:checked").val();
     $("input[name='inputtext']",form).attr("dir",dir);
 
-    var doc = $(resp).text();
+    var doc = $(data).text();
     var url = $("meta[name='editorurl']").attr("content").replace('REPLACE_DOC',doc);
     window.location.assign(url);
-    return false;
 }
 
 /**

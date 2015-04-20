@@ -42,3 +42,12 @@ label.columns {
     font-size: 11px !important;
 
 }
+
+.worklist {
+  clear: both;
+  font-size:smaller;
+}
+
+.worklist a {
+  color: #4183C4;
+}

@@ -150,12 +150,13 @@
     </xsl:template>
     
     <xsl:template match="tei:pc|pc">
-        <xsl:if test="$e_includepunc">
+        <!-- service isn't passing this properly right now so always include for now -->
+        <!--xsl:if test="$e_includepunc and $e_includepunc != '' and $e_includepunc != false() and $e_includepunc != 'false'">
+        </xsl:if-->
             <xsl:element name="w" namespace="http://alpheios.net/namespaces/aligned-text">
                 <xsl:attribute name="n"><xsl:value-of select="concat(@s_n,'-',@n)"/></xsl:attribute>
                 <xsl:element name="text" namespace="http://alpheios.net/namespaces/aligned-text"><xsl:value-of select="."/></xsl:element>
             </xsl:element>
-        </xsl:if>
     </xsl:template>
     
     <xsl:template match="@*"/>
