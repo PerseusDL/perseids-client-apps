@@ -32,4 +32,5 @@ fabconf.py
 # Cache
 *.sqlite
 
-JOTH/pleiades
+joth/pleiades
+joth/data
