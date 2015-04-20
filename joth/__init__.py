@@ -2,7 +2,9 @@ import json
 from flask import Blueprint, request, jsonify, render_template, make_response
 import glob
 import os
+import codecs
 
+reader = codecs.getreader("utf-8")
 joth = Blueprint('joth', __name__, template_folder='templates')
 dataFolder = "/data/"
 
@@ -87,8 +89,11 @@ def pleiadesCtrl(place=None):
         filename = "{0}/pleiades/{1}.geojson".format(joth.root_path, placeId)
         print(filename)
         if os.path.isfile(filename):
-            with open(filename, "r") as f:
-                places[placeId] = json.load(f)
+            try:
+                with open(filename, "rb") as f:
+                    places[placeId] = json.load(reader(f), encoding="utf-8")
+            except Exception as E:
+                print(E)
         else:
             print("This does not exist")
     return jsonify({"places": places})
