@@ -8,25 +8,30 @@ In your `/etc/apache2/sites-enabled` folder, create a new file `alpheios-app.con
 
 ```xml
 <VirtualHost *>
-    ServerName localhost
-
-    WSGIScriptAlias /url/to/prod /path/to/prod/folder/app.wsgi
-
-    <Directory /path/to/prod/folder/>
-        WSGIApplicationGroup %{GLOBAL}
+    ServerName [YourServerName]
+    WSGIDaemonProcess perseids-client-apps-prod python-path=/path/to/prod:/path/to/prod/flask/lib/python3.4/site-packages
+    WSGIScriptAlias /url/to/prod /path/to/prod/app.wsgi process-group=perseids-client-apps-prod
+    <Directory /path/to/prod/>
+         WSGIProcessGroup perseids-client-apps-prod
         Require all granted
     </Directory>
 </VirtualHost>
 <VirtualHost *>
-    ServerName localhost
-
-    WSGIScriptAlias /url/to/stage /path/to/stage/folder/app.wsgi
-
-    <Directory /path/to/stage/folder/>
-        WSGIApplicationGroup %{GLOBAL}
+    ServerName [YourServerName]
+    WSGIDaemonProcess perseids-client-apps-stage python-path=/path/to/stage:/path/to/stage/flask/lib/python3.4/site-packages
+    WSGIScriptAlias /url/to/stage /path/to/stage/app.wsgi process-group=perseids-client-apps-stage
+    <Directory /path/to/stage/>
+         WSGIProcessGroup perseids-client-apps-stage
         Require all granted
     </Directory>
 </VirtualHost>
+```
+
+#### Apache EnvVars
+Make sure the following informations are set-up in apache2 envvars
+```
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
 ```
 
 ### Local machine
