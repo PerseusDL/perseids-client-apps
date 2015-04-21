@@ -5,7 +5,7 @@ from app import configurator
 from app.cache import cache
 from flask.ext.cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 cors = CORS(app)
 babel = Babel(app)
 bower = Bower(app)

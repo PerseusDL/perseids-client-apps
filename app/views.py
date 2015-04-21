@@ -1,7 +1,11 @@
+# coding=utf8
+
 from app import app
 from app import configurator
 from app import babel
+from app import bower
 from flask import render_template, request, jsonify
+import sys
 
 
 @babel.localeselector
@@ -27,11 +31,11 @@ def treebank():
 @app.route('/thematic')
 def thematic():
     return render_template(
-       'treebank/theme.html',
-       treebank=configurator.get("treebank"),
-       session=configurator.get("session"),
-       cts=configurator.get("cts")
-     )
+     'treebank/theme.html',
+     treebank=configurator.get("treebank"),
+     session=configurator.get("session"),
+     cts=configurator.get("cts")
+   )
 
 @app.route('/alignment')
 def alignment():
