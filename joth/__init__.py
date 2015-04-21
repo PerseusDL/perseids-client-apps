@@ -8,7 +8,6 @@ reader = codecs.getreader("utf-8")
 joth = Blueprint('joth', __name__, template_folder='templates')
 dataFolder = "/data/"
 
-
 def getAnnotations(key):
     """
       Get Annotations for a specific kind of data.
@@ -17,19 +16,31 @@ def getAnnotations(key):
     jsons = glob.glob(joth.root_path + dataFolder + key + "/*.json")
     cachePath = joth.root_path + dataFolder + key + ".json"
     if os.path.isfile(cachePath):
-        with open(cachePath) as file_:
-            current = json.load(file_)
+        try:
+            with open(cachePath, "rb") as file_:
+                current = json.load(reader(file_), encoding="utf-8")
+                file_.close()
+        except Exception as E:
+            print(E)
     else:
         current = {
             key: []
         }
     if len(jsons) != len(current[key]):
         for path in jsons:
-            with open(path) as file_:
-                current[key].append(json.load(file_))
+            try:
+                with open(path, "rb") as file_:
+                    current[key].append(json.load(reader(file_), encoding="utf-8"))
+                    file_.close()
+            except Exception as E:
+                print(E)
         # We write the cache
-        with open(cachePath, 'w') as outfile:
-            json.dump(current, outfile)
+        try:
+            with open(cachePath, 'w') as outfile:
+                json.dump(current, outfile)
+                file_.close()
+        except Exception as E:
+            print(E)
     return current
 
 
@@ -87,11 +98,11 @@ def pleiadesCtrl(place=None):
     for placeId in req:
         places[placeId] = {}
         filename = "{0}/pleiades/{1}.geojson".format(joth.root_path, placeId)
-        print(filename)
         if os.path.isfile(filename):
             try:
                 with open(filename, "rb") as f:
                     places[placeId] = json.load(reader(f), encoding="utf-8")
+                    f.close()
             except Exception as E:
                 print(E)
         else:

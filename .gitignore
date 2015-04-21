@@ -33,4 +33,6 @@ fabconf.py
 *.sqlite
 
 joth/pleiades
-joth/data
+joth/data/occurences
+joth/data/persons
+joth/data/places

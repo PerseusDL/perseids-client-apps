@@ -26,7 +26,6 @@ def argsToInt(arg):
 
 
 def request_wants_json():
-    print(request.accept_mimetypes)
     best = request.accept_mimetypes.best_match(['application/json'])
     return best == 'application/json'
 
