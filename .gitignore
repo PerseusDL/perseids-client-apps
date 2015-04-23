@@ -28,3 +28,13 @@ pip-log.txt
 docs/tmp
 docs/_build
 cover
+fabconf.py
+# Cache
+*.sqlite
+
+joth/pleiades
+joth/data/occurences
+joth/data/persons
+joth/data/places
+joth
+Ahab
