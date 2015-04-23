@@ -24,6 +24,7 @@ def required_apt12():
         "apache2",
         "libxml2 libxml2-dev",
         "libxslt1-dev libxslt1.1",
+        "git",
         "zlib1g-dev" # For XML etree
     ]
     python = [
@@ -154,7 +155,12 @@ def deploy():
 
             if "capitains-ahab" in modules["load"]:
                 # There will be a git clone here
+                run("git clone https://github.com/Capitains/Ahab.git")
                 run(makePath("flask/bin/pip3.4") + " install -r Ahab/requirements.txt")
+
+            if "joth" in modules["load"]:
+                # There will be a git clone here
+                run("git clone https://github.com/PerseusDL/perseids-client-apps-joth.git joth")
 
     # now that all is set up, delete the folder again
     # run('rm -rf /tmp/yourapplication /tmp/yourapplication.tar.gz')

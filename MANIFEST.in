@@ -8,3 +8,5 @@ include wsgivenv.py
 include run.py
 include readme.md
 include */configurations/*.json
+prune Ahab
+prune joth
