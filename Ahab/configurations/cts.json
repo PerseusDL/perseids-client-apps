@@ -1,5 +1,5 @@
 {
-    "endpoint" : "http://localhost:8080/exist/rest/db/repository/CTS.xq",
+    "endpoint" : "http://services2.perseids.org/exist/rest/db/repository/CTS.xq",
     "restfull"  : true,
 
     "cache"  : true,

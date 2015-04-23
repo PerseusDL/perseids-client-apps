@@ -6,6 +6,5 @@ setup(
     long_description="No long description atm",
     packages=find_packages(),
     include_package_data=True,
-    zip_safe=False,
-    install_requires=['Flask']
+    zip_safe=False
 )
