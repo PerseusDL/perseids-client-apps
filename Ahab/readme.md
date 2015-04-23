@@ -1,3 +1,0 @@
-Capitains Ahab
-===
-
