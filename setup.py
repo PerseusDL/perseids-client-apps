@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Alpheios Web App',
+    name='Perseids-Client-Apps',
     version='0.0.1',
     long_description="No long description atm",
     packages=find_packages(),

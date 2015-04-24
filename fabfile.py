@@ -17,6 +17,7 @@ env.available_hosts = available_hosts
 
 TIMESTAMP_FORMAT = "%Y%m%d%H%M%S"
 
+@task
 def required_apt12():
     """ Install required app for ubuntu 12.04 """
 
@@ -48,7 +49,10 @@ def required_apt12():
     # Then venv
     sudo("pip3.4 install virtualenv")
 
+
+@task
 def required_apt():
+    """ Install required app for remote machine with Ubuntu > 12.04  """
     apt = [
         "apache2",
         "libxml2 libxml2-dev",
@@ -72,15 +76,22 @@ def required_apt():
         pip = "pip3.4"
     sudo("{0} install virtualenv".format(pip))
 
+
+@task
 def prod():
+    """ Prefix any command to deploy to prod server """
     if env.available_hosts:
         env.hosts = env.available_hosts["prod"]["host"]
         env.user = env.available_hosts["prod"]["user"]
         env.remote_path = env.available_hosts["prod"]["remote_path"]
         env.remote_cache_path = env.available_hosts["prod"]["remote_cache_path"]
+        env.pipcache = env.available_hosts["prod"]["remote_pip_cache"]
+        env.confpath = env.available_hosts["prod"]["remote_conf_path"]
 
 
+@task
 def stage():
+    """ Prefix any command to deploy to stage server """
     if env.available_hosts:
         env.hosts = env.available_hosts["stage"]["host"]
         env.user = env.available_hosts["stage"]["user"]
@@ -109,12 +120,14 @@ def makePath(target=None):
 
 
 def venv():
+    """ Create a virtual env """
     # Create the virtual env in a flask folder.
     with cd(makePath()):
         run("virtualenv -p /usr/bin/python3.4 flask")
 
 
 def check():
+    """ Check That MOD WSGI PY3 is installed """
     version = re.compile("^Version:(\s\d\.\d.*)$", re.M)
     capture = run("dpkg -s libapache2-mod-wsgi-py3", warn_only=True)
     regexp = version.search(capture)
@@ -129,34 +142,69 @@ def check():
         sudo("apt-get install libapache2-mod-wsgi-py3")
 
 
+@task
 def pack():
+    """ Pack up main app and modules if required """
+    # If we have to get Capitains ahab...
+    if "capitains-ahab" in modules["load"]:
+        local("rm -rf Ahab", capture=False)
+        local("git clone https://github.com/Capitains/Ahab.git Ahab", capture=False)
+    # If we have to get Joth Modules...
+    if "joth" in modules["load"]:
+        local("rm -rf joth", capture=False)
+        local("git clone https://github.com/PerseusDL/perseids-client-apps-joth.git joth", capture=False)
+
     # create a new source distribution as tarball
     local('python setup.py sdist --formats=gztar', capture=False)
 
 
+@task
+def deploy_conf():
+    """ Deploy configurations files on remote server """
+    local('rm conf.tar',capture=False)
+    local("tar -zcvf conf.tar .conf",capture=False) # Create the zip of conf folder
+    put('conf.tar', '/tmp/conf.tar') # Send the conf to remote server
+    run('mkdir -p {0}'.format(env.confpath), warn_only=True, quiet=True)
+    run('tar -zcvf {0}.tar {0}'.format(env.confpath), warn_only=True) # Backup the current conf
+    run('rm -rf {0}/*'.format(env.confpath), warn_only=True, quiet=True) # Remove old conf
+    run('tar --strip-components=1 -zxvf /tmp/conf.tar -C {0}'.format(env.confpath)) # Untar new conf
+
+
+@task
+def rollback_conf():
+    """ Rollback the last config available on remote server """
+    run('rm -rf {0}/*'.format(env.confpath)) # Remove current conf
+    run('tar --strip-components=1 -zxvf {0}.tar -C {0}'.format(env.confpath)) # Untar backup
+
+    return True
+
+
+@task
 def deploy():
+    """ Deploy latest version to the distant machine """
     check()
     pack()
     # figure out the release name and version
     dist = local('python setup.py --fullname', capture=True).strip()
     # upload the source tarball to the temporary folder on the server
-    put('dist/%s.tar.gz' % dist, '/tmp/yourapplication.tar.gz')
+    put('dist/%s.tar.gz' % dist, '/tmp/app.tar.gz')
     # create a place where we can unzip the tarball, then enter
     # that directory and unzip it
     currentPath = makePath()
     run('mkdir -p ' + currentPath)
+    run('mkdir -p ' + env.pipcache)
     with cd(currentPath):
-        run('tar --strip-components=1 -zxvf /tmp/yourapplication.tar.gz')
+        run('tar --strip-components=1 -zxvf /tmp/app.tar.gz')
         venv()
         # now setup the package with our virtual environment's
         # python interpreter
         with cd(makePath()):
-            run(makePath("flask/bin/pip3.4") + " install -r requirements.txt")
+            run(makePath("flask/bin/pip3.4") + " install --download-cache {0} -r requirements.txt".format(env.pipcache))
 
             if "capitains-ahab" in modules["load"]:
                 # There will be a git clone here
                 run("git clone https://github.com/Capitains/Ahab.git")
-                run(makePath("flask/bin/pip3.4") + " install -r Ahab/requirements.txt")
+                run(makePath("flask/bin/pip3.4") + " install --download-cache {0} -r Ahab/requirements.txt".format(env.pipcache))
 
             if "joth" in modules["load"]:
                 # There will be a git clone here

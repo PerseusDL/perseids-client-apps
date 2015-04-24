@@ -32,9 +32,9 @@ fabconf.py
 # Cache
 *.sqlite
 
-joth/pleiades
-joth/data/occurences
-joth/data/persons
-joth/data/places
+#Blueprints
 joth
 Ahab
+
+#Configurations
+.conf
