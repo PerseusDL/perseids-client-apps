@@ -64,3 +64,14 @@ available_hosts = {
 }
 
 ```
+
+### Conf files
+To deploy to a remote, you'll need to have your own configuration files as follow :
+
+```
+# This folder should contain all configurations python file availables
+# You can copy the folder in .conf/main and modify the files yourself
+.conf/main == app/configurations
+# This folder should contain all json files in Ahab/configurations
+.conf/ahab == Ahab/configurations
+```

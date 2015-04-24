@@ -3,9 +3,26 @@ from fabconf import user, hosts, path, available_hosts
 from fabvenv import make_virtualenv
 from datetime import datetime
 import re
+from StringIO import StringIO
+
+# List of conf folder and their equivalencies in the deployed folder
+confFiles = {
+    # "Conf Original Folder" : ".conf Equivalency folder"
+    "Ahab/configurations" : "/ahab",
+    "app/configurations" : "/main",
+}
+# List of data folder and their equivalencies in the deployed folder
+dataFiles = {
+    "joth/data" : "/joth",
+    "joth/pleiades" : "/pleiades-geojson/geojson"
+}
 
 # Bad and hacky but only way to avoid __init__.py issues
-execfile("app/configurations/modules.py")
+try:
+    execfile(".conf" + confFiles["app/configurations"] +"/modules.py")
+except:
+    import sys
+    sys.exit("Remote configurations files not available in ./conf")
 
 # the user to use for the remote commands
 env.user = user
@@ -14,7 +31,6 @@ env.hosts = hosts
 env.remote_path = path
 env.version = None
 env.available_hosts = available_hosts
-
 TIMESTAMP_FORMAT = "%Y%m%d%H%M%S"
 
 @task
@@ -87,6 +103,9 @@ def prod():
         env.remote_cache_path = env.available_hosts["prod"]["remote_cache_path"]
         env.pipcache = env.available_hosts["prod"]["remote_pip_cache"]
         env.confpath = env.available_hosts["prod"]["remote_conf_path"]
+        env.datapath = env.available_hosts["prod"]["remote_data_path"]
+        env.venv = env.available_hosts["prod"]["remote_venv_path"]
+        env.wsgi = env.available_hosts["prod"]["remote_wsgi_path"]
 
 
 @task
@@ -112,6 +131,10 @@ def getPath():
     return env.version
 
 
+def simplePath(target):
+    return '/'.join([env.remote_path, target])
+
+
 def makePath(target=None):
     if target is None:
         return '/'.join([env.remote_path, getPath()])
@@ -122,12 +145,16 @@ def makePath(target=None):
 def venv():
     """ Create a virtual env """
     # Create the virtual env in a flask folder.
-    with cd(makePath()):
-        run("virtualenv -p /usr/bin/python3.4 flask")
+
+    run("virtualenv -p /usr/bin/python3.4 " + env.venv, warn_only=True, quiet=True)
 
 
 def check():
     """ Check That MOD WSGI PY3 is installed """
+
+    # THIS PART IS HIGLY CONTROVERSIAL...
+    # sudo("rm /usr/bin/python3; ln -s /usr/bin/python3.4 /usr/bin/python3")
+    # This is less
     version = re.compile("^Version:(\s\d\.\d.*)$", re.M)
     capture = run("dpkg -s libapache2-mod-wsgi-py3", warn_only=True)
     regexp = version.search(capture)
@@ -153,7 +180,7 @@ def pack():
     if "joth" in modules["load"]:
         local("rm -rf joth", capture=False)
         local("git clone https://github.com/PerseusDL/perseids-client-apps-joth.git joth", capture=False)
-
+    local("cd app ; bower install; cd ../", capture=False)
     # create a new source distribution as tarball
     local('python setup.py sdist --formats=gztar', capture=False)
 
@@ -180,6 +207,39 @@ def rollback_conf():
 
 
 @task
+def update_conf(version):
+    """ Update the sym links between the app and the main conf """
+    currentPath = simplePath(version)
+    with cd(currentPath):
+        for key in confFiles:
+            run("rm -rf {0}".format(key), warn_only=True, quiet=True)
+            run("ln -s {source} {target}".format(source=env.confpath + confFiles[key], target=currentPath + "/" + key))
+
+
+@task
+def update_data(version):
+    """ Update the sym links between the app and the data directories """
+    currentPath = simplePath(version)
+    with cd(currentPath):
+        for key in dataFiles:
+            run("rm {0}".format(key), warn_only=True, quiet=True)
+            run("ln -s {source} {target}".format(source=env.datapath + dataFiles[key], target=currentPath + "/" + key))
+
+
+@task
+def wsgi(version):
+    put(StringIO(
+    '''
+import os
+import sys
+
+# We run the app
+sys.path.append(\"{0}\")
+from app import app as application
+    '''.format(simplePath(version))), env.wsgi)
+
+
+@task
 def deploy():
     """ Deploy latest version to the distant machine """
     check()
@@ -194,18 +254,18 @@ def deploy():
     run('mkdir -p ' + currentPath)
     run('mkdir -p ' + env.pipcache)
     with cd(currentPath):
-        run('tar --strip-components=1 -zxvf /tmp/app.tar.gz')
+        run('tar --strip-components=1 -zxvf /tmp/app.tar.gz', quiet=True)
         venv()
         # now setup the package with our virtual environment's
         # python interpreter
         with cd(makePath()):
-            run(makePath("flask/bin/pip3.4") + " install --download-cache {0} -r requirements.txt".format(env.pipcache))
+            run("{0}/bin/pip3.4 install -r requirements.txt".format(env.venv), quiet=True)
+            if "capitains-ahab" in modules["load"]: # We need to install the requirements from AHAB
+                run("{0}/bin/pip3.4 install -r Ahab/requirements.txt".format(env.venv))
 
-            if "capitains-ahab" in modules["load"]:
-                # There will be a git clone here
-                run("git clone https://github.com/Capitains/Ahab.git")
-                run(makePath("flask/bin/pip3.4") + " install --download-cache {0} -r Ahab/requirements.txt".format(env.pipcache))
-
-            if "joth" in modules["load"]:
-                # There will be a git clone here
-                run("git clone https://github.com/PerseusDL/perseids-client-apps-joth.git joth")
+    version = currentPath.split("/")[-1]
+    update_conf(version)
+    update_data(version)
+    wsgi(version)
+    print("Last version " + currentPath)
+    print("Run : \n{0}/bin/python3.4 {1}/run.py".format(env.venv, currentPath))

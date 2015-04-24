@@ -1,10 +1,10 @@
 recursive-include app/static *
 recursive-include app/templates *
+recursive-include app/bower_components *
 include app.wsgi
 include app/bower.json
-include */requirements.txt
+include requirements.txt
 include messages.pot
 include wsgivenv.py
 include run.py
 include readme.md
-include */configurations/*.json
