@@ -116,6 +116,11 @@ def stage():
         env.user = env.available_hosts["stage"]["user"]
         env.remote_path = env.available_hosts["stage"]["remote_path"]
         env.remote_cache_path = env.available_hosts["stage"]["remote_cache_path"]
+        env.pipcache = env.available_hosts["stage"]["remote_pip_cache"]
+        env.confpath = env.available_hosts["stage"]["remote_conf_path"]
+        env.datapath = env.available_hosts["stage"]["remote_data_path"]
+        env.venv = env.available_hosts["stage"]["remote_venv_path"]
+        env.wsgi = env.available_hosts["stage"]["remote_wsgi_path"]
 
 
 def get_version_stamp():
@@ -188,7 +193,10 @@ def pack():
 @task
 def deploy_conf():
     """ Deploy configurations files on remote server """
-    local('rm conf.tar',capture=False)
+    try:
+        local('rm conf.tar',capture=False)
+    except:
+        pass
     local("tar -zcvf conf.tar .conf",capture=False) # Create the zip of conf folder
     put('conf.tar', '/tmp/conf.tar') # Send the conf to remote server
     run('mkdir -p {0}'.format(env.confpath), warn_only=True, quiet=True)
@@ -236,13 +244,13 @@ import sys
 # We run the app
 sys.path.append(\"{0}\")
 from app import app as application
-    '''.format(simplePath(version))), env.wsgi)
+'''.format(simplePath(version))), env.wsgi)
 
 
 @task
 def deploy():
     """ Deploy latest version to the distant machine """
-    check()
+    # check()
     pack()
     # figure out the release name and version
     dist = local('python setup.py --fullname', capture=True).strip()
@@ -269,3 +277,27 @@ def deploy():
     wsgi(version)
     print("Last version " + currentPath)
     print("Run : \n{0}/bin/python3.4 {1}/run.py".format(env.venv, currentPath))
+
+
+@task
+def releases(p=True):
+    """List a releases made"""
+    env.releases = sorted([line for line in run('ls -tx %(releases_path)s' % { 'releases_path':env.remote_path }).split() if "wsgi" not in line])
+    if len(env.releases) >= 1:
+        env.current_revision = env.releases[0]
+        env.current_release = "%(releases_path)s/%(current_revision)s" % { 'releases_path':env.remote_path, 'current_revision':env.current_revision }
+    if len(env.releases) > 1:
+        env.previous_revision = env.releases[1]
+        env.previous_release = "%(releases_path)s/%(previous_revision)s" % { 'releases_path':env.remote_path, 'previous_revision':env.previous_revision }
+    if p:
+        print(env.releases)
+
+
+@task
+def rollback(version=None):
+    if not version:
+        releases(False)
+        print(version)
+        wsgi(env.previous_revision)
+    else:
+        wsgi(version)
