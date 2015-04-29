@@ -1,6 +1,8 @@
 recursive-include app/static *
 recursive-include app/templates *
 recursive-include app/bower_components *
+recursive-include Ahab *
+recursive-include joth *
 include app.wsgi
 include app/bower.json
 include requirements.txt
