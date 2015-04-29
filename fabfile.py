@@ -93,6 +93,7 @@ def prod():
     if env.available_hosts:
         env.hosts = env.available_hosts["prod"]["host"]
         env.user = env.available_hosts["prod"]["user"]
+        env.apacheuser = env.available_hosts["prod"]["apache-runner"]
         env.remote_path = env.available_hosts["prod"]["remote_path"]
         env.remote_cache_path = env.available_hosts["prod"]["remote_cache_path"]
         env.pipcache = env.available_hosts["prod"]["remote_pip_cache"]
@@ -108,6 +109,7 @@ def stage():
     if env.available_hosts:
         env.hosts = env.available_hosts["stage"]["host"]
         env.user = env.available_hosts["stage"]["user"]
+        env.apacheuser = env.available_hosts["stage"]["apache-runner"]
         env.remote_path = env.available_hosts["stage"]["remote_path"]
         env.remote_cache_path = env.available_hosts["stage"]["remote_cache_path"]
         env.pipcache = env.available_hosts["stage"]["remote_pip_cache"]
@@ -266,6 +268,7 @@ def deploy():
                 run("{0}/bin/pip3.4 install -r Ahab/requirements.txt".format(env.venv))
 
     version = currentPath.split("/")[-1]
+    sudo("chown -R {0} {1}".format(env.apacheuser, currentPath))
     update_conf(version)
     update_data(version)
     wsgi(version)
