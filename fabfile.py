@@ -1,6 +1,5 @@
 from fabric.api import *
-from fabconf import user, hosts, path, available_hosts
-from fabvenv import make_virtualenv
+from fabconf import available_hosts
 from datetime import datetime
 import re
 from StringIO import StringIO
@@ -24,11 +23,6 @@ except:
     import sys
     sys.exit("Remote configurations files not available in ./conf")
 
-# the user to use for the remote commands
-env.user = user
-# the servers where the commands are executed
-env.hosts = hosts
-env.remote_path = path
 env.version = None
 env.available_hosts = available_hosts
 TIMESTAMP_FORMAT = "%Y%m%d%H%M%S"
