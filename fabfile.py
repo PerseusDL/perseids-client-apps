@@ -268,9 +268,9 @@ def deploy():
                 run("{0}/bin/pip3.4 install -r Ahab/requirements.txt".format(env.venv))
 
     version = currentPath.split("/")[-1]
-    sudo("chown -R {0} {1}".format(env.apacheuser, currentPath))
     update_conf(version)
     update_data(version)
+    sudo("chown -R {0} {1}".format(env.apacheuser, currentPath))
     wsgi(version)
     print("Last version " + currentPath)
     print("Run : \n{0}/bin/python3.4 {1}/run.py".format(env.venv, currentPath))
