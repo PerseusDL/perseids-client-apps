@@ -407,7 +407,7 @@ function fileLoaded(data) {
         return false;
     }
     $("#file_upload").removeClass("loading");
-    AlphEdit.pingServer($("meta[name='pingurl']").attr("content"),data);
+    AlphEdit.pingServer($("meta[name='pingurl']").attr("content"),annotation);
 }
 
 /**
