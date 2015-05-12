@@ -17,8 +17,9 @@ if "capitains-ahab" in load:
     app.register_blueprint(ahab)
 
 
-from joth import joth
-app.register_blueprint(joth)
+if "joth" in load:
+    from joth import joth
+    app.register_blueprint(joth)
 
 
 from app import views
