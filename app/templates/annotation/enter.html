@@ -1,0 +1,139 @@
+<!--
+  Copyright 2012-2015 The Alpheios Project, Ltd.
+  http://alpheios.net
+  
+  This file is part of Alpheios.
+  
+  Alpheios is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  Alpheios is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><title>Alpheios Alignment Editor - Align Text</title>
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="static/css/alpheios/align.enter.css"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ bower_url_for('capitains-sparrow.typeahead', 'src/css/jquery.cts.typeahead.css') }}" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{{ bower_url_for('handlebars', 'handlebars.min.js') }}"></script>
+    <script src="{{ bower_url_for('typeahead.js', 'dist/typeahead.bundle.min.js') }}"></script>
+
+    <script src="{{ bower_url_for('capitains-sparrow', 'dist/cts.min.js') }}"></script>
+    <script src="{{ bower_url_for('capitains-sparrow.typeahead', 'dist/jquery.cts.typeahead.min.js') }}"></script>
+    <script src="{{ bower_url_for('capitains-sparrow.xslt', 'dist/jquery.cts.xslt.min.js') }}"></script>
+    <script src="{{ bower_url_for('capitains-sparrow.service', 'dist/jquery.cts.service.min.js') }}"></script>
+
+
+    <script language="javascript" type="text/javascript" src="static/js/alpheios/annotate.enter.js"></script>
+    <script language="javascript" type="text/javascript" src="static/js/alpheios/edit.utils.js"></script>
+
+    <!-- cookie and header name for CSRF session token  -->
+    <meta name="alpheios-sessionTokenName" content="{{ session('sessionTokenName') }}"/>
+    <meta name="alpheios-sessionHeaderName" content="{{ session('sessionHeaderName') }}"/>
+    <meta name="cts_repos_url" content="{{ cts('endpoint') }}" />
+    <meta name="cts_capabilities_url" content="{{ cts('getCapabilities') }}"/>
+    <meta name="tokenization_service" content="{{ annotation('tokenization.endpoint') }}" data-transform="{{ annotation('tokenization.xslt') }}"/>
+
+    <!-- url to ping the server to set/refresh the CSRF cookie -->
+    <meta name="pingurl" content="{{ session('pingUrl') }}" />
+    
+    <!-- url to POST to to create store a new treebank template -->
+    <meta name="url" content="{{ annotation('endpoint.create') }}" />
+
+    <meta name="editorurl" content="{{ annotation('editorUrl') }} "/>
+    
+    <!--Arabic fonts-->
+    <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/lateef" type="text/css"/>
+
+    <!-- importing macros -->
+    {% from "annotation/texts.html" import text_select with context %}
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("input[name='l1-direction']").click(SetTextDir);
+        $("input[name='l2-direction']").click(SetTextDir);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="alpheios-ignore">
+      <div id="alph-page-header">
+        <img src="static/img/alpheios/alpheios-transparent.png" alt="Alpheios"/>
+      </div>
+    </div>
+     
+    <div>
+      <form name="input-form" action="">
+        <input type="hidden" name="l1"/>
+        <input type="hidden" name="c1"/>
+        <input type="hidden" name="b1"/>
+        <input type="hidden" name="t1"/>
+        <input type="hidden" name="t2"/>
+        <input type="hidden" name="collection" value="{{ annotation('collection') }}"/>
+        <div class="row">
+          <fieldset id="align-enter-title"  class="large-9 columns">
+            <legend>{{ _('Enter Metadata:') }}</legend>
+            <label for="docname">{{ _('Alignment title:') }}<span class="hint small-3">{{ _('alignmenttitlehint') }}</span>
+            <input placeholder="{{ _('Enter a short title for your annotation') }}" type="text" id="docname" name="docname" pattern="[\w \d-_\.]+" maxlength="100" size="100"></input>
+            </label>
+          </fieldset>
+        </div>
+
+        <!-- Select inital text -->
+        <div class="row">
+          <legend>{{ _('Select text:') }}</legend>
+          <div id="text1">{{ text_select('l1') }}</div>
+        </div>
+
+        <!-- Commentary -->
+        <div class="row">
+          <legend>{{ _('Enter Commentary:') }}</legend>
+          <div class="textdriver" id="comtextdriver" data-lnum="c1"></div>
+        
+          <div id="c1-dir-buttons">
+            <label>{{ _('Text Direction:') }}</label>
+            <input type="radio" id="c1-dir-ltr" name="c1-direction" value="ltr" checked="checked"/>
+            <label for="c1-dir-ltr">{{ _('Left to Right') }}</label>
+            <input type="radio" id="c1-dir-rtl" name="c1-direction" value="rtl"/>
+            <label for="c1-dir-rtl">{{ _('Right to Left') }}</label>
+          </div>
+          <textarea id="c1text" name="c1text" rows="10" cols="80" data-lnum="c1"></textarea>
+          <small class="error" id="c1texterror" style="display:none;">{{ _('Invalid entry') }}</small>         
+        </div>
+
+        <!-- Bibliography information -->
+        <div class="row">
+          <legend>{{ _('Bibliography:') }}</legend>
+          <textarea id="bibl" name="bibl" rows="10" cols="80" data-lnum="b1"></textarea>
+        </div>
+
+        <!-- Translation 1 -->
+        <div class="row">
+          <legend>{{ _('Add a translation:') }}</legend>
+          <div id="text1">{{ text_select('t1') }}</div>
+        </div>
+
+        <!-- Translation 2 -->
+        <div class="row">
+          <legend>{{ _('Add a translation:') }}</legend>
+          <div id="text1">{{ text_select('t2') }}</div>
+        </div>
+        
+      </form> 
+
+      <form name="submit-form" action="" onsubmit="EnterSentence(event); return false;">
+        <div><button type="submit" style="float: right; width:100px;">{{ _('Align') }}</button></div>
+      </form>
+    </div>
+  </body>
+</html>

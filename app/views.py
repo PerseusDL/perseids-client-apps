@@ -45,3 +45,12 @@ def alignment():
        session=configurator.get("session"),
        cts=configurator.get("cts")
      )
+
+@app.route('/annotation')
+def annotation():
+    return render_template(
+       'annotation/enter.html',
+       annotation=configurator.get("annotation"),
+       session=configurator.get("session"),
+       cts=configurator.get("cts")
+     )    
