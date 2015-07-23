@@ -4,7 +4,7 @@ from app import app
 from app import configurator
 from app import babel
 from app import bower
-from flask import render_template, request, jsonify, flash, redirect, url_for
+from flask import render_template, request, jsonify, flash, redirect, url_for, session
 from os.path import expanduser
 
 HOME = expanduser("~")
@@ -63,16 +63,19 @@ def annotation():
 
 @app.route('/save_data', methods=['GET', 'POST'])
 def save_data():
-    if request.method == 'POST' :
+    if request.method == 'POST':
       data_dict = request.get_json()
       data = json.dumps(data_dict, indent=2, sort_keys=True)
       raw_id = data_dict['commentary'][0]['hasBody']['@id'].encode()
       mil_id = raw_id.split(':').pop()
-      with open(HOME+"/digmil/"+mil_id+".txt", "wb") as mil_file:
+      path = "/digmil/"+mil_id+".txt"
+      session['path'] = path
+      session['data'] = data
+      with open(HOME+path, "wb") as mil_file:
         mil_file.write(data)
-
-      flash('Annotation saved!')  
-      return redirect(url_for('save_data'))
-    else :
-      return render_template('save_data/success.html')
+      return render_template('save_data/success.html', path=path, data=data)
+    else:     
+      path = session['path']
+      data = session['data']
+      return render_template('save_data/success.html', path=path, data=data)
     

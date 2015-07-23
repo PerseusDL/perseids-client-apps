@@ -285,18 +285,21 @@ function save_data(){
     arr.map(function(a){vals[a.name] = a.value});
     var data = make_json(vals); 
 
-    $.ajax({
-        type: "POST",
-        contentType: 'application/json',
-        url: "/save_data",
-        dataType : 'json',
-        data : JSON.stringify(data),
-        success: function(result) {
-            console.log(result);
-            window.location.reload();
-        }
+    var request = $.ajax({
+      type: "POST",
+      contentType: 'application/json',
+      url: "/save_data",
+      dataType : 'json',
+      data : JSON.stringify(data)        
     });
+
+//I know this is not ideal, but the page refuses to reload unless I force the window location
+//Will eventually be changed anyway when moving things over to Perseids
+  window.location.assign("/save_data");
+
 }
+
+
 
 function make_json(vals){
   var date = new Date();

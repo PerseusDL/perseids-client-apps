@@ -18,7 +18,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head><title>Alpheios Alignment Editor - Align Text</title>
+  <head><title>Alpheios Annotation Editor - Annotate Text</title>
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css" />
 
     <link rel="stylesheet" type="text/css" href="static/css/alpheios/align.enter.css"/>
@@ -68,15 +68,7 @@
 
 
   <body>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    
   
     <div class="alpheios-ignore">
       <div id="alph-page-header">
@@ -140,7 +132,7 @@
           <legend>{{ _('Add a translation:') }}</legend>
           <div id="text2">{{ text_select('t2') }}</div>
         </div>
-        <button id="submit_button" type="button" onclick="save_data()" style="width:200px;">{{ _('Save Annotation') }}</button>
+        <button id="submit_button" type="button" onclick="save_data()" style="float: right; width:200px;">{{ _('Save Annotation') }}</button>
       </form> 
       
     </div>
