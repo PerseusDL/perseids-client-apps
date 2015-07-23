@@ -186,6 +186,8 @@ $(document).ready(function() {
 
     $("textarea").blur(function(){detect_language_and_type($(this))});
 
+    $("input").on()
+
 });
 
 /**
@@ -269,6 +271,137 @@ function EnterSentence(e) {
     }
     return false;
 }
+
+//!! Don't need tokenizing, can store as plain text,
+//!! need to instead gather all the text areas together and get it into json to send
+//!! So for now, have submit button click format the inputs and save to file
+//!! Or maybe should have two forms? input formats to json and submit sends to server?
+//!! but can use the lnum to grab elements, put them in desired json format
+function save_data(){
+
+    // there are probably smarter ways to do this...
+    var arr = $('#input_form').serializeArray();
+    var vals = {};
+    arr.map(function(a){vals[a.name] = a.value});
+    var data = make_json(vals); 
+
+    $.ajax({
+        type: "POST",
+        contentType: 'application/json',
+        url: "/save_data",
+        dataType : 'json',
+        data : JSON.stringify(data),
+        success: function(result) {
+            console.log(result);
+            window.location.reload();
+        }
+    });
+}
+
+function make_json(vals){
+  var date = new Date();
+  var annotation = {
+    commentary : [
+      {  
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['c1text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date,
+        
+        "hasBody": {
+          "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+".c1",
+          "format" : "text",
+          "chars" : vals['c1text'],
+          "language" : "eng"
+        },
+        "hasTarget":  vals['l1uri'],
+        "motivatedBy": "oa:commenting"
+      }
+    ],
+    bibliography : [ 
+      {
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['b1text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date, 
+
+        "hasBody":{
+          "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+".b1",
+          "format" : "text",
+          "chars" : vals['b1text'],
+          "language" : "eng"
+        },
+        "hasTarget": "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+".c1",
+        "motivatedBy": "oa:linking"
+      }
+    ],
+    translation : [
+      {
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['t1text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date,
+        
+        "hasBody": build_transl("t1", vals['milnum'], vals['t1text'], vals['t1uri'], vals['select_t1'], vals['other_t1']),
+        "hasTarget": vals['l1uri'],
+        "motivatedBy": "oa:linking"
+      },
+      {
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['t2text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date,
+        
+        "hasBody": build_transl("t2", vals['milnum'], vals['t2text'], vals['t2uri'], vals['select_t2'], vals['other_t2']),
+        "hasTarget": vals['l1uri'],
+        "motivatedBy": "oa:linking"
+      }
+    ],
+    tags : [],
+    images : []
+  };
+  return annotation;
+}
+
+function uid(str, date) {
+  String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length == 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+    }
+    return hash;
+  };
+
+  var h = str.hashCode();
+  var part1 = h.toString().substr(0,4);
+  var mil = date.getMilliseconds().toString();
+  var uid = part1 + mil;
+
+  return uid;
+}
+
+function build_transl(num, milnum, text, uri, select, other){
+
+  if (uri == ""){
+    if (select == 'other' || !(other == "")) {
+        var lang = other;
+    } else {
+       var lang = select;
+    }
+    var body = {
+      "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+milnum+"."+num,
+      "format" : "text",
+      "chars" : text,
+      "language" : lang
+    };
+  } else {
+    var body = uri;
+  }
+  return body;
+}
+
 
 
 /**

@@ -42,7 +42,7 @@
     <meta name="alpheios-sessionHeaderName" content="{{ session('sessionHeaderName') }}"/>
     <meta name="cts_repos_url" content="{{ cts('endpoint') }}" />
     <meta name="cts_capabilities_url" content="{{ cts('getCapabilities') }}"/>
-    <meta name="tokenization_service" content="{{ annotation('tokenization.endpoint') }}" data-transform="{{ annotation('tokenization.xslt') }}"/>
+    
 
     <!-- url to ping the server to set/refresh the CSRF cookie -->
     <meta name="pingurl" content="{{ session('pingUrl') }}" />
@@ -56,7 +56,7 @@
     <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/lateef" type="text/css"/>
 
     <!-- importing macros -->
-    {% from "annotation/texts.html" import text_select with context %}
+    {% from "shared/texts.html" import text_select with context %}
 
     <script type="text/javascript">
       $(document).ready(function() {
@@ -65,7 +65,19 @@
       });
     </script>
   </head>
+
+
   <body>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  
     <div class="alpheios-ignore">
       <div id="alph-page-header">
         <img src="static/img/alpheios/alpheios-transparent.png" alt="Alpheios"/>
@@ -73,7 +85,7 @@
     </div>
      
     <div>
-      <form name="input-form" action="">
+      <form id='input_form' action="" method="POST">
         <input type="hidden" name="l1"/>
         <input type="hidden" name="c1"/>
         <input type="hidden" name="b1"/>
@@ -83,8 +95,8 @@
         <div class="row">
           <fieldset id="align-enter-title"  class="large-9 columns">
             <legend>{{ _('Enter Metadata:') }}</legend>
-            <label for="docname">{{ _('Alignment title:') }}<span class="hint small-3">{{ _('alignmenttitlehint') }}</span>
-            <input placeholder="{{ _('Enter a short title for your annotation') }}" type="text" id="docname" name="docname" pattern="[\w \d-_\.]+" maxlength="100" size="100"></input>
+            <label for="milnum">{{ _('Milliet Number:') }}<span class="hint small-3">{{ _('alignmenttitlehint') }}</span>
+            <input placeholder="{{ _('Enter the Milliet number for this passage and associated commentary') }}" type="text" id="milnum" name="milnum" pattern="[\w \d-_\.]+" maxlength="100" size="100"></input>
             </label>
           </fieldset>
         </div>
@@ -114,7 +126,7 @@
         <!-- Bibliography information -->
         <div class="row">
           <legend>{{ _('Bibliography:') }}</legend>
-          <textarea id="bibl" name="bibl" rows="10" cols="80" data-lnum="b1"></textarea>
+          <textarea id="b1text" name="b1text" rows="10" cols="80" data-lnum="b1"></textarea>
         </div>
 
         <!-- Translation 1 -->
@@ -126,14 +138,11 @@
         <!-- Translation 2 -->
         <div class="row">
           <legend>{{ _('Add a translation:') }}</legend>
-          <div id="text1">{{ text_select('t2') }}</div>
+          <div id="text2">{{ text_select('t2') }}</div>
         </div>
-        
+        <button id="submit_button" type="button" onclick="save_data()" style="width:200px;">{{ _('Save Annotation') }}</button>
       </form> 
-
-      <form name="submit-form" action="" onsubmit="EnterSentence(event); return false;">
-        <div><button type="submit" style="float: right; width:100px;">{{ _('Align') }}</button></div>
-      </form>
+      
     </div>
   </body>
 </html>

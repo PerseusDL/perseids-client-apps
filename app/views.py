@@ -4,8 +4,14 @@ from app import app
 from app import configurator
 from app import babel
 from app import bower
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, flash, redirect, url_for
+from os.path import expanduser
+
+HOME = expanduser("~")
+app.secret_key = 'adding this in so flash messages will work'
+
 import sys
+import json
 
 
 @babel.localeselector
@@ -53,4 +59,20 @@ def annotation():
        annotation=configurator.get("annotation"),
        session=configurator.get("session"),
        cts=configurator.get("cts")
-     )    
+     )
+
+@app.route('/save_data', methods=['GET', 'POST'])
+def save_data():
+    if request.method == 'POST' :
+      data_dict = request.get_json()
+      data = json.dumps(data_dict, indent=2, sort_keys=True)
+      raw_id = data_dict['commentary'][0]['hasBody']['@id'].encode()
+      mil_id = raw_id.split(':').pop()
+      with open(HOME+"/digmil/"+mil_id+".txt", "wb") as mil_file:
+        mil_file.write(data)
+
+      flash('Annotation saved!')  
+      return redirect(url_for('save_data'))
+    else :
+      return render_template('save_data/success.html')
+    
