@@ -1,0 +1,598 @@
+/**
+ * @fileoverview alph-align-enter-ext - enter sentence for external back-end
+ *
+ *
+ * Copyright 2014 The Alpheios Project, Ltd.
+ * http://alpheios.net
+ *
+ * This file is part of Alpheios.
+ *
+ * Alpheios is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alpheios is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var s_params = {};
+var wait_retries = 0;
+var max_wait_retries = 20;
+var wait_time = 2000;
+var transform_done = { 'l1' : false, 'c1':false, 'b1':false, 't1':false, 't2':false };
+
+$(document).ready(function() {
+
+    // try to load text from the supplied uri
+    $("input[name='l1uri']").change(function() { load_text('l1',$(this).val()) });
+    $("input[name='t1uri']").change(function() { load_text('t1',$(this).val()) });
+    $("input[name='t2uri']").change(function() { load_text('t2',$(this).val()) });
+    $(".own_uri_trigger").on("click", function(event) {
+        event.preventDefault();
+        var lnum = $(this).attr("data-lnum");
+        var textURI = $("#own_uri_" + lnum).val();
+        load_text(lnum,textURI);
+    });
+
+    // get parameters from call
+    var callParams = location.search.substr(1).split("&");
+    for (var i in callParams)
+    {
+        var pair = callParams[i].split(/=/);
+        if (pair.length == 2) {
+            s_params[pair[0]] = pair[1];
+        }
+        // right now the only parameter we support in the query string to the form are the l1, t1, and t2 uris
+        if (s_params['l1uri']) {
+            $("input[name='l1uri']").val(decodeURIComponent(s_params['l1uri']));
+            load_text('l1');
+        }
+        if (s_params['t1uri']) {
+            $("input[name='t1uri']").val(decodeURIComponent(s_params['t1uri']));
+            load_text('t1');
+        }
+        if (s_params['t2uri']) {
+            $("input[name='t2uri']").val(decodeURIComponent(s_params['t2uri']));
+            load_text('t2');
+        }
+    }
+
+    // create the typeahead widget for each language 
+    $(".texturi").each(function() {
+      var lnum = $(this).attr("data-lnum");
+      $(this).ctsTypeahead({
+        "endpoint" : $("meta[name='cts_repos_url']").attr("content"),
+        "version" : 3,
+        "inventories": {
+          "annotsrc" : "Perseids Sources"
+         },
+        "retrieve" : "#" + lnum + "text"
+      });
+    });
+
+    // set the tokenization options
+    $(".advanced-options").each(function() {
+      var lnum = $(this).attr("data-lnum");
+      $(this).ctsService("llt.tokenizer", {
+        "endpoint" : $("meta[name='tokenization_service']").attr("content"),
+        "driver" : {
+            "splitting" : function() { return false;},
+            "merging" : function() { return false;},
+            "shifting" : function() { return false;},
+            "text" : function() { 
+              var text = $("#"+lnum+"text").val(); 
+              return text;
+            }
+        },
+        "trigger" : "llt-tokenize",
+        "callback" : function(data) {
+	   $("#"+lnum+"text").val(data);
+        },
+        "show" : "show-options",
+        "css" : {
+            "field-container" : ["row"],
+            "field-label" : ["columns", "large-6", "small-6"],
+            "field-input-container" : ["columns", "large-6", "small-6"]
+        },
+        "names" : {
+            "xml" : lnum+"isxml"
+        }
+      }); 
+    });
+
+    // transform l1 tokenized output to alignment template
+    $(".advanced-options").each(function() {
+      var lnum = $(this).attr("data-lnum");
+      $(this).ctsXSLT("llt.segtok_to_align", {
+        "endpoint" : $("meta[name='tokenization_service']").attr("data-transform"),
+        "xml" : $("#"+lnum+"text"),
+        "driver" : {
+            "e_lang" : "input[name='" + lnum + "']",
+            "e_lnum" : function() { return lnum.toUpperCase() },
+            "e_dir" : "input[name='" + lnum + "-direction']:checked",
+            "e_docuri" : "input[name='" + lnum + "uri']",
+            "e_appuri" : "input[name='appuri']",
+            "e_title" : "input[name='docname']",
+            "e_collection" :  "input[name='collection']",
+            "e_includepunc": function() { return true; }
+        },
+        "trigger" : "llt-transform",
+        "callback" : function(data) {
+            transform_done[lnum] = true;
+            $("#" + lnum + "text").val(data);
+            $("#" + lnum + "text").trigger("llt-transform-done");
+        },
+        "css" : {
+            "field-container" : ["row"],
+            "field-label" : ["columns", "large-6", "small-6"],
+            "field-input-container" : ["columns", "large-6", "small-6"]
+        }
+      });
+    });
+
+    //UI
+    $(".advanced-options-toggle").click(
+      function(e){
+        e.preventDefault();
+        var lnum = $(this).attr("data-lnum");
+        $(".advanced-options[data-lnum='" + lnum +"']").toggle();
+      }
+    );
+
+
+    //Trigger queue
+    $("body").on("alpheios:ping-succeeded",function(event,data) {
+        put_data(data);
+    });
+
+    $("body").on("alpheios:ping-failed",function(event,data) {
+        alert("No session. Please login!");
+    });
+
+    $("body").on("alpheios:put-succeeded",function(event,data) {
+        submit_form(data);
+    });
+
+    $("body").on("alpheios:put-failed",function(event,data) {
+        alert(data);
+    });
+
+    $(".advanced-options").on("cts-service:llt.tokenizer:done", function() {
+        var lnum = $(this).attr("data-lnum");
+        transform_done[lnum] = false;
+        $(this).trigger("llt-transform");
+    });
+    $("textarea").on("cts-passage:retrieved",
+       function(event,data) {
+         var lnum = $(event.currentTarget).attr("data-lnum");
+	 $("#"+lnum+"text").val($.trim(data.getText().replace(/(\r\n|\n|\r)/gm,"").replace(/\s+/gm," ")));
+         detect_language_and_type($("#"+lnum+"text").get(0));
+      }
+    );
+    $("textarea").on("llt-transform-done", make_data);
+
+    //Error handling
+    $("textarea").on("cts-passage:passage-error", function() {
+        CTSError("The passage does not exist",$(this).attr("data-lnum"));
+    });
+    $("textarea").on("cts-passage:retrieving-error", function() {
+        CTSError("Unable to contact the server. Please try again.",$(this).attr("data-lnum"));
+    });
+
+    $("textarea").blur(function(){detect_language_and_type($(this))});
+
+    $("input").on()
+
+});
+
+/**
+ * Handler for the text_uri input to try to load the text
+ */
+function load_text(lnum,uri) {
+    if (! uri)  {
+      uri = $("input[name='" + lnum + "uri']").val();
+    }
+    if (! uri.match(/^http/)) {
+       /** allow non-url identifiers to just pass through **/
+        return;
+    }
+    $("textarea[name='" + lnum + "text']").attr("placeholder","loading...");
+    if (uri.match(/^http/)) {
+        $.ajax({
+            url: uri,
+            type: 'GET',
+            async: true,
+            success: function(a_data,a_status){
+                var content_type = a_data.contentType;
+                var content = a_data;
+                if (content_type == 'application/xml' || content_type == 'text/xml') {
+                    try {
+                        content = new XMLSerializer().serializeToString(a_data);
+                        // TODO mime_type and xml should really be merged into one input param
+                        // separate for now because the different tokenization services require
+                        // different value types
+                        $("input[name='" + lnum + "mime_type']").val("text/xml");
+                        $("input[name='" + lnum + "xml']").val("true");
+                    } catch (a_e) {
+                         $("textarea[name='" + lnum + "text']").attr("placeholder","Unable to process text: " + a_e);
+                    }
+                } else {
+                    // TODO could eventually suppport other input formats
+                    $("input[name='" + lnum + "mime_type']").val("text/plain");
+                    $("input[name='" + lnum + "xml']").val("false");
+                }
+                $("textarea[name='" + lnum + "text']").val(content);
+            },
+            error: function(a_req,a_text,a_error) {
+               $("textarea[name='" + lnum + "text']").attr("placeholder","ERROR loading " + uri  +" : " + a_text);
+            }
+        });
+    }
+}
+
+/**
+ * Submit handler for the text entry form
+ */
+function EnterSentence(e) {
+    e.preventDefault();
+    var l1 = $('#select_l1');
+    var t1 = $('#select_t1');
+    var t2 = $('#select_t2');
+
+    if (l1.val() == 'other' || $('input[name="other_l1"]').val()) {
+        $('input[name="l1"]').val($('input[name="other_l1"]').val());
+    } else {
+        $('input[name="l1"]').val(l1.val());
+    }
+    if (t1.val() == 'other' || $('input[name="other_t1"]').val()) {
+        $('input[name="t1"]').val($('input[name="other_t1"]').val());
+    } else {
+       $('input[name="t1"]').val(t1.val());
+    } 
+    if (t2.val() == 'other' || $('input[name="other_t2"]').val()) {
+        $('input[name="t2"]').val($('input[name="other_t2"]').val());
+    } else {
+       $('input[name="t2"]').val(t2.val());
+    }
+    if ($('input[name="l1"]').val() == '' || $('input[name="t1"]').val()  == '' || $('input[name="t2"]').val()  == '') {
+        alert('You must specify a valid language code for both sentences.');
+        return false;
+    } 
+    // trigger the tokenization
+    try { 
+      $(".advanced-options").trigger("llt-tokenize");
+    } catch(e) {
+      console.log(e);
+    }
+    return false;
+}
+
+//!! Don't need tokenizing, can store as plain text,
+//!! need to instead gather all the text areas together and get it into json to send
+//!! So for now, have submit button click format the inputs and save to file
+//!! Or maybe should have two forms? input formats to json and submit sends to server?
+//!! but can use the lnum to grab elements, put them in desired json format
+function save_data(){
+
+    // there are probably smarter ways to do this...
+    var arr = $('#input_form').serializeArray();
+    var vals = {};
+    arr.map(function(a){vals[a.name] = a.value});
+    var data = make_json(vals); 
+
+    var request = $.ajax({
+      type: "POST",
+      contentType: 'application/json',
+      url: "/save_data",
+      dataType : 'json',
+      data : JSON.stringify(data)        
+    });
+
+//I know this is not ideal, but the page refuses to reload unless I force the window location
+//Will eventually be changed anyway when moving things over to Perseids
+  window.location.assign("/save_data");
+
+}
+
+
+
+function make_json(vals){
+  var date = new Date();
+  var annotation = {
+    commentary : [
+      {  
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['c1text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date,
+        
+        "hasBody": {
+          "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+".c1",
+          "format" : "text",
+          "chars" : vals['c1text'],
+          "language" : "eng"
+        },
+        "hasTarget":  vals['l1uri'],
+        "motivatedBy": "oa:commenting"
+      }
+    ],
+    bibliography : [ 
+      {
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['b1text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date, 
+
+        "hasBody":{
+          "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+".b1",
+          "format" : "text",
+          "chars" : vals['b1text'],
+          "language" : "eng"
+        },
+        "hasTarget": "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+".c1",
+        "motivatedBy": "oa:linking"
+      }
+    ],
+    translation : [
+      {
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['t1text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date,
+        
+        "hasBody": build_transl("t1", vals['milnum'], vals['t1text'], vals['t1uri'], vals['select_t1'], vals['other_t1']),
+        "hasTarget": vals['l1uri'],
+        "motivatedBy": "oa:linking"
+      },
+      {
+        "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+        "@id": "digmilann." + uid(vals['t2text'], date), 
+        "@type": "oa:Annotation",
+        "annotatedAt": date,
+        
+        "hasBody": build_transl("t2", vals['milnum'], vals['t2text'], vals['t2uri'], vals['select_t2'], vals['other_t2']),
+        "hasTarget": vals['l1uri'],
+        "motivatedBy": "oa:linking"
+      }
+    ],
+    tags : [],
+    images : []
+  };
+  return annotation;
+}
+
+function uid(str, date) {
+  String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length == 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+    }
+    return hash;
+  };
+
+  var h = str.hashCode();
+  var part1 = h.toString().substr(0,4);
+  var mil = date.getMilliseconds().toString();
+  var uid = part1 + mil;
+
+  return uid;
+}
+
+function build_transl(num, milnum, text, uri, select, other){
+
+  if (uri == ""){
+    if (select == 'other' || !(other == "")) {
+        var lang = other;
+    } else {
+       var lang = select;
+    }
+    var body = {
+      "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+milnum+"."+num,
+      "format" : "text",
+      "chars" : text,
+      "language" : lang
+    };
+  } else {
+    var body = uri;
+  }
+  return body;
+}
+
+
+
+/**
+ * POST the data to the backend storage service
+ */
+function make_data() {
+  if (transform_done['l1'] == false || transform_done['c1'] == false || transform_done['b1'] == false || transform_done['t1'] == false || transform_done['t2'] == false) {
+    console.log("transform pending");
+    return;
+  }
+
+  // okay now we merge the two templates
+  var l1 = (new DOMParser()).parseFromString($("#l1text").val(),"text/xml");
+  var l2 = (new DOMParser()).parseFromString($("#l2text").val(),"text/xml");
+  
+  // we merge language and wds from l2 into l1
+  var l2lang = $("language",l2).clone();
+  var l2wds = $("wds",l2).clone();
+
+  $("language",l1).after(l2lang);
+  $("wds",l1).after(l2wds);
+  AlphEdit.pingServer($("meta[name='pingurl']").attr("content"),l1);
+}
+
+function put_data(data) {
+
+    // get the url for the post
+    var url = $("meta[name='url']", document).attr("content");
+    var resp;
+    try {
+        // another hack to make AlphEdit think we've done something
+        // so that I can reuse the AlphEdit.putContents code
+        AlphEdit.pushHistory(["create"],null);
+        // send synchronous request to add
+        AlphEdit.putContents(data, url, '' , '');
+    } catch (a_e) {
+        alert(a_e);
+    }
+    return false;
+}
+
+function submit_form(data) {
+    // save values from return in submit form
+    var form = $("form[name='submit-form']", document);
+    var lang = $("#lang-buttons input[name='lang']:checked").val();
+    var dir = $("#dir-buttons input[name='direction']:checked").val();
+    $("input[name='inputtext']",form).attr("dir",dir);
+
+    var doc = $(data).text();
+    var url = $("meta[name='editorurl']").attr("content").replace('REPLACE_DOC',doc);
+    window.location.assign(url);
+}
+
+/**
+ * Start the read of the uploaded file
+ * HTML5 processing of input type=file
+ */
+function startRead(evt) {
+    var file = document.getElementById("file").files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = fileLoaded;
+    }
+}
+
+/**
+ * On finish reading of a file, put it to the storage service and
+ * submit the form
+ */
+function fileLoaded(evt) {
+    var xml = (new DOMParser()).parseFromString(evt.target.result,"text/xml");
+    var annotation = null;
+    try {
+        // TODO could really switch this to a jquery ajax call -- it's just cut and paste code
+        var transformUrl = $("meta[name='oa_wrapper_transform']").attr("content");
+        var transformProc = loadStylesheet(transformUrl);
+        transformProc.setParameter(null,"e_datetime",new Date().toDateString());
+        annotation = transformProc.transformToDocument(xml);
+    } catch (a_e) {
+        alert(a_e);
+        return false;
+    }
+    if (put_data(annotation)) {
+        $("form[name='submit-form']", document).submit();
+    }
+}
+
+/**
+ * Send an synchronous request to load a stylesheet
+ * @param a_url the url of the styleshset
+ * @return an XSLTProcessor with the stylesheet imported
+ * @throw an error upon failure to load the stylesheet
+ */
+function loadStylesheet(a_url) {
+    var req = new XMLHttpRequest();
+    if (req.overrideMimeType) {
+        req.overrideMimeType('text/xml');
+    }
+    req.open("GET", a_url, false);
+    req.send(null);
+    if (req.status != 200)
+    {
+        var msg = "Can't get transform at " + a_url;
+        alert(msg);
+        throw(msg);
+    }
+    var transformDoc = req.responseXML;
+    var transformProc= new XSLTProcessor();
+    transformProc.importStylesheet(transformDoc);
+    return transformProc;
+}
+
+/**
+ * Click handler responds to a selection of the text direction input item
+ * to set the text direction of the corresponding text entry box
+ */
+function SetTextDir() {
+   var l = $(this).attr('name').substr(1,1);
+   var dir = $(this).val();
+   $("textarea[name='l" + l + "text']").attr("dir",dir);
+}
+
+/**
+ * Handler for inputtext change to detect the language and mimetype of the text
+ */
+function detect_language_and_type(textarea) {
+    var lnum = $(textarea).attr('data-lnum');
+    transform_done[lnum] = false;
+    
+    CTSError(null,lnum);
+    // first detect language
+    detect_language(lnum);
+
+    // now try to detect type
+    var text = $(textarea).val().trim();
+    var is_plain_text = true;
+    var looks_like_xml = text.match(/<(.*?)>/);
+    if (looks_like_xml) {
+      try {
+        var xml = (new DOMParser()).parseFromString(text,"text/xml");
+        if ($("parsererror",xml).length == 0) {
+          is_plain_text = false;
+        }
+      } catch(a_e) {
+         // if this fails assume plain text
+         // otherwise assume xml which might not be right because it could
+         // contain a parse error but there isn't a good cross-browser way 
+         // to detect this for sure
+         is_plain_text = true;
+      }
+    }
+    $("input[name='"+lnum+"isxml']")[0].checked = !is_plain_text;
+}
+
+/**
+ * Handler for inputtext change to detect the language of hte text 
+ */
+function detect_language(a_lnum) {
+    // TODO should maybe use a general purpose lib for this
+    // these character ranges come from the alpheios beta-uni-utils and arabic-uni-utils transforms
+    var text = $("#"+a_lnum+"text").val();
+    if (text.match(/[\u1F8D\u1F0D\u1F8B\u1F0B\u1F8F\u1F0F\u1F89\u1F09\u1F8C\u1F0C\u1F8A\u1F0A\u1F8E\u1F0E\u1F88\u1F08\u0386\u1FBA\u1FBC\u1FB9\u1FB8\u0391\u1F85\u1F05\u1F83\u1F03\u1F87\u1F07\u1F81\u1F01\u1F84\u1F04\u1F82\u1F02\u1F86\u1F06\u1F80\u1F00\u1FB4\u03AC\u1FB2\u1F70\u1FB7\u1FB6\u1FB3\u1FB1\u1FB0\u03B1\u0392\u03B2\u039E\u03BE\u0394\u03B4\u1F1D\u1F1B\u1F19\u1F1C\u1F1A\u1F18\u0388\u1FC8\u0395\u1F15\u1F13\u1F11\u1F14\u1F12\u1F10\u03AD\u1F72\u03B5\u03A6\u03C6\u0393\u03B3\u1F9D\u1F2D\u1F9B\u1F2B\u1F9F\u1F2F\u1F99\u1F29\u1F9C\u1F2C\u1F9A\u1F2A\u1F9E\u1F2E\u1F98\u1F28\u0389\u1FCA\u1FCC\u0397\u1F95\u1F25\u1F93\u1F23\u1F97\u1F27\u1F91\u1F21\u1F94\u1F24\u1F92\u1F22\u1F96\u1F26\u1F90\u1F20\u1FC4\u03AE\u1FC2\u1F74\u1FC7\u1FC6\u1FC3\u03B7\u1F3D\u1F3B\u1F3F\u1F39\u1F3C\u1F3A\u1F3E\u1F38\u03AA\u038A\u1FDA\u1FD9\u1FD8\u0399\u1F35\u1F33\u1F37\u1F31\u1F34\u1F32\u1F36\u1F30\u0390\u1FD2\u1FD7\u03CA\u03AF\u1F76\u1FD6\u1FD1\u1FD0\u03B9\u039A\u03BA\u039B\u03BB\u039C\u03BC\u039D\u03BD\u1F4D\u1F4B\u1F49\u1F4C\u1F4A\u1F48\u038C\u1FF8\u039F\u1F45\u1F43\u1F41\u1F44\u1F42\u1F40\u03CC\u1F78\u03BF\u03A0\u03C0\u0398\u03B8\u1FEC\u03A1\u1FE5\u1FE4\u03C1\u03A3\u03C3\u03A4\u03C4\u1F5D\u1F5B\u1F5F\u1F59\u03AB\u038E\u1FEA\u1FE9\u1FE8\u03A5\u1F55\u1F53\u1F57\u1F51\u1F54\u1F52\u1F56\u1F50\u03B0\u1FE2\u1FE7\u03CB\u03CD\u1F7A\u1FE6\u1FE1\u1FE0\u03C5\u03DC\u03DD\u1FAD\u1F6D\u1FAB\u1F6B\u1FAF\u1F6F\u1FA9\u1F69\u1FAC\u1F6C\u1FAA\u1F6A\u1FAE\u1F6E\u1FA8\u1F68\u038F\u1FFA\u1FFC\u03A9\u1FA5\u1F65\u1FA3\u1F63\u1FA7\u1F67\u1FA1\u1F61\u1FA4\u1F64\u1FA2\u1F62\u1FA6\u1F66\u1FA0\u1F60\u1FF4\u03CE\u1FF2\u1F7C\u1FF7\u1FF6\u1FF3\u03C9\u03A7\u03C7\u03A8\u03C8\u0396\u03B6\u1FDE\u0345\u1FDE\u1FDD\u0345\u1FDD\u1FDF\u0345\u1FDF\u02BD\u0345\u02BD\u1FCE\u0345\u1FCE\u1FCD\u0345\u1FCD\u1FCF\u0345\u1FCF\u02BC\u0345\u02BC\u1FEE\u1FED\u1FC1\u00A8\u00B4\u0345\u00B4\u0060\u0345\u0060\u1FC0\u0345\u1FC0\u1FBE\u00AF\u02D8\u02BC\u1FBB\u1F71\u1FC9\u1F73\u1FCB\u1F75\u1FDB\u1F77\u1FD3\u1FF9\u1F79\u03C2\u1FEB\u1F7B\u1FE3\u1FFB\u1F7D\u03C3\u03C2\u00B7]/)) {
+       $("#select_"+a_lnum).val('grc');
+       $("#"+a_lnum+"-dir-ltr").get(0).checked = true;
+    } else if (text.match(/[\u0621\u0622\u0623\u0623\u0624\u0624\u0625\u0625\u0626\u0627\u0628\u0629\u062A\u062B\u062C\u062D\u062E\u062F\u0630\u0631\u0632\u0633\u0634\u0635\u0636\u0637\u0638\u0639\u063A\u0640\u0641\u0642\u0643\u0644\u0645\u0646\u0647\u0648\u0649\u064A\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0670\u0671\u067E\u0686\u06A4\u06AF]/)) {
+       $("#select_"+a_lnum).val('ara');
+       $("#"+a_lnum+"-dir-rtl").get(0).checked = true;
+    } else {
+       $("#"+a_lnum+"-dir-ltr").get(0).checked = true;
+    }
+}
+
+/**
+ *  Trigger an error message. If message is empty, remove the trigger
+ *
+ */
+function CTSError(error,a_lnum) {
+    var $input = $("#"+a_lnum+"text"),
+        $error = $("#"+a_lnum+"texterror");
+    if(error == null || typeof error === "undefined") {
+        $input.removeClass("error");
+        $error.hide();
+    } else {
+
+        $input.addClass("error");
+        $error.text(error).show();
+    }
+
+}
+
