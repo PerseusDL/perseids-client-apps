@@ -162,6 +162,14 @@ $(document).ready(function() {
         alert(data);
     });
 
+    $("body").on("put-succeeded", function(event) {
+       window.location.assign("/save_data");
+     });
+
+    $("body").on("put-failed", function(event) {
+       alert("The save failed!");
+     });
+
     $(".advanced-options").on("cts-service:llt.tokenizer:done", function() {
         var lnum = $(this).attr("data-lnum");
         transform_done[lnum] = false;
@@ -285,19 +293,26 @@ function save_data(){
     arr.map(function(a){vals[a.name] = a.value});
     var data = make_json(vals); 
 
-    var request = $.ajax({
+    $.ajax({
       type: "POST",
       contentType: 'application/json',
       url: "/save_data",
       dataType : 'json',
-      data : JSON.stringify(data)        
+      data : JSON.stringify(data), 
+      success: function() {
+         $("body").trigger("put-succeeded");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+         $("body").trigger("put-failed");
+      }       
     });
 
 //I know this is not ideal, but the page refuses to reload unless I force the window location
 //Will eventually be changed anyway when moving things over to Perseids
-  window.location.assign("/save_data");
+ 
 
 }
+
 
 
 

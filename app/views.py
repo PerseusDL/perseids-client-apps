@@ -73,7 +73,7 @@ def save_data():
       session['data'] = data
       with open(HOME+path, "wb") as mil_file:
         mil_file.write(data)
-      return render_template('save_data/success.html', path=path, data=data)
+      return data, render_template('save_data/success.html', path=path, data=data)
     else:     
       path = session['path']
       data = session['data']
