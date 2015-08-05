@@ -196,7 +196,14 @@ $(document).ready(function() {
 
     $("input").on()
 
+    
 });
+
+$(function () {
+  $('.markdown').markdownify();
+});
+
+
 
 /**
  * Handler for the text_uri input to try to load the text
@@ -306,11 +313,6 @@ function save_data(){
          $("body").trigger("put-failed");
       }       
     });
-
-//I know this is not ideal, but the page refuses to reload unless I force the window location
-//Will eventually be changed anyway when moving things over to Perseids
- 
-
 }
 
 
@@ -332,7 +334,7 @@ function make_json(vals){
           "chars" : vals['c1text'],
           "language" : "eng"
         },
-        "hasTarget":  vals['l1uri'],
+        "hasTarget":  "http://perseids.org/citations/" + vals['l1uri'],
         "motivatedBy": "oa:commenting"
       }
     ],
@@ -361,7 +363,7 @@ function make_json(vals){
         "annotatedAt": date,
         
         "hasBody": build_transl("t1", vals['milnum'], vals['t1text'], vals['t1uri'], vals['select_t1'], vals['other_t1']),
-        "hasTarget": vals['l1uri'],
+        "hasTarget": "http://perseids.org/citations/" + vals['l1uri'],
         "motivatedBy": "oa:linking"
       },
       {
@@ -371,7 +373,7 @@ function make_json(vals){
         "annotatedAt": date,
         
         "hasBody": build_transl("t2", vals['milnum'], vals['t2text'], vals['t2uri'], vals['select_t2'], vals['other_t2']),
-        "hasTarget": vals['l1uri'],
+        "hasTarget": "http://perseids.org/citations/" + vals['l1uri'],
         "motivatedBy": "oa:linking"
       }
     ],
@@ -415,7 +417,7 @@ function build_transl(num, milnum, text, uri, select, other){
       "language" : lang
     };
   } else {
-    var body = uri;
+    var body = "http://perseids.org/citations/" + uri;
   }
   return body;
 }
