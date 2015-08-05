@@ -6,6 +6,7 @@ from app import babel
 from app import bower
 from flask import render_template, request, jsonify, flash, redirect, url_for, session
 from os.path import expanduser
+from app import mongo
 
 HOME = expanduser("~")
 app.secret_key = 'adding this in so flash messages will work'
@@ -65,8 +66,10 @@ def annotation():
 def save_data():
     if request.method == 'POST':
       data_dict = request.get_json()
+      import pdb; pdb.set_trace()      
       data = json.dumps(data_dict, indent=2, sort_keys=True)
       raw_id = data_dict['commentary'][0]['hasBody']['@id'].encode()
+      m_obj = mongo.db.annotation.insert(data_dict)
       mil_id = raw_id.split(':').pop()
       path = "/digmil/"+mil_id+".txt"
       session['path'] = path
