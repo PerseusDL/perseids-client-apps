@@ -65,8 +65,7 @@ def annotation():
 @app.route('/save_data', methods=['GET', 'POST'])
 def save_data():
     if request.method == 'POST':
-      data_dict = request.get_json()
-      import pdb; pdb.set_trace()      
+      data_dict = request.get_json()     
       data = json.dumps(data_dict, indent=2, sort_keys=True)
       raw_id = data_dict['commentary'][0]['hasBody']['@id'].encode()
       m_obj = mongo.db.annotation.insert(data_dict)
