@@ -320,6 +320,13 @@ function save_data(){
 
 function make_json(vals){
   var date = new Date();
+
+  if (vals['l1uri'] == ""){
+    var main_text = vals['own_uri_l1'];
+  }else{ 
+    var main_text = vals['l1uri'];
+  } 
+   
   var annotation = {
     commentary : [
       {  
@@ -334,7 +341,7 @@ function make_json(vals){
           "chars" : vals['c1text'],
           "language" : "eng"
         },
-        "hasTarget":  "http://perseids.org/citations/" + vals['l1uri'],
+        "hasTarget":  main_text,
         "motivatedBy": "oa:commenting"
       }
     ],
@@ -362,8 +369,8 @@ function make_json(vals){
         "@type": "oa:Annotation",
         "annotatedAt": date,
         
-        "hasBody": build_transl("t1", vals['milnum'], vals['t1text'], vals['t1uri'], vals['select_t1'], vals['other_t1']),
-        "hasTarget": "http://perseids.org/citations/" + vals['l1uri'],
+        "hasBody": build_transl("t1", vals['milnum'], vals['t1text'], vals['t1uri'], vals['own_uri_t1'], vals['select_t1'], vals['other_t1']),
+        "hasTarget": main_text,
         "motivatedBy": "oa:linking"
       },
       {
@@ -372,8 +379,8 @@ function make_json(vals){
         "@type": "oa:Annotation",
         "annotatedAt": date,
         
-        "hasBody": build_transl("t2", vals['milnum'], vals['t2text'], vals['t2uri'], vals['select_t2'], vals['other_t2']),
-        "hasTarget": "http://perseids.org/citations/" + vals['l1uri'],
+        "hasBody": build_transl("t2", vals['milnum'], vals['t2text'], vals['t2uri'], vals['own_uri_t2'], vals['select_t2'], vals['other_t2']),
+        "hasTarget": main_text,
         "motivatedBy": "oa:linking"
       }
     ],
@@ -402,9 +409,9 @@ function uid(str, date) {
   return uid;
 }
 
-function build_transl(num, milnum, text, uri, select, other){
+function build_transl(num, milnum, text, uri, own_uri, select, other){
 
-  if (uri == ""){
+  if (uri == "" && own_uri == ""){
     if (select == 'other' || !(other == "")) {
         var lang = other;
     } else {
@@ -416,8 +423,10 @@ function build_transl(num, milnum, text, uri, select, other){
       "chars" : text,
       "language" : lang
     };
-  } else {
-    var body = "http://perseids.org/citations/" + uri;
+  } else if (uri == "" && !(own_uri == "")){
+    var body = own_uri;
+  }else{
+    var body = uri;
   }
   return body;
 }
