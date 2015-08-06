@@ -1,4 +1,5 @@
 {% extends "annotation/base.html"%}
+{% import "shared/lang_choice.html" as lang %}
 {% block content %}
  {{ super() }}
 	<div>
@@ -41,13 +42,16 @@
           </div>
           <textarea class='markdown' id="c1text" name="c1text" rows="10" cols="80" data-lnum="c1"></textarea>
           <small class="error" id="c1texterror" style="display:none;">{{ _('Invalid entry') }}</small>
-
+          <div id="lang_choice{{id}}">{{ lang.lang_choice(id) }}</div>
         </div>
 
         <!-- Bibliography information -->
         <div class="row">
           <legend>{{ _('Bibliography:') }}</legend>
           <textarea id="b1text" name="b1text" rows="10" cols="80" data-lnum="b1"></textarea>
+          <input type="hidden" name="select_b1" value="eng"/>
+          <input type="radio" id="b1-dir-ltr" name="b1-direction" value="ltr" checked="checked" style="display:none"/>
+          <input id="cts-service-1-xml" class="" type="checkbox" name="b1isxml" style="display:none"/>
         </div>
 
         <!-- Translation 1 -->
