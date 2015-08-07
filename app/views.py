@@ -53,18 +53,16 @@ def alignment():
        cts=configurator.get("cts")
      )
 
-@app.route('/annotation')
+@app.route('/annotation', methods=['GET', 'POST'])
 def annotation():
-    return render_template(
-       'annotation/enter.html',
-       annotation=configurator.get("annotation"),
-       session=configurator.get("session"),
-       cts=configurator.get("cts")
-     )
-
-@app.route('/save_data', methods=['GET', 'POST'])
-def save_data():
-    if request.method == 'POST':
+    if request.method == 'GET':
+      return render_template(
+         'annotation/enter.html',
+         annotation=configurator.get("annotation"),
+         session=configurator.get("session"),
+         cts=configurator.get("cts")
+      )
+    else:
       data_dict = request.get_json()     
       data = json.dumps(data_dict, indent=2, sort_keys=True)
       raw_id = data_dict['commentary'][0]['hasBody']['@id'].encode()
@@ -75,9 +73,12 @@ def save_data():
       session['data'] = data
       with open(HOME+path, "wb") as mil_file:
         mil_file.write(data)
-      return data, render_template('save_data/success.html', path=path, data=data)
-    else:     
-      path = session['path']
-      data = session['data']
-      return render_template('save_data/success.html', path=path, data=data)
+      return redirect(url_for('save_data'))
+
+@app.route('/save_data', methods=['GET', 'POST'])
+def save_data():
+    
+  path = session['path']
+  data = session['data']
+  return render_template('save_data/success.html', path=path, data=data)
     

@@ -167,7 +167,7 @@ $(document).ready(function() {
      });
 
     $("body").on("put-failed", function(event) {
-       alert("The save failed!");
+       window.location.assign("/save_data");
      });
 
     $(".advanced-options").on("cts-service:llt.tokenizer:done", function() {
@@ -303,8 +303,7 @@ function save_data(){
     $.ajax({
       type: "POST",
       contentType: 'application/json',
-      url: "/save_data",
-      dataType : 'json',
+      url: "/annotation",
       data : JSON.stringify(data), 
       success: function() {
          $("body").trigger("put-succeeded");
