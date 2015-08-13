@@ -319,11 +319,11 @@ function save_data(){
 
 function make_json(vals){
   var date = new Date();
-
+  var milnum = ('000' + vals['milnum']).slice(-3)
   if (vals['l1uri'] == ""){
     if (vals['own_uri_l1'] == ""){
       var main_text = {
-        "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+"."+"l1",
+        "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+milnum+".l1",
         "format" : "text",
         "chars" : vals['l1text'],
         "language" : vals['select_l1']
