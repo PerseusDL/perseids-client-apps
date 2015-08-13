@@ -321,7 +321,16 @@ function make_json(vals){
   var date = new Date();
 
   if (vals['l1uri'] == ""){
-    var main_text = vals['own_uri_l1'];
+    if (vals['own_uri_l1'] == ""){
+      var main_text = {
+        "@id" : "http://perseids.org/collections/urn:cite:perseus:digmil."+vals['milnum']+"."+"l1",
+        "format" : "text",
+        "chars" : vals['l1text'],
+        "language" : vals['select_l1']
+      };
+    } else {
+      var main_text = vals['own_uri_l1'];
+    }
   }else{ 
     var main_text = vals['l1uri'];
   } 
