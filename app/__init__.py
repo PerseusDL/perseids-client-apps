@@ -14,13 +14,13 @@ mongo = PyMongo(app)
 load = configurator.get("modules")("load")
 cache.init_app(app,config={'CACHE_TYPE': 'simple'})
 
-#if "capitains-ahab" in load:
-#    from Ahab import ahab
-#    app.register_blueprint(ahab)
+if "capitains-ahab" in load:
+    from Ahab import ahab
+    app.register_blueprint(ahab)
 
 
-#from joth import joth
-#app.register_blueprint(joth)
+from joth import joth
+app.register_blueprint(joth)
 
 
 from app import views

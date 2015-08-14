@@ -78,9 +78,7 @@ def annotation():
       return redirect(url_for('save_data'))
 
 @app.route('/save_data', methods=['GET', 'POST'])
-def save_data():    
-  import pdb; pdb.set_trace()
-
+def save_data(): 
   path = session['path']
   obj = session['obj']
   m_obj = mongo.db.annotation.find({'_id': bson.ObjectId(obj)})
