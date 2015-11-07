@@ -9,6 +9,7 @@ from os.path import expanduser
 from app import mongo
 import bson
 from bson.json_util import dumps
+from mongo_db_ops import add_to_db
 
 HOME = expanduser("~")
 app.secret_key = 'adding this in so flash messages will work'
@@ -68,7 +69,7 @@ def annotation():
       data_dict = request.get_json()     
       data = json.dumps(data_dict, indent=2, sort_keys=True)
       raw_id = data_dict['commentary'][0]['hasBody']['@id'].encode()
-      m_obj = mongo.db.annotation.insert(data_dict)
+      m_obj = add_to_db(data_dict)
       mil_id = raw_id.split(':').pop()
       path = "/digmil/"+mil_id+".txt"
       session['path'] = path

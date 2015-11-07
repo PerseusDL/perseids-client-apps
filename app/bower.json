@@ -21,7 +21,6 @@
     "capitains-sparrow": "~1.0.9",
     "capitains-sparrow.typeahead": "~0.0.2",
     "capitains-sparrow.xslt": "~0.0.2",
-    "capitains-sparrow.service": "~0.0.2",
-    "jquery.markdownify": "~0.1.0"
+    "capitains-sparrow.service": "~0.0.2"
   }
 }
