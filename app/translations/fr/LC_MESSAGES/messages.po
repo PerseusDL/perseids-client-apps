@@ -1,13 +1,13 @@
 # French translations for PROJECT.
-# Copyright (C) 2015 ORGANIZATION
+# Copyright (C) 2016 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-09-28 14:57-0400\n"
+"POT-Creation-Date: 2016-01-25 14:47-0500\n"
 "PO-Revision-Date: 2015-03-27 09:37-0500\n"
 "Last-Translator: Bridget Almas <balmas@gmail.com>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.1.1\n"
+"Generated-By: Babel 2.2.0\n"
 
 #: app/templates/alignment/enter.html:72
 msgid "Switch to prior version of this form"
@@ -45,17 +45,17 @@ msgid "Enter Text in Language 1:"
 msgstr "Enter Text in Language 1:"
 
 #: app/templates/alignment/enter.html:92 app/templates/alignment/enter.html:125
-#: app/templates/treebank/enter.html:99 app/templates/treebank/theme.html:99
+#: app/templates/treebank/enter.html:103 app/templates/treebank/theme.html:99
 msgid "Text Direction:"
 msgstr "Sens de lecture:"
 
 #: app/templates/alignment/enter.html:94 app/templates/alignment/enter.html:127
-#: app/templates/treebank/enter.html:101 app/templates/treebank/theme.html:101
+#: app/templates/treebank/enter.html:105 app/templates/treebank/theme.html:101
 msgid "Left to Right"
 msgstr "De gauche à droite"
 
 #: app/templates/alignment/enter.html:96 app/templates/alignment/enter.html:129
-#: app/templates/treebank/enter.html:103 app/templates/treebank/theme.html:103
+#: app/templates/treebank/enter.html:107 app/templates/treebank/theme.html:103
 msgid "Right to Left"
 msgstr "De droite à gauche"
 
@@ -102,7 +102,7 @@ msgid "Language 1:"
 msgstr "Langue 1:"
 
 #: app/templates/alignment/enter.html:159
-#: app/templates/alignment/enter.html:304
+#: app/templates/alignment/enter.html:304 app/templates/treebank/enter.html:94
 msgid "English"
 msgstr "English"
 
@@ -118,7 +118,7 @@ msgid "Greek (Ancient -1453)"
 msgstr "Greek (Ancient -1453)"
 
 #: app/templates/alignment/enter.html:162
-#: app/templates/alignment/enter.html:307 app/templates/treebank/enter.html:94
+#: app/templates/alignment/enter.html:307 app/templates/treebank/enter.html:98
 #: app/templates/treebank/theme.html:96
 msgid "Arabic"
 msgstr "Arabe"
@@ -753,7 +753,7 @@ msgid "Other*:"
 msgstr "Autre*:"
 
 #: app/templates/alignment/enter.html:296
-#: app/templates/alignment/enter.html:441 app/templates/treebank/enter.html:113
+#: app/templates/alignment/enter.html:441 app/templates/treebank/enter.html:117
 #: app/templates/treebank/theme.html:113
 msgid "Click  to toggle advanced options..."
 msgstr "Cliquer pour afficher les fonctions avancées"
@@ -803,51 +803,65 @@ msgid "Greek"
 msgstr "Grec"
 
 #: app/templates/treebank/enter.html:96
+#, fuzzy
+msgid "Persian"
+msgstr "Persian"
+
+#: app/templates/treebank/enter.html:100
 msgid "Other"
 msgstr "Autre"
 
-#: app/templates/treebank/enter.html:111 app/templates/treebank/theme.html:111
+#: app/templates/treebank/enter.html:115 app/templates/treebank/theme.html:111
 msgid "Edit"
 msgstr "Éditer"
 
-#: app/templates/treebank/enter.html:118
+#: app/templates/treebank/enter.html:122
 msgid "Ancient Language Dependency Treebank"
 msgstr "Ancient Language Dependency Treebank"
 
-#: app/templates/treebank/enter.html:124
+#: app/templates/treebank/enter.html:128
 msgid "Smyth Grammar Tag Set"
 msgstr "Smyth Grammar Tag Set"
 
-#: app/templates/treebank/enter.html:130
+#: app/templates/treebank/enter.html:134
 msgid "ALDT (Without Morphology)"
 msgstr "ALDT Latin (Sans Morphologie)"
 
-#: app/templates/treebank/enter.html:136
+#: app/templates/treebank/enter.html:140
 #, fuzzy
 msgid "ALDT_GRC (Without Morphology)"
 msgstr "ALDT Grec (Sans Morphologie)"
 
-#: app/templates/treebank/enter.html:143
+#: app/templates/treebank/enter.html:146
+msgid "Universal Dependency Relations"
+msgstr "Universal Dependency Relations"
+
+#: app/templates/treebank/enter.html:152
+#, fuzzy
+msgid "Persian (Beta)"
+msgstr "Persian (Beta)"
+
+#: app/templates/treebank/enter.html:159
 msgid "Attach unannotated tokens to root:"
 msgstr "Attacher les chaînons non annotés à la racine:"
 
-#: app/templates/treebank/enter.html:155
+#: app/templates/treebank/enter.html:171
 msgid "Or Upload Base XML Treebank"
 msgstr "Télécharger un fichier xml de treebank"
 
-#: app/templates/treebank/enter.html:158
+#: app/templates/treebank/enter.html:174
 msgid "From file:"
 msgstr "À partir d'un fichier"
 
-#: app/templates/treebank/enter.html:164
+#: app/templates/treebank/enter.html:180
 msgid "From URL:"
 msgstr "À partir d'une url"
 
-#: app/templates/treebank/enter.html:167
+#: app/templates/treebank/enter.html:183
 msgid "supply the url of the treebank template"
 msgstr "Fournir l'adresse url du template de treebank"
 
-#: app/templates/treebank/enter.html:170
+#: app/templates/treebank/enter.html:186
 msgid "Create Link"
 msgstr "Créer un lien"
 

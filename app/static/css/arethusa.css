@@ -22,6 +22,10 @@ fieldset {
     padding:0.5rem;
 }
 
+fieldset#lang-buttons {
+    white-space: nowrap;
+}
+
 fieldset > legend {
     background-color:transparent;
 }

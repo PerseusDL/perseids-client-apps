@@ -459,5 +459,8 @@ function getFormatOverride() {
   if (lang_selected == 'misc') {
     format_selected = 'aldt-misc';
   }
+  else if (lang_selected == 'eng') {
+    format_selected = 'ud';
+  }
   return format_selected;
 }
