@@ -118,7 +118,9 @@ $(document).ready(function() {
         "driver" : {
             "e_lang" : getLangOverride,
             "e_format" : getFormatOverride,
-            "e_dir" : "input[name='direction']:checked",
+            "e_dir" : function() {
+              return $("input[name='direction']:checked").val();
+             },
             "e_docuri" : "input[name='text_uri']",
             "e_appuri" : "input[name='appuri']",
             "e_attachtoroot" : function() {
