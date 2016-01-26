@@ -834,7 +834,7 @@ msgstr "ALDT Greek (Without Morphology)"
 
 #: app/templates/treebank/enter.html:146
 msgid "Universal Dependency Relations"
-msgstr "Universal Dependency Relations"
+msgstr "UD English"
 
 #: app/templates/treebank/enter.html:152
 #, fuzzy
