@@ -29,6 +29,7 @@
     <xsl:param name="e_agenturi" select="'http://services.perseids.org/llt/segtok'"/>
     <xsl:param name="e_appuri"/>
     <xsl:param name="e_datetime"/>
+    <xsl:param name="e_dir" select="'ltr'"/>
     <xsl:param name="e_collection" select="'urn:cite:perseus:lattb'"/>
     <xsl:param name="e_attachtoroot" select="false()"/>
     
@@ -73,6 +74,7 @@
                             </xsl:choose>
                         </xsl:attribute>
                         <xsl:attribute name="format"><xsl:value-of select="$e_format"/></xsl:attribute>
+                        <xsl:attribute name="direction"><xsl:value-of select="$e_dir"/></xsl:attribute>
                         <xsl:attribute name="version">1.5</xsl:attribute>
                         <xsl:element name="annotator">
                             <xsl:element name="short"/>
