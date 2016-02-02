@@ -215,8 +215,10 @@ function find_collection(a_lang) {
   var form_override = $("input[name='collection']");
   if (form_override.length > 0 && form_override.val()) {
     return form_override.val();
-  } else {
+  } else if(collections[a_lang]) {
     return collections[a_lang];
+  } else {
+    return collections['misc'];
   }
 }
 
