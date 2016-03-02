@@ -1,0 +1,72 @@
+{% extends "annotation/base.html"%}
+{% import "shared/lang_choice.html" as lang %}
+{% block content %}
+ {{ super() }}
+	<div>
+      <form id='input_form' action="" method="POST">
+        <input type="hidden" name="l1"/>
+        <input type="hidden" name="c1"/>
+        <input type="hidden" name="b1"/>
+        <input type="hidden" name="t1"/>
+        <input type="hidden" name="t2"/>
+        <input type="hidden" name="collection" value="{{ annotation('collection') }}"/>
+        <div class="row">
+          <fieldset id="align-enter-title"  class="large-9 columns">
+            <legend>{{ _('Enter Metadata:') }}</legend>
+            <label for="milnum">{{ _('Milliet Number:') }}
+            <input placeholder="{{ _('Enter the Milliet number for this passage and associated commentary') }}" type="text" id="milnum" name="milnum" pattern="[\w \d-_\.]+" maxlength="100" size="100"></input>
+            </label>
+          </fieldset>
+        </div>
+
+        <!-- Select inital text -->
+        <div class="row">
+          <legend>{{ _('Select text:') }}</legend>
+          <div id="text1">{{ text_select('l1') }}</div>
+        </div>
+
+        <!-- Commentary -->
+        <div class="row">
+          <legend>{{ _('Enter Commentary:') }}</legend>
+          <div class="textdriver" id="comtextdriver" data-lnum="c1"></div>
+        
+          <div id="c1-dir-buttons">
+            <label>{{ _('Text Direction:') }}</label>
+            <input type="radio" id="c1-dir-ltr" name="c1-direction" value="ltr" checked="checked"/>
+            <label for="c1-dir-ltr">{{ _('Left to Right') }}</label>
+            <input type="radio" id="c1-dir-rtl" name="c1-direction" value="rtl"/>
+            <label for="c1-dir-rtl">{{ _('Right to Left') }}</label>
+          </div>
+          <div class='markdownify-menu' data-target='c1text'>
+            <a class='btn--insert' data-type='link' href='javascript:void(0)'>link</a>
+          </div>
+          <textarea class='markdown' id="c1text" name="c1text" rows="10" cols="80" data-lnum="c1"></textarea>
+          <small class="error" id="c1texterror" style="display:none;">{{ _('Invalid entry') }}</small>
+          <div id="lang_choice{{id}}">{{ lang.lang_choice(id) }}</div>
+        </div>
+
+        <!-- Bibliography information -->
+        <div class="row">
+          <legend>{{ _('Bibliography:') }}</legend>
+          <textarea id="b1text" name="b1text" rows="10" cols="80" data-lnum="b1"></textarea>
+          <input type="hidden" name="select_b1" value="eng"/>
+          <input type="radio" id="b1-dir-ltr" name="b1-direction" value="ltr" checked="checked" style="display:none"/>
+          <input id="cts-service-1-xml" class="" type="checkbox" name="b1isxml" style="display:none"/>
+        </div>
+
+        <!-- Translation 1 -->
+        <div class="row">
+          <legend>{{ _('Add a translation:') }}</legend>
+          <div id="text1">{{ text_select('t1') }}</div>
+        </div>
+
+        <!-- Translation 2 -->
+        <div class="row">
+          <legend>{{ _('Add a translation:') }}</legend>
+          <div id="text2">{{ text_select('t2') }}</div>
+        </div>
+        <button id="submit_button" type="button" onclick="save_data()" style="float: right; width:200px;">{{ _('Save Annotation') }}</button>
+      </form> 
+      
+    </div>
+{% endblock %}
