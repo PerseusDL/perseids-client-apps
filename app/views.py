@@ -56,7 +56,7 @@ def alignment():
        cts=configurator.get("cts")
      )
 
-@app.route('/annotation', methods=['GET', 'POST'])
+@app.route('/annotation', methods=['GET', 'POST'], strict_slashes=False)
 def annotation():
     if request.method == 'GET':
       return render_template(
