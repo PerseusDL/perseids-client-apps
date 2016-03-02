@@ -1,6 +1,7 @@
 from app.configurations.treebank import treebank
 from app.configurations.session import session
 from app.configurations.alignment import alignment
+from app.configurations.annotation import annotation
 from app.configurations.cts import cts
 from app.configurations.language import language
 from app.configurations.modules import modules
@@ -10,6 +11,7 @@ from app.configurations.modules import modules
 config = {}
 config["treebank"] = treebank
 config["alignment"] = alignment
+config["annotation"] = annotation
 config["session"] = session
 config["cts"] = cts
 config["language"] = language
