@@ -67,9 +67,9 @@ $(document).ready(function() {
       var lnum = $(this).attr("data-lnum");
       $(this).ctsTypeahead({
         "endpoint" : $("meta[name='cts_repos_url']").attr("content"),
-        "version" : 3,
+        "version" : 5,
         "inventories": {
-          "annotsrc" : "Perseids Sources"
+          "digmill": "Digital Milliet Sources"
          },
         "retrieve" : "#" + lnum + "text"
       });
