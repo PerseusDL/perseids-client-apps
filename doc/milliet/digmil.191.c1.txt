@@ -1,0 +1,66 @@
+{
+  "bibliography": [
+    {
+      "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+      "@id": "digmilann.-29338", 
+      "@type": "oa:Annotation", 
+      "annotatedAt": "2015-07-24T18:06:05.038Z", 
+      "hasBody": {
+        "@id": "http://perseids.org/collections/urn:cite:perseus:digmil.191.b1", 
+        "chars": "Xenophon. (1913). Col. Arthur Boucher, L'Anabase [Anabasis, franz.] de X\u00e9nophon: Avec un comm. hist. et militaire. Accomp. de 48 ct., pl. et croquis. Paris [usw.]: Berger-Levrault. ", 
+        "format": "text", 
+        "language": "eng"
+      }, 
+      "hasTarget": "http://perseids.org/collections/urn:cite:perseus:digmil.191.c1", 
+      "motivatedBy": "oa:linking"
+    }
+  ], 
+  "commentary": [
+    {
+      "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+      "@id": "digmilann.-27738", 
+      "@type": "oa:Annotation", 
+      "annotatedAt": "2015-07-24T18:06:05.038Z", 
+      "hasBody": {
+        "@id": "http://perseids.org/collections/urn:cite:perseus:digmil.191.c1", 
+        "chars": "Add your commentary here to attach it to the passage named above.", 
+        "format": "text", 
+        "language": "eng"
+      }, 
+      "hasTarget": "urn:cts:greekLit:tlg0032.tlg006.perseus-grc1:7.8.1-7.8.1", 
+      "motivatedBy": "oa:commenting"
+    }
+  ], 
+  "images": [], 
+  "tags": [], 
+  "translation": [
+    {
+      "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+      "@id": "digmilann.284738", 
+      "@type": "oa:Annotation", 
+      "annotatedAt": "2015-07-24T18:06:05.038Z", 
+      "hasBody": {
+        "@id": "http://perseids.org/collections/urn:cite:perseus:digmil.191.t1", 
+        "chars": "From there they sailed across to Lampsacus, where Xenophon was met by Eucleides, the Phliasian seer, son of the Cleagoras who painted the mural paintings in the Lyceum. Eucleides congratulated Xenophon upon his safe return, and asked him how much gold he had got. ", 
+        "format": "text", 
+        "language": "eng"
+      }, 
+      "hasTarget": "urn:cts:greekLit:tlg0032.tlg006.perseus-grc1:7.8.1-7.8.1", 
+      "motivatedBy": "oa:linking"
+    }, 
+    {
+      "@context": "http://www.w3.org/ns/oa-context-20130208.json", 
+      "@id": "digmilann.-12838", 
+      "@type": "oa:Annotation", 
+      "annotatedAt": "2015-07-24T18:06:05.038Z", 
+      "hasBody": {
+        "@id": "http://perseids.org/collections/urn:cite:perseus:digmil.191.t2", 
+        "chars": "De l\u00e0, les Grecs all\u00e8rent par mer \u00e0 Lampsaque. L\u00e0, le devin Euclide, de Phlionte, fils de Cl\u00e9agoras, qui a peint les songes qu'on voit au Lyc\u00e9e, se presenta \u00e0 X\u00e9nophon. Il le f\u00e9licita d'avoir \u00e9t\u00e9 sauv\u00e9 et il lui demanda quelle somme d'or il avait.", 
+        "format": "text", 
+        "language": "fra"
+      }, 
+      "hasTarget": "urn:cts:greekLit:tlg0032.tlg006.perseus-grc1:7.8.1-7.8.1", 
+      "motivatedBy": "oa:linking"
+    }
+  ]
+}

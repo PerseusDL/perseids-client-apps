@@ -1,0 +1,40 @@
+
+{% import "shared/lang_choice.html" as lang %}
+{% macro text_select(id) -%}
+  <fieldset class="large-6 columns">
+    <legend>{{ _('Search for a text:') }}</legend>
+    <div class="textdriver" id="{{id}}textdriver" data-lnum="{{id}}"></div>
+    <div>              
+      <input placeholder="{{ _('URI Identifer for this text. If a URL, text will be loaded from there. Plain text only supported.') }}" type="url" id="{{id}}uri" name="{{id}}uri" size="100" class="texturi" data-lnum="{{id}}"></input>
+      <div id="{{id}}worklist" class="worklist"><a target="_blank" href="{{annotation('workListUrl')}}">Available Works</a></div>
+    </div>
+    <div class="ownuri">
+      <label for="own_uri_{{id}}">{{ _('Or enter your own text URI:') }}</label>
+      <div class="row collapse">
+        <div class="small-10 columns">
+          <input type="text" placeholder="" id="own_uri_{{id}}" name="own_uri_{{id}}" />
+        </div>
+        <div class="small-2 columns">
+          <a href="#" data-lnum="{{id}}" class="own_uri_trigger button postfix">{{ _('Select') }}</a>
+        </div>
+      </div>
+      <small class="error" id="own_uri_{{id}}_error" style="display:none;">{{ _('Invalid entry') }}</small>
+    </div>
+    <div id="lang_choice{{id}}">{{ lang.lang_choice(id) }}</div>
+  </fieldset>
+  <fieldset class="large-6 columns">
+    <legend>{{ _('Enter Text:') }}</legend>
+    <div id="{{id}}-dir-buttons">
+      <label>{{ _('Text Direction:') }}</label>
+      <input type="radio" id="{{id}}-dir-ltr" name="{{id}}-direction" value="ltr" checked="checked"/>
+      <label for="{{id}}-dir-ltr">{{ _('Left to Right') }}</label>
+        <input type="radio" id="{{id}}-dir-rtl" name="{{id}}-direction" value="rtl"/>
+      <label for="{{id}}-dir-rtl">{{ _('Right to Left') }}</label>
+    </div>
+   <div>
+     <textarea id="{{id}}text" name="{{id}}text" rows="10" cols="80" data-lnum="{{id}}"
+     ></textarea>
+     <small class="error" id="{{id}}texterror" style="display:none;">{{ _('Invalid entry') }}</small>
+   </div>          
+  </fieldset>
+{%- endmacro %} 
