@@ -187,9 +187,13 @@ $(document).ready(function() {
     //Error handling
     $("textarea").on("cts-passage:passage-error", function() {
         CTSError("The passage does not exist",$(this).attr("data-lnum"));
+        var lnum = $(this).attr("data-lnum")
+        $("#" + lnum + "uri").val("");
     });
     $("textarea").on("cts-passage:retrieving-error", function() {
         CTSError("Unable to contact the server. Please try again.",$(this).attr("data-lnum"));
+        var lnum = $(this).attr("data-lnum")
+        $("#" + lnum + "uri").val("");
     });
 
     $("textarea").blur(function(){detect_language_and_type($(this))});
@@ -314,8 +318,8 @@ function save_data(){
     });
 }
 
-
-
+//Why doesn't the above ajax post to save_data?  Why can't we do the built in form thing and have it automatically post to save data?
+//Is it just because that's how perseids stuff does it?
 
 function make_json(vals){
   var date = new Date();
@@ -329,9 +333,15 @@ function make_json(vals){
         "language" : vals['select_l1']
       };
     } else {
-      var main_text = vals['own_uri_l1'];
+      var main_text = {
+        "@id" : vals['own_uri_l1'],
+        "format" : "text",
+        "chars" : vals['l1text'],
+        "language" : vals['select_l1']
+      };
     }
   }else{ 
+    if (vals['l1text'] == "")
     var main_text = vals['l1uri'];
   } 
    
