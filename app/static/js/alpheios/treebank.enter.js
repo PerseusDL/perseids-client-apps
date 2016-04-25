@@ -169,8 +169,11 @@ $(document).ready(function() {
         $("#advanced-options").trigger("llt-transform");
     });
     $("textarea[name='inputtext']").blur(detect_language_and_type);
-    $("textarea[name='inputtext']").bind("cts-passage:retrieved",detect_language_and_type);
-
+    $("textarea[name='inputtext']").bind("cts-passage:retrieved",
+      function(event,data) {
+        $("textarea[name='inputtext']").val($.trim(data.getText().replace(/(\r\n|\n|\r)/gm,"").replace(/\s+/gm," ")));
+        detect_language_and_type;
+    });
     //Error handling
     $("textarea[name='inputtext']").on("cts-passage:passage-error", function() {
         CTSError("The passage does not exist");
