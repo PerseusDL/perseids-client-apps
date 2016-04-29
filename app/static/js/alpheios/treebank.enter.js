@@ -412,6 +412,7 @@ function fileLoaded(data) {
         transformProc.setParameter(null,"e_datetime",new Date().toDateString());
         transformProc.setParameter(null,"e_appuri",$("input[name='appuri']").val());
         transformProc.setParameter(null,"e_collection",find_collection($("input[name='lang']:checked").val()));
+        transformProc.setParameter(null,"e_format", getFormatOverride());
         annotation = transformProc.transformToDocument(xml);
     } catch (a_e) {
         alert(a_e);
