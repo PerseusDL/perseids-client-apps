@@ -174,7 +174,7 @@ $(document).ready(function() {
         // this is a little hack to pull the configuration for the nodes to remove in the getText function call
         // from the llt-tokenize service advanced options configuration
         var to_remove = $("#cts-service-1-remove_node").val().split(/,/) || [ "teiHeader","head","speaker","note","bibl","ref"];
-        $("textarea[name='inputtext']").val($.trim(data.getText(to_remove,false).replace(/(\r\n|\n|\r)/gm,"").replace(/\s+/gm," ")));
+        $("textarea[name='inputtext']").val($.trim(data.getText(to_remove,false).replace(/(\r\n|\n|\r)/gm," ").replace(/\s+/gm," ")));
         detect_language_and_type;
     });
     //Error handling
