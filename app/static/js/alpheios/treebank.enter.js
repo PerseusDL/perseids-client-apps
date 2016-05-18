@@ -68,7 +68,7 @@ $(document).ready(function() {
 
     $("#text_uri").ctsTypeahead({
       "endpoint" : $("meta[name='cts_repos_url']").attr("content"),
-      "version" : 3,
+      "version" : 5,
       "inventories": { 
         "annotsrc" : "Perseids Sources" 
        },

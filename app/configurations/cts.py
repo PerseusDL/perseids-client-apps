@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 cts = {
-    "version" : 3,
-    "endpoint" : "http://sosol.perseids.org/exist/rest/db/xq/CTS.xq?",
-    "getCapabilities" : "http://sosol.perseids.org/sosol/cts/getcapabilities/"
+    "version" : 5,
+    "endpoint" : "http://cts.perseids.org/api/cts/",
+    "getCapabilities" : "http://cts.perseids.org/api/cts/?request=GetCapabilities"
 }
