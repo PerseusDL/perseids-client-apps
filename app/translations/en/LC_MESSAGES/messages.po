@@ -34,7 +34,7 @@ msgstr "Alignment title:"
 #: app/templates/alignment/enter.html:83
 msgid "alignmenttitlehint"
 msgstr ""
-"e.g. \"Alignment of Thuc. 1.1 in French and English\" (100 chars max "
+"e.g. \"Alignment of Thuc. 1.1 in French and English\" (title max length 100 chars "
 "restricted to alphanumerics and '.','_' and '-')"
 
 #: app/templates/alignment/enter.html:84
