@@ -152,7 +152,7 @@
                 <xsl:otherwise></xsl:otherwise>
             </xsl:choose>
             </xsl:attribute>
-            <xsl:attribute name="relation">nil</xsl:attribute>
+            <xsl:attribute name="relation"></xsl:attribute>
         </xsl:element>
     </xsl:template>
     
