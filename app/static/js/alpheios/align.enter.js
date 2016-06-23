@@ -220,6 +220,7 @@ function load_text(lnum,uri) {
                     $("input[name='" + lnum + "xml']").val("false");
                 }
                 $("textarea[name='" + lnum + "text']").val(content);
+                detect_language_and_type($("#"+lnum+"text").get(0));
             },
             error: function(a_req,a_text,a_error) {
                $("textarea[name='" + lnum + "text']").attr("placeholder","ERROR loading " + uri  +" : " + a_text);
