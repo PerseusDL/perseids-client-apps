@@ -3,7 +3,7 @@
 {% block content %}
  {{ super() }}
 	<div>
-      <form id='input_form' action="" method="POST">
+      <form id='input_form' action="" onSubmit="save_data(); return false;">
         <input type="hidden" name="l1"/>
         <input type="hidden" name="c1"/>
         <input type="hidden" name="b1"/>
@@ -65,7 +65,7 @@
           <legend>{{ _('Add a translation:') }}</legend>
           <div id="text2">{{ text_select('t2') }}</div>
         </div>
-        <button id="submit_button" type="button" onclick="save_data()" style="float: right; width:200px;">{{ _('Save Annotation') }}</button>
+        <button id="submit_button" type="submit" style="float: right; width:200px;">{{ _('Save Annotation') }}</button>
       </form> 
       
     </div>
