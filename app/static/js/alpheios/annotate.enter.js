@@ -162,8 +162,9 @@ $(document).ready(function() {
         alert(data);
     });
 
-    $("body").on("put-succeeded", function(event) {
-       window.location.assign("/save_data");
+    $("body").on("put-succeeded", function(e, data) {
+       var url = "/save_data?path=" + data['path'] + "&data=" + data['data']
+       window.location.assign(url);
      });
 
     $("body").on("put-failed", function(event) {
@@ -301,8 +302,8 @@ function save_data(){
       dataType: 'json',
       url: $("meta[name='url']").attr("content"),
       data : JSON.stringify(data1), 
-      success: function() {
-         $("body").trigger("put-succeeded");
+      success: function(data) {
+         $("body").trigger("put-succeeded", data);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
          $("body").trigger("put-failed");
