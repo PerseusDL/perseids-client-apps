@@ -163,11 +163,12 @@ $(document).ready(function() {
     });
 
     $("body").on("put-succeeded", function(e, data) {
-       var url = "/save_data?path=" + data['path'] + "&data=" + data['data']
-       window.location.assign(url);
+       var url = $("meta[name='editorurl']")
+       window.location.assign(url+data);
      });
 
     $("body").on("put-failed", function(event) {
+       //should change this up
        window.location.assign("/save_data");
      });
 
