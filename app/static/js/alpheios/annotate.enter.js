@@ -163,8 +163,8 @@ $(document).ready(function() {
     });
 
     $("body").on("put-succeeded", function(e, data) {
-       var url = $("meta[name='editorurl']")
-       window.location.assign(url+data);
+       var url = $("meta[name='editorurl']").attr('content')
+       window.location.assign(url.concat(data["millnum"]));
      });
 
     $("body").on("put-failed", function(event) {
