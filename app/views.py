@@ -64,13 +64,11 @@ def annotation():
 
 @app.route('/save_data', methods=['GET', 'POST'])
 def save_data(): 
-  path = request.args.get('path')
-  data = json.loads(request.args.get('data'))
+  millnum = request.args.get('millnum')
   return render_template(
     'save_data/success.html',
     annotation=configurator.get("annotation"),
     session=configurator.get("session"),
     cts=configurator.get("cts"),
-    path = path,
-    data = json.dumps(data, indent=2, sort_keys=True)
+    millnum = millnum
   )
