@@ -24,7 +24,7 @@
     <link rel="stylesheet" type="text/css" href="static/css/alpheios/align.enter.css"/>
 
     <link rel="stylesheet" type="text/css" href="{{ bower_url_for('capitains-sparrow.typeahead', 'src/css/jquery.cts.typeahead.css') }}" />
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{{ bower_url_for('handlebars', 'handlebars.min.js') }}"></script>
     <script src="{{ bower_url_for('typeahead.js', 'dist/typeahead.bundle.min.js') }}"></script>
 
@@ -45,11 +45,7 @@
 
     <script src="https://cdn.rawgit.com/tibastral/markdownify/master/lib/jquery.markdownify.js"></script>
     <link rel="stylesheet" href="https://cdn.rawgit.com/tibastral/markdownify/master/lib/jquery.markdownify.css"></link>
-    <script>
-    $(function () {
-      $('.markdown').markdownify();
-    })
-    </script>
+
 
     <!-- cookie and header name for CSRF session token  -->
     <meta name="alpheios-sessionTokenName" content="{{ session('sessionTokenName') }}"/>
