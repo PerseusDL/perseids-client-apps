@@ -198,13 +198,11 @@ $(document).ready(function() {
 
     $("input").on()
 
-    
 });
 
 $(function () {
   $('.markdown').markdownify();
 });
-
 
 
 /**
@@ -506,3 +504,26 @@ function CTSError(error,a_lnum) {
 
 }
 
+//check the milnum for prior use
+$(function() {
+  $("#milnum").change(function() {
+  var num = $("#milnum").val();
+  //removes 'commentary' from the end of the url
+  var url = $("meta[name='editorurl']").attr('content').slice(0, -11);
+  var url_end = "api/commentary/"+num
+  //call to the digmill api service
+  $.ajax({
+      type: "GET",
+      contentType: 'application/json',
+      dataType: 'json',
+      url: url.concat(url_end), 
+      success: function(data) {
+        //if it returns non-empty json response, then there is already a record with that number
+         alert("Milliet Number "+num+" has already been used");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+         alert("This failed!");
+      }       
+    });
+  });
+});
