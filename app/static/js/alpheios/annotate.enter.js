@@ -522,7 +522,8 @@ $(function() {
          alert("Milliet Number "+num+" has already been used");
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-         alert("This failed!");
+         //if the number is not in the db, it will throw a 404, so we should "fail" silently and 
+         //let the editor get on with their entering of data
       }       
     });
   });
