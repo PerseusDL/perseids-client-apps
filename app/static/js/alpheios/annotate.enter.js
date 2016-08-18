@@ -167,9 +167,8 @@ $(document).ready(function() {
        window.location.assign(url.concat(data["millnum"]));
      });
 
-    $("body").on("put-failed", function(event) {
-       //should change this up
-       window.location.assign("/save_data");
+    $("body").on("put-failed", function(event, data) { 
+       alert(data);
      });
 
     $(".advanced-options").on("cts-service:llt.tokenizer:done", function() {
@@ -305,7 +304,7 @@ function save_data(){
          $("body").trigger("put-succeeded", data);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-         $("body").trigger("put-failed");
+         $("body").trigger("put-failed", XMLHttpRequest["responseText"]);
       }       
     });
 }
