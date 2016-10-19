@@ -167,9 +167,8 @@ $(document).ready(function() {
        window.location.assign(url.concat(data["millnum"]));
      });
 
-    $("body").on("put-failed", function(event) {
-       //should change this up
-       window.location.assign("/save_data");
+    $("body").on("put-failed", function(event, data) { 
+       alert(data);
      });
 
     $(".advanced-options").on("cts-service:llt.tokenizer:done", function() {
@@ -198,13 +197,11 @@ $(document).ready(function() {
 
     $("input").on()
 
-    
 });
 
 $(function () {
   $('.markdown').markdownify();
 });
-
 
 
 /**
@@ -307,7 +304,7 @@ function save_data(){
          $("body").trigger("put-succeeded", data);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-         $("body").trigger("put-failed");
+         $("body").trigger("put-failed", XMLHttpRequest["responseText"]);
       }       
     });
 }
@@ -506,3 +503,27 @@ function CTSError(error,a_lnum) {
 
 }
 
+//check the milnum for prior use
+$(function() {
+  $("#milnum").change(function() {
+  var num = $("#milnum").val();
+  //removes 'commentary' from the end of the url
+  var url = $("meta[name='editorurl']").attr('content').slice(0, -11);
+  var url_end = "api/commentary/"+num
+  //call to the digmill api service
+  $.ajax({
+      type: "GET",
+      contentType: 'application/json',
+      dataType: 'json',
+      url: url.concat(url_end), 
+      success: function(data) {
+        //if it returns non-empty json response, then there is already a record with that number
+         alert("Milliet Number "+num+" has already been used");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+         //if the number is not in the db, it will throw a 404, so we should "fail" silently and 
+         //let the editor get on with their entering of data
+      }       
+    });
+  });
+});
