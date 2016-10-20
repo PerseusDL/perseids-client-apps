@@ -291,15 +291,11 @@ function EnterSentence(e) {
 
 function save_data(){
 
-    var data1 = $('#input_form').serialize();
-
 //!! right now this works, it might not when in development, will fix!
     $.ajax({
-      type: "GET",
-      contentType: 'application/json',
-      dataType: 'json',
+      type: "POST",
       url: $("meta[name='url']").attr("content"),
-      data : JSON.stringify(data1), 
+      data : $('#input_form').serialize(),
       success: function(data) {
          $("body").trigger("put-succeeded", data);
       },
