@@ -296,11 +296,12 @@ function save_data(){
       type: "POST",
       url: $("meta[name='url']").attr("content"),
       data : $('#input_form').serialize(),
+      dataType: "json",
       success: function(data) {
          $("body").trigger("put-succeeded", data);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-         $("body").trigger("put-failed", XMLHttpRequest["responseText"]);
+         $("body").trigger("put-failed",textStatus + ":" + errorThrown);
       }       
     });
 }
