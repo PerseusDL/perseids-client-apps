@@ -18,7 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "capitains-sparrow": "~1.2.1",
+    "capitains-sparrow": "~1.2.2",
     "capitains-sparrow.typeahead": "~0.0.3",
     "capitains-sparrow.xslt": "~0.0.3",
     "capitains-sparrow.service": "~0.0.2"

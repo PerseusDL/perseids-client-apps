@@ -90,7 +90,7 @@ $(document).ready(function() {
     });
 
     $("#advanced-options").ctsService("llt.tokenizer", {
-        "endpoint" : "http://services.perseids.org/llt/segtok",
+        "endpoint" : $("meta[name='tokenization_service']").attr("content"),
         "driver" : {
             "text" : $("#inputtext")
         },
@@ -105,7 +105,8 @@ $(document).ready(function() {
             "field-input-container" : ["columns", "large-6", "small-6"]
         },
         "defaults": {
-          "splitting": $("meta[name='isthematic']").length == 0
+          "splitting": $("meta[name='isthematic']").length == 0,
+          "semicolon_delimiter": $("input[name='lang'][value='lat']")[0].checked == false 
         },
         "names" : {
             "xml" : "xml_for_llt"
@@ -169,13 +170,14 @@ $(document).ready(function() {
         $("#advanced-options").trigger("llt-transform");
     });
     $("textarea[name='inputtext']").blur(detect_language_and_type);
+    $("input[name='lang']").on("change",set_language_defaults);
     $("textarea[name='inputtext']").bind("cts-passage:retrieved",
       function(event,data) {
         // this is a little hack to pull the configuration for the nodes to remove in the getText function call
         // from the llt-tokenize service advanced options configuration
         var to_remove = $("#cts-service-1-remove_node").val().split(/,/) || [ "teiHeader","head","speaker","note","bibl","ref"];
         $("textarea[name='inputtext']").val($.trim(data.getText(to_remove,false).replace(/(\r\n|\n|\r)/gm," ").replace(/\s+/gm," ")));
-        detect_language_and_type;
+        detect_language_and_type();
     });
     //Error handling
     $("textarea[name='inputtext']").on("cts-passage:passage-error", function() {
@@ -260,6 +262,12 @@ function detect_language_and_type() {
       $("input[name='mime_type']").val("text/xml");
     }
     $("input[name='xml_for_llt']")[0].checked = !is_plain_text;
+
+}
+
+function set_language_defaults() {
+    // default semicolon delimiter to false for latin
+    $("#cts-service-1-semicolon_delimiter")[0].checked = $("input[name='lang'][value='lat']")[0].checked == false 
 }
 
 /**
