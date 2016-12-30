@@ -385,7 +385,7 @@ function startRead(evt) {
  * to avoid cross-browser nonsense
  */
 function readFromUrl() {
-    url = $("#fileurl").val(); 
+    url = encodeURIComponent($.trim($("#fileurl").val())); 
     if (url) {
       var langquery = window.prompt("Is the template Greek, Latin or Arabic?")
       var collection = find_collection(langquery.toLowerCase());
