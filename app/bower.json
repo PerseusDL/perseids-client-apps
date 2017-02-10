@@ -23,4 +23,7 @@
     "capitains-sparrow.xslt": "~0.0.3",
     "capitains-sparrow.service": "~0.0.2"
   }
+  "resolutions": {
+    "capitains-sparrow": "~1.2.2"
+  }
 }
